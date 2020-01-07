@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tool_bar_height"
+        android:background="@color/colorPrimary"
+        android:paddingEnd="@dimen/tool_bar_padding"
+        android:paddingStart="@dimen/tool_bar_padding">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/setting_name"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/getSelf_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp">
+
+        <TextView
+            android:id="@+id/getSelfy_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/setting_get_self_tip"
+            android:textColor="@color/setting_tip_color"
+            android:textSize="@dimen/setting_tip_size" />
+
+        <View
+            android:id="@+id/getSelf_select"
+            android:layout_width="@dimen/setting_icon_size"
+            android:layout_height="@dimen/setting_icon_size"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/se_setting" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/setting_tip_color" />
+
+    <FrameLayout
+        android:id="@+id/filter_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp">
+
+        <TextView
+            android:id="@+id/filter_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/setting_filter_tip"
+            android:textColor="@color/setting_tip_color"
+            android:textSize="@dimen/setting_tip_size" />
+
+        <View
+            android:id="@+id/filter_select"
+            android:layout_width="@dimen/setting_icon_size"
+            android:layout_height="@dimen/setting_icon_size"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/se_setting" />
+    </FrameLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/filer_tag_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp">
+
+        <com.cunoraz.tagview.TagView xmlns:tagview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/tag_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tagview:lineMargin="5dp"
+            tagview:tagMargin="5dp"
+            tagview:textPaddingBottom="5dp"
+            tagview:textPaddingLeft="8dp"
+            tagview:textPaddingRight="8dp"
+            tagview:textPaddingTop="5dp" />
+
+        <TextView
+            android:id="@+id/tag_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_container"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/se_btn"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/tag_commit"
+            android:textColor="@color/se_btn_color"
+            android:textSize="@dimen/setting_tip_size" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/setting_tip_color" />
+
+    <RelativeLayout
+        android:id="@+id/delay_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:orientation="horizontal"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp">
+
+        <TextView
+            android:id="@+id/delay_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:text="@string/setting_delay_tip"
+            android:textColor="@color/setting_tip_color"
+            android:textSize="@dimen/setting_tip_size" />
+
+        <TextView
+            android:id="@+id/delay_random"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/se_btn"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@string/delay_random"
+            android:textColor="@color/se_btn_color"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/delay_fixation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/delay_random"
+            android:background="@drawable/se_btn"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@string/delay_fixation"
+            android:textColor="@color/se_btn_color"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/delay_none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="100dp"
+            android:layout_toStartOf="@+id/delay_fixation"
+            android:background="@drawable/se_btn"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@string/delay_none"
+            android:textColor="@color/se_btn_color"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/delay_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp">
+
+        <TextView
+            android:id="@+id/delay_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_tip_color"
+            android:textSize="@dimen/setting_tip_size"
+            tools:text="延迟信息" />
+
+        <TextView
+            android:id="@+id/delay_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/delay_message"
+            android:background="@drawable/se_btn"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/delay_edit"
+            android:textColor="@color/se_btn_color"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/delay_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/delay_commit"
+            android:layout_alignTop="@+id/delay_commit"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@+id/delay_commit"
+            android:background="@drawable/sh_delay_num"
+            android:gravity="center"
+            android:hint="请输入延迟数"
+            android:inputType="number"
+            android:textColor="@color/setting_tip_color"
+            android:textSize="@dimen/setting_tip_size" />
+
+    </RelativeLayout>
+
+</LinearLayout>

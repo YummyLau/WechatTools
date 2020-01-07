@@ -1,7 +1,7 @@
 package com.effective.android.wxrp.utils
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 fun <T : ViewModel, A> singleArgViewModelFactory(constructor: (A) -> T):
         (A) -> ViewModelProvider.NewInstanceFactory {

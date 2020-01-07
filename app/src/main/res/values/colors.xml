@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E06057</color>
-    <color name="colorPrimaryDark">#E06057</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="text_primary_color">#242021</color>
-    <color name="primary_disable_color">#DA807A</color>
+    <!-- 主题色内的颜色 -->
+    <color name="colorPrimary">#F6D36B</color>
+    <color name="colorPrimaryLight">#F6D36B</color>
+    <color name="colorPrimaryDark">#D9BB5F</color>
+    <color name="colorAccent">#D9BB5F</color>
+    <color name="colorThemeText">#FFFFFF</color>
+    <color name="colorThemeTextDark">#9E9E9E</color>
 
+    <color name="colorTextIcon">#FFFFFF</color>
+    <color name="pageColor">#FFFFFF</color>
+
+    <color name="colorTextPrimary">#000000</color>
+    <color name="colorTextSecondary">#666666</color>
+    <color name="colorTextThird">#999999</color>
+    <color name="colorDivider">#BDBDBD</color>
+    <color name="windowBackground">#FDFDFE</color>
+
+    <color name="primary_disable_color">#DA807A</color>
     <color name="dividerColor">#CCD7DD</color>
     <color name="setting_title_color">#E06057</color>
     <color name="setting_tip_color">#242021</color>
     <color name="setting_more_tip_color">#4c4345</color>
     <color name="setting_select_stroke_color">#242021</color>
+
+    <color name="colorPagerOne">#F0D16D</color>
+    <color name="colorPagerTwo">#DA807A</color>
+    <color name="colorPagerThree">#E9DBDA</color>
 
 </resources>

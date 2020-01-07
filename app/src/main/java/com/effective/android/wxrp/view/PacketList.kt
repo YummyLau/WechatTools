@@ -1,15 +1,15 @@
 package com.effective.android.wxrp.view
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.effective.android.wxrp.R
-import com.effective.android.wxrp.store.db.PacketRecord
+import com.effective.android.wxrp.data.db.PacketRecord
 import com.effective.android.wxrp.utils.ToolUtil
 
 

@@ -8,7 +8,10 @@ import android.os.PowerManager
 import android.text.TextUtils
 import android.view.WindowManager
 import android.widget.Toast
-import com.effective.android.wxrp.version.VersionManager
+import com.effective.android.wxrp.Constants
+import com.effective.android.wxrp.version.Version700
+import com.effective.android.wxrp.version.Version7010
+import com.effective.android.wxrp.version.Version703
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,7 +27,7 @@ object ToolUtil {
         if (pinfo != null) {
             for (i in pinfo.indices) {
                 val pn = pinfo[i].packageName
-                if (pn == VersionManager.PACKAFEGE_WECHAT) {
+                if (pn == Constants.weChatPackageName) {
                     return true
                 }
             }
@@ -36,7 +39,7 @@ object ToolUtil {
         val packageManager = context.packageManager
         val packageInfos = packageManager.getInstalledPackages(0)
         for (packageInfo in packageInfos) {
-            if (packageManager.getApplicationLabel(packageInfo.applicationInfo).toString() == VersionManager.WECHAT) {
+            if (packageManager.getApplicationLabel(packageInfo.applicationInfo).toString() == Constants.weChat) {
                 return packageInfo.versionName
             }
         }
@@ -44,10 +47,10 @@ object ToolUtil {
     }
 
     fun supportWeChatVersion(version: String?): Boolean {
-        if(TextUtils.isEmpty(version)){
+        if (TextUtils.isEmpty(version)) {
             return false
         }
-        if(version == VersionManager.WECHAT_7_0_0 || version == VersionManager.WECHAT_7_0_3){
+        if (version == Version700.VERSION || version == Version703.VERSION || version == Version7010.VERSION) {
             return true
         }
         return false

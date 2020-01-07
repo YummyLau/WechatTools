@@ -11,7 +11,8 @@
     <string name="setting_open_action">前往开启</string>
     <string name="setting_get_action">前往获取</string>
     <string name="setting_get_again_action">重新获取</string>
-    <string name="setting_get_user_name_question">点击获取按钮前往微信，停留在【微信-首页】后程序自动获取微信昵称。获取成功后会自动提示</string>
+    <string name="setting_get_user_name_question">Step2: 点击下方按钮 [前往获取]，停留在 "微信-我" 后自动获取微信昵称，如上图所示</string>
+    <string name="setting_get_accessibility">Step1: 点击下方按钮 [前往开启] 跳转到插件管理页面，进入 "微信红包插件" 配置操作，如上图所示</string>
 
     <string name="setting_accessibility_tip">开启自动模拟点击行为（必须）</string>
     <string name="setting_more_tip">插件正在运行...更多高级配置请点击右上角设置</string>

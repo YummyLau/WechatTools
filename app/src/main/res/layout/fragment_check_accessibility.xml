@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPagerOne"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/setting_get_accessibility"
+        android:textColor="@color/colorThemeText"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/open_accessibility"
+        android:layout_below="@+id/tip">
+
+        <View
+            android:id="@+id/imageTip"
+            android:layout_width="240dp"
+            android:layout_height="426dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_step_one" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/open_accessibility"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/se_white_btn"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp"
+        android:text="@string/setting_open_action"
+        android:textColor="@color/se_btn_color"
+        android:textSize="25sp" />
+
+</RelativeLayout>

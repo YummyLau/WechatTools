@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPagerThree">
+
+    <View
+        android:id="@+id/setting"
+        android:layout_width="@dimen/setting_icon_size"
+        android:layout_height="@dimen/setting_icon_size"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_settings" />
+
+    <com.effective.android.wxrp.view.PacketList
+        android:id="@+id/packet_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/setting"
+        android:layout_margin="20dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

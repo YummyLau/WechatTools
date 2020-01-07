@@ -18,7 +18,9 @@
             android:name="aia-compat-api-min-version"
             android:value="1" />
 
-        <activity android:name=".view.MainActivity">
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -32,18 +34,21 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".view.activity.SettingActivity"
+            android:screenOrientation="portrait"/>
 
-        <service android:name=".services.WXAccessibilityService"
+        <service
+            android:name=".accessibility.WxAccessibilityService"
             android:enabled="true"
             android:exported="false"
-            android:priority = "1000"
             android:label="@string/service_accessibility"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:priority="1000">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
@@ -51,18 +56,6 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibilityservice" />
         </service>
-
-        <!--<service android:name=".services.WXNotificationService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true"-->
-            <!--android:priority = "1000"-->
-            <!--android:label="@string/service_lable2"-->
-            <!--android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.service.notification.NotificationListenerService" />-->
-            <!--</intent-filter>-->
-        <!--</service>-->
-
     </application>
 
 </manifest>

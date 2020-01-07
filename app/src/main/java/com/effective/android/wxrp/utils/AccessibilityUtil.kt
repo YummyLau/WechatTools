@@ -11,6 +11,7 @@ object AccessibilityUtil {
 
     private const val TAG = "AccessibilityHelper"
 
+    @JvmStatic
     fun performClick(nodeInfo: AccessibilityNodeInfo?): Boolean {
         Logger.i(TAG, "performClick")
         if (nodeInfo == null) {
@@ -28,6 +29,7 @@ object AccessibilityUtil {
         return false
     }
 
+    @JvmStatic
     fun openNotification(accessibilityEvent: AccessibilityEvent, textFound: String): Boolean {
         Logger.i(TAG, "openNotification AccessibilityEvent")
         val texts = accessibilityEvent.text
@@ -54,6 +56,7 @@ object AccessibilityUtil {
         return false
     }
 
+    @JvmStatic
     fun openNotification(sbn: StatusBarNotification, packageFound: String, textFound: String): Boolean {
         Logger.i(TAG, "openNotification  StatusBarNotification")
         val packageName = sbn.packageName
@@ -75,6 +78,7 @@ object AccessibilityUtil {
         return false
     }
 
+    @JvmStatic
     fun clickView(nodeInfo: AccessibilityNodeInfo, viewID: String) {
         Logger.i(TAG, "clickView ")
         val nodeInfoList = nodeInfo.findAccessibilityNodeInfosByViewId(viewID)
@@ -89,18 +93,20 @@ object AccessibilityUtil {
     }
 
     /** 返回主界面事件 */
+    @JvmStatic
     fun performHome(service: AccessibilityService?) {
         if (service == null) {
-            Logger.i(TAG, "WXAccessibilityService was killed!")
+            Logger.i(TAG, "WxAccessibilityService was killed!")
             return
         }
         service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME)
     }
 
     /** 返回事件 */
+    @JvmStatic
     internal fun performBack(service: AccessibilityService?) {
         if (service == null) {
-            Logger.i(TAG, "WXAccessibilityService was killed!")
+            Logger.i(TAG, "WxAccessibilityService was killed!")
             return
         }
         Logger.i(TAG, "performBack")

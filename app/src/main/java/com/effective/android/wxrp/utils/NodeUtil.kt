@@ -8,6 +8,7 @@ object NodeUtil {
 
     private const val TAG = "NodeUtil"
 
+    @JvmStatic
     fun containNode(nodeInfo: AccessibilityNodeInfo,
                     nodeInfos: ArrayList<AccessibilityNodeInfo>): Boolean {
         var result = false
@@ -21,6 +22,7 @@ object NodeUtil {
         return result
     }
 
+    @JvmStatic
     fun getRectFromNodeInfo(nodeInfo: AccessibilityNodeInfo): Rect {
         val rect = Rect()
         nodeInfo.getBoundsInScreen(rect)

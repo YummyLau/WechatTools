@@ -2,7 +2,7 @@ package com.effective.android.wxrp.version
 
 interface VersionInfo {
 
-    fun wechatVersion(): String
+    fun weChatVersion(): String
 
     /**
      * class

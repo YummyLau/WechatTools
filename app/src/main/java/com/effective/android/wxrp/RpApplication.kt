@@ -4,13 +4,14 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
-import com.effective.android.wxrp.store.Config
-import com.effective.android.wxrp.store.db.PacketRecordDataBase
-import com.effective.android.wxrp.store.db.PacketRepository
+import com.effective.android.wxrp.data.sp.Config
+import com.effective.android.wxrp.data.db.PacketRecordDataBase
+import com.effective.android.wxrp.data.db.PacketRepository
 import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.version.VersionManager
-import com.effective.android.wxrp.version.Version_7_0_0
-import com.effective.android.wxrp.version.Version_7_0_3
+import com.effective.android.wxrp.version.Version700
+import com.effective.android.wxrp.version.Version7010
+import com.effective.android.wxrp.version.Version703
 
 class RpApplication : Application() {
 
@@ -25,15 +26,18 @@ class RpApplication : Application() {
         var database: PacketRecordDataBase? = null
 
         @Synchronized
-        fun INSTANCE(): Application {
+        @JvmStatic
+        fun instance(): Application {
             return instance!!
         }
 
-        fun SP(): SharedPreferences {
+        @JvmStatic
+        fun sp(): SharedPreferences {
             return sharedPreferences!!
         }
 
-        fun PACKET_REPOSITORY(): PacketRepository {
+        @JvmStatic
+        fun repository(): PacketRepository {
             return packetRepository!!
         }
     }
@@ -58,8 +62,9 @@ class RpApplication : Application() {
                 if (ToolUtil.supportWeChatVersion(version)) {
                     VersionManager.setWeChatVersionInfo(
                             when (version) {
-                                VersionManager.WECHAT_7_0_0 -> Version_7_0_0()
-                                VersionManager.WECHAT_7_0_3 -> Version_7_0_3()
+                                Version700.VERSION -> Version700()
+                                Version703.VERSION  -> Version703()
+                                Version7010.VERSION  -> Version7010()
                                 else -> null
                             }
                     )

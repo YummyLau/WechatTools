@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/failView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/se_step_fail_bg" />
+
+    <View
+        android:id="@+id/step1View"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:background="@drawable/se_step_bg" />
+
+    <View
+        android:id="@+id/step2View"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_marginStart="7dp"
+        android:background="@drawable/se_step_bg" />
+
+    <View
+        android:id="@+id/step3View"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_marginStart="7dp"
+        android:background="@drawable/se_step_bg" />
+
+    <View
+        android:id="@+id/step4View"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_marginStart="7dp"
+        android:background="@drawable/se_step_bg" />
+
+    <View
+        android:id="@+id/step5View"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_marginStart="7dp"
+        android:background="@drawable/se_step_bg" />
+
+    <View
+        android:id="@+id/successView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/se_step_success_bg" />
+
+</merge>

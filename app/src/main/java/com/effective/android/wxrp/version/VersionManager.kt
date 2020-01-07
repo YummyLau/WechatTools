@@ -3,19 +3,6 @@ package com.effective.android.wxrp.version
 
 object VersionManager {
 
-    val PACKAGE_SELF_APPLICATION = "com.effective.android.wxrp"           // 本程序包名
-    val PACKAFEGE_WECHAT = "com.tencent.mm"                               // 微信包名
-    val WECHAT = "微信"                                                   // 微信
-    val WECHAT_7_0_0 = "7.0.0"
-    val WECHAT_7_0_3 = "7.0.3"
-    val CLASS_NOTIFICATION = "services.WXNotificationService"            // 通知监听类名
-    val CLASS_ACCESSBILITY = "services.WXAccessibilityService"           // 辅助服务类名
-    val TEXT_WX_PACKET = "[微信红包]"
-    val TEXT_WX_PACKET_WITHOUT_SPL = "微信红包"
-    val TEXT_TAB_TITLE_WEIXIN = "微信"
-    val TEXT_TAB_TITLE_CHATLIST = "通讯录"
-    val TEXT_TAB_TITLE_DISC = "发现"
-
     fun setWeChatVersionInfo(versionInfo: VersionInfo?) {
         VersionManager.versionInfo = versionInfo
     }
