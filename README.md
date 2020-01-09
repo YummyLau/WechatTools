@@ -23,14 +23,14 @@
 
 **效果展示**
 
-<img src="./readme/image_0.jpg" width = "540" height = "960" alt="图片名称" align=center />
+<img src="./readme/image_0.png" width = "540" height = "960" alt="图片名称" align=center />
 
-<img src="./readme/image_1.jpg" width = "540" height = "960" alt="图片名称" align=center />
+<img src="./readme/image_1.png" width = "540" height = "960" alt="图片名称" align=center />
 
-<img src="./readme/image_2.jpg" width = "540" height = "960" alt="图片名称" align=center />
+<img src="./readme/image_2.png" width = "540" height = "960" alt="图片名称" align=center />
 
-<img src="./readme/image_3.jpg" width = "540" height = "960" alt="图片名称" align=center />
+<img src="./readme/image_3.png" width = "540" height = "960" alt="图片名称" align=center />
 
-<img src="./readme/image_4.jpg" width = "540" height = "960" alt="图片名称" align=center />
+<img src="./readme/image_4.png" width = "540" height = "960" alt="图片名称" align=center />
 
 
