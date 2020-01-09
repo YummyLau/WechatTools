@@ -4,7 +4,7 @@
 
 **支持版本**
 
-目前只支持的微信版本：`7.0.0`, `7.0.3`
+目前只支持的微信版本：`7.0.0`, `7.0.3`,`7.0.10`
 
 **前置行为**
 
@@ -17,15 +17,20 @@
 * 支持过滤特定关键字, 默认有 `测`, `挂`, `专属`,`生日`,`踢` 等, 用户可自定义编辑
 * 支持延迟服务, 自己控制抢红包的间隙时间
 
-**下载二维码**
+**下载二维码*
 
-由于互联网禁止apk上传生成二维码, 文件存于百度云盘, 建议使用浏览器扫描。
-
-<img src="./readme/wechattool_3.png" width = "300" height = "300" alt="图片名称" align=center />
+敬请期待。
 
 **效果展示**
 
-<img src="./readme/wechattool_1.jpg" width = "540" height = "960" alt="图片名称" align=center />
+<img src="./readme/image_0.jpg" width = "540" height = "960" alt="图片名称" align=center />
 
-<img src="./readme/wechattool_2.jpg" width = "540" height = "960" alt="图片名称" align=center />
+<img src="./readme/image_1.jpg" width = "540" height = "960" alt="图片名称" align=center />
+
+<img src="./readme/image_2.jpg" width = "540" height = "960" alt="图片名称" align=center />
+
+<img src="./readme/image_3.jpg" width = "540" height = "960" alt="图片名称" align=center />
+
+<img src="./readme/image_4.jpg" width = "540" height = "960" alt="图片名称" align=center />
+
 

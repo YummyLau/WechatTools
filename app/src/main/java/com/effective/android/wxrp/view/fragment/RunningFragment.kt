@@ -36,9 +36,11 @@ class RunningFragment : BaseVmFragment<ResultVm>() {
             override fun onFragmentVisibilityChanged(visible: Boolean) {
                 if (visible) {
                     vm.checkAllStep()
+                    vm.loadPacketList()
                 }
             }
         })
+        vm.loadPacketList()
     }
 
     private fun initView() {
@@ -67,6 +69,5 @@ class RunningFragment : BaseVmFragment<ResultVm>() {
                 packet_list.setPackets(it)
             }
         })
-        vm.loadPacketList()
     }
 }
