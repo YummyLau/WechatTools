@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.app.Service
 import android.content.Intent
 import android.view.accessibility.AccessibilityEvent
+import com.effective.android.wxrp.data.sp.Config
 import com.effective.android.wxrp.version.VersionManager
 import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.ToolUtil
@@ -29,6 +30,12 @@ class WxAccessibilityService : AccessibilityService() {
         if (!VersionManager.runningPlus()) {
             return
         }
+
+        if (!Config.switcher) {
+            return
+        }
+
+
         val eventType = accessibilityEvent.eventType
         val className = accessibilityEvent.className.toString()
         val rootNode = rootInActiveWindow

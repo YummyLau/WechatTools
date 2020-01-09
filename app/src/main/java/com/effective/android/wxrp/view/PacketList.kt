@@ -89,6 +89,6 @@ class PacketHolder : RecyclerView.ViewHolder {
         val time = ToolUtil.getTimeShowString(packetRecord.time)
         val userName = packetRecord.postUser
         val num = packetRecord.num.toString() + "¥"
-        tip!!.setText("$time 抢了$userName $num")
+        tip!!.setText("$time 抢了 $userName $num")
     }
 }

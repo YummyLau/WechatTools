@@ -6,6 +6,9 @@
     <string name="step_one_get_we_chat_error">插件检测不到微信软件, 请安装微信！</string>
     <string name="step_one_cant_support_chat_version_error">请安装或者升级微信到对应支持的版本！(7.0.0/7.0.3/7.0.10)</string>
 
+    <string name="running_to_stop">[运行中 点击可暂停]</string>
+    <string name="running_to_start">[暂停中 点击可启动]</string>
+
 
     <string name="setting_title_necessary">必开选项</string>
     <string name="setting_open_accessibility_tip">已开启自动模拟点击服务</string>

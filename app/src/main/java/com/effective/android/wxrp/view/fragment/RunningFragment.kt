@@ -2,6 +2,7 @@ package com.effective.android.wxrp.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.effective.android.wxrp.R
 import com.effective.android.wxrp.RpApplication
@@ -29,8 +30,8 @@ class RunningFragment : BaseVmFragment<ResultVm>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initView()
         vm = ViewModelProviders.of(activity as MainActivity, MainVm.factory(RpApplication.repository())).get(MainVm::class.java)
+        initView()
         addOnVisibilityChangedListener(object : OnFragmentVisibilityChangeListener {
             override fun onFragmentVisibilityChanged(visible: Boolean) {
                 if (visible) {
@@ -42,9 +43,30 @@ class RunningFragment : BaseVmFragment<ResultVm>() {
 
     private fun initView() {
         nick.text = Config.getUserWxName()
+        avatar.background = Config.getUserWxAvatar()
+        status.text = context?.getString(R.string.running_to_stop)
+        switcher.isSelected = true
+
+        switcher.setOnClickListener {
+            if (switcher.isSelected) {
+                Config.switcher = false
+                status.text = context?.getString(R.string.running_to_start)
+                switcher.isSelected = false
+            } else {
+                status.text = context?.getString(R.string.running_to_stop)
+                switcher.isSelected = true
+                Config.switcher = true
+            }
+        }
+
         setting.setOnClickListener {
             startActivity(Intent(context, SettingActivity::class.java))
         }
-
+        vm.getPacketData().observe(this, Observer { value ->
+            value?.let {
+                packet_list.setPackets(it)
+            }
+        })
+        vm.loadPacketList()
     }
 }

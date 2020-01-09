@@ -40,6 +40,7 @@ interface VersionInfo {
     fun homeChatListItemMessageId(): String        // 微信列表 每一个item中的文本id
     fun homeChatListItemTextId(): String         // 微信列表 每一个item中的会话名字
 
+    fun homeUserPagerAvatarId():String            //我的页面，微信头像
     fun homeUserPagerNickId():String            //我的页面，微信昵称
     fun homeUserPagerWeChatNumId():String          //我的页面，微信号
 

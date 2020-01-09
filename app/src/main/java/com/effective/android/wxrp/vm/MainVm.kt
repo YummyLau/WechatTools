@@ -28,6 +28,8 @@ class MainVm(private val repository: PacketRepository) : ViewModel() {
 
     fun getStepLiveData() = toStep
 
+    fun getPacketData() = packets
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

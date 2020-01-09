@@ -34,6 +34,7 @@ object VersionManager {
     fun homeChatListItemMessageId(): String = versionInfo!!.homeChatListItemMessageId()
     fun homeChatListItemTextId(): String = versionInfo!!.homeChatListItemTextId()
     fun homeUserPagerNickId(): String = versionInfo!!.homeUserPagerNickId()
+    fun homeUserPagerAvatarId(): String = versionInfo!!.homeUserPagerAvatarId()
     fun homeUserPagerWeChatNumId(): String = versionInfo!!.homeUserPagerWeChatNumId()
     fun homeTabTitleId(): String = versionInfo!!.homeTabTitleId()
 

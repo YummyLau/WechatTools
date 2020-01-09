@@ -53,6 +53,7 @@ class Version7010 : VersionInfo {
         /**
          * 首页-我tab
          */
+        const val ID_HOME_USER_PAGER_AVATAT = "com.tencent.mm:id/s5"                 // 我的页面，微信头像
         const val ID_HOME_USER_PAGER_NICK = "com.tencent.mm:id/a_0"                  // 我的页面，微信昵称
         const val ID_HOME_USER_PAGER_WEICHATNUM = "com.tencent.mm:id/dqp"            // 我的页面，微信号
         const val ID_HOME_TAB_TITLE = "android:id/text1"                             // 首页4个tab的标题，存在与微信tab，通讯录tab，发现tab，用于过滤没有必要的轮训
@@ -96,6 +97,8 @@ class Version7010 : VersionInfo {
     override fun homeChatListItemMessageId(): String = ID_HOME_CHAT_LIST_ITEM_MESSAGE
 
     override fun homeChatListItemTextId(): String = ID_WID_CHAT_LIST_TITLE_TEXT
+
+    override fun homeUserPagerAvatarId(): String  = ID_HOME_USER_PAGER_AVATAT
 
     override fun homeUserPagerNickId(): String = ID_HOME_USER_PAGER_NICK
 

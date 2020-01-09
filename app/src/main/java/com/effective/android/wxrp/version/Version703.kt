@@ -97,6 +97,8 @@ class Version703 : VersionInfo {
 
     override fun homeChatListItemTextId(): String = ID_WID_CHAT_LIST_TITLE_TEXT
 
+    override fun homeUserPagerAvatarId(): String  = ""
+
     override fun homeUserPagerNickId(): String = ID_HOME_USER_PAGER_NICK
 
     override fun homeUserPagerWeChatNumId(): String = ID_HOME_USER_PAGER_WEICHATNUM

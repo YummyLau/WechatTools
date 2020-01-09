@@ -5,6 +5,7 @@ import android.os.HandlerThread
 import android.os.Message
 import android.text.TextUtils
 import android.view.accessibility.AccessibilityNodeInfo
+import android.widget.ImageView
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.RpApplication
 import com.effective.android.wxrp.data.sp.Config
@@ -176,7 +177,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             VersionManager.launcherClass() -> {
                 Logger.i(TAG, "dealWindowStateChanged : 当前在首页")
 
-                if (tryGetUserNamePage(rootNode)) {
+                if (tryGetUserInfoPage(rootNode)) {
                     return
                 }
 
@@ -270,7 +271,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             return
         }
 
-        if (tryGetUserNamePage(rootNode)) {
+        if (tryGetUserInfoPage(rootNode)) {
             return
         }
 
@@ -300,13 +301,20 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
     }
 
-    fun tryGetUserNamePage(rootNode: AccessibilityNodeInfo?): Boolean {
+    private fun tryGetUserInfoPage(rootNode: AccessibilityNodeInfo?): Boolean {
         if (rootNode == null) {
             return false
         }
         val tabTitle = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.homeUserPagerNickId())               //会话item
         if (tabTitle.isEmpty()) {
             return false
+        }
+
+        if(!TextUtils.isEmpty(VersionManager.homeUserPagerAvatarId())){
+            val avatar = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.homeUserPagerAvatarId())               //会话item
+            if(avatar is ImageView){
+                Config.setUserWxAvatar(avatar.drawable)
+            }
         }
         val actionText = tabTitle[0].text
         val replaceable = Config.setUserWxName(actionText.toString())
@@ -317,7 +325,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         return replaceable
     }
 
-    fun filterHomeTabPage(rootNode: AccessibilityNodeInfo?): Boolean {
+    private fun filterHomeTabPage(rootNode: AccessibilityNodeInfo?): Boolean {
         if (rootNode == null) {
             return false
         }
@@ -328,7 +336,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         return false
     }
 
-    fun isClickableConversation(rootNode: AccessibilityNodeInfo?): Boolean {
+    private fun isClickableConversation(rootNode: AccessibilityNodeInfo?): Boolean {
         if (rootNode == null) {
             return false
         }
@@ -343,7 +351,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
     }
 
 
-    fun hasGotPacketTip(tipList: List<AccessibilityNodeInfo>): Boolean {
+    private fun hasGotPacketTip(tipList: List<AccessibilityNodeInfo>): Boolean {
         if (tipList.isEmpty()) {
             return false
         }
@@ -357,7 +365,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
     /**
      * 是否是群节点
      */
-    fun isGroupNode(pageTitle: List<AccessibilityNodeInfo>): Boolean {
+    private fun isGroupNode(pageTitle: List<AccessibilityNodeInfo>): Boolean {
         if (pageTitle.isEmpty()) {
             return false
         }
@@ -370,7 +378,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
     /**
      * 适用于聊天会话，聊天对话
      */
-    fun isSelfNode(avatarList: List<AccessibilityNodeInfo>, currentIndex: Int): Boolean {
+    private fun isSelfNode(avatarList: List<AccessibilityNodeInfo>, currentIndex: Int): Boolean {
         if (Config.getUserWxName().isEmpty() || avatarList.isEmpty() || avatarList.size <= currentIndex) {
             return false
         }
@@ -385,7 +393,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
      * 适用于聊天会话，聊天对话
      * 过滤特定节点，如果包含关键字的话
      */
-    fun handleKeyWords(nodes: List<AccessibilityNodeInfo>): Boolean {
+    private fun handleKeyWords(nodes: List<AccessibilityNodeInfo>): Boolean {
         if (nodes.isEmpty()) {
             return false
         }

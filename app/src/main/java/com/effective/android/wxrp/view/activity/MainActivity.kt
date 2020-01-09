@@ -28,7 +28,7 @@ import com.effective.android.wxrp.view.fragment.RunningFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainViewModel: MainVm
-    private var index = 0;
+    private var index = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,6 +1,9 @@
 package com.effective.android.wxrp.data.sp
 
+import android.graphics.drawable.Drawable
 import android.text.TextUtils
+import androidx.core.content.ContextCompat
+import com.effective.android.wxrp.R
 import com.effective.android.wxrp.RpApplication
 import java.lang.StringBuilder
 import java.util.*
@@ -13,6 +16,9 @@ class Config private constructor() {
 
         private const val KEY_USER_WX_NAME = "key_user_wx_nick"
         private var userWxName = ""
+        private var userWxAvatar: Drawable? = null
+
+        var switcher = true
 
         //是否打开自己红包
         private const val KEY_OPEN_GET_SELF_PACKET = "key_open_get_self_packet"
@@ -54,6 +60,7 @@ class Config private constructor() {
                 fixationDelayTime = times[0].toInt()
                 randomDelayTime = times[1].toInt()
             }
+            switcher = true
         }
 
         fun onSave() {
@@ -89,6 +96,18 @@ class Config private constructor() {
                 return true
             }
             return false
+        }
+
+        fun getUserWxAvatar(): Drawable? {
+            return if (userWxAvatar != null) {
+                userWxAvatar
+            } else {
+                ContextCompat.getDrawable(RpApplication.instance().applicationContext, R.drawable.ic_wx_defalut_avatar)
+            }
+        }
+
+        fun setUserWxAvatar(avatar: Drawable) {
+            userWxAvatar = avatar
         }
 
         fun openGetSelfPacket(b: Boolean) {
