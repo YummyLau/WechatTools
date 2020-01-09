@@ -2,6 +2,10 @@
     <string name="app_name">微信红包插件</string>
     <string name="setting_name">高级配置</string>
 
+    <string name="step_one_get_we_chat_version_error">读取微信版本失败, 请联系开发人员！ (WeChat: pursuit_of_720)</string>
+    <string name="step_one_get_we_chat_error">插件检测不到微信软件, 请安装微信！</string>
+    <string name="step_one_cant_support_chat_version_error">请安装或者升级微信到对应支持的版本！(7.0.0/7.0.3/7.0.10)</string>
+
 
     <string name="setting_title_necessary">必开选项</string>
     <string name="setting_open_accessibility_tip">已开启自动模拟点击服务</string>

@@ -11,7 +11,7 @@ object VersionManager {
         return versionInfo != null
     }
 
-    private var versionInfo: VersionInfo? = null
+    var versionInfo: VersionInfo? = null
 
 
     fun launcherClass(): String = versionInfo!!.launcherClass()

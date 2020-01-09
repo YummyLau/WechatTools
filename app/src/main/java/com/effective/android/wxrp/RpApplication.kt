@@ -49,33 +49,8 @@ class RpApplication : Application() {
         database = PacketRecordDataBase.getInstance(this)
         packetRepository = PacketRepository(database!!.packetRecordDao())
         Config.init()
-        initVersion()
     }
 
-    private fun initVersion() {
-        val hasWeChat = ToolUtil.isWeixinAvilible(this)
-        if (hasWeChat) {
-            val version: String? = ToolUtil.getWeChatVersion(this)
-            if (TextUtils.isEmpty(version)) {
-                ToolUtil.toast(this, "读取微信版本失败, 请联系开发人员！")
-            } else {
-                if (ToolUtil.supportWeChatVersion(version)) {
-                    VersionManager.setWeChatVersionInfo(
-                            when (version) {
-                                Version700.VERSION -> Version700()
-                                Version703.VERSION  -> Version703()
-                                Version7010.VERSION  -> Version7010()
-                                else -> null
-                            }
-                    )
-                } else {
-                    ToolUtil.toast(this, "请安装或者升级微信到对应支持的版本！")
-                }
-            }
-        } else {
-            ToolUtil.toast(this, "插件检测不到微信软件, 请安装微信！")
-        }
-    }
 
     override fun onTerminate() {
         super.onTerminate()

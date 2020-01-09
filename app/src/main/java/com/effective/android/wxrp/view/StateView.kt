@@ -35,10 +35,10 @@ class StateView : LinearLayout {
     private fun initView(context: Context) {
         root = LayoutInflater.from(context).inflate(R.layout.view_state, this, true)
         gravity = Gravity.CENTER_VERTICAL
-        onStart()
+        onStep1()
     }
 
-    fun onStart() {
+    fun onStep1() {
         root.failView.isSelected = true
         root.step1View.isSelected = false
         root.step2View.isSelected = false
@@ -48,7 +48,17 @@ class StateView : LinearLayout {
         root.successView.isSelected = false
     }
 
-    fun onDoing() {
+    fun onStep2() {
+        root.failView.isSelected = false
+        root.step1View.isSelected = true
+        root.step2View.isSelected = false
+        root.step3View.isSelected = false
+        root.step4View.isSelected = false
+        root.step5View.isSelected = false
+        root.successView.isSelected = false
+    }
+
+    fun onStep3() {
         root.failView.isSelected = false
         root.step1View.isSelected = true
         root.step2View.isSelected = true
@@ -58,7 +68,7 @@ class StateView : LinearLayout {
         root.successView.isSelected = false
     }
 
-    fun onEnd() {
+    fun onRunning() {
         root.failView.isSelected = false
         root.step1View.isSelected = true
         root.step2View.isSelected = true

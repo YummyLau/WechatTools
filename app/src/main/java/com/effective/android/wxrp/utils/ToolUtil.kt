@@ -21,7 +21,7 @@ object ToolUtil {
     private val YMD_SDF = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val TIME_24_SDF = SimpleDateFormat("HH:mm", Locale.getDefault())
 
-    fun isWeixinAvilible(context: Context): Boolean {
+    fun installedWeChat(context: Context): Boolean {
         val packageManager = context.packageManager// 获取packagemanager
         val pinfo = packageManager.getInstalledPackages(0)// 获取所有已安装程序的包信息
         if (pinfo != null) {
@@ -74,15 +74,6 @@ object ToolUtil {
         return false
     }
 
-//        fun isNotificationListenerServiceEnabled(context: Context): Boolean {
-//            val packageNames = NotificationManagerCompat.getEnabledListenerPackages(context)
-//            if (packageNames.contains(context.packageName)) {
-//                Logger.i(TAG, "isNotificationListenerServiceEnabled = true")
-//                return true
-//            }
-//            Logger.i(TAG, "isNotificationListenerServiceEnabled = false")
-//            return false
-//        }
 
     fun wakeAndUnlock(context: Context) {
         Logger.i(TAG, "wakeAndUnlock")
@@ -140,7 +131,7 @@ object ToolUtil {
      * @param date2
      * @return
      */
-    fun isSameWeekDates(date1: Date, date2: Date): Boolean {
+    private fun isSameWeekDates(date1: Date, date2: Date): Boolean {
         val cal1 = Calendar.getInstance()
         val cal2 = Calendar.getInstance()
         cal1.time = date1
@@ -160,7 +151,7 @@ object ToolUtil {
         return false
     }
 
-    fun getWeekOfDate(date: Date): String {
+    private fun getWeekOfDate(date: Date): String {
         val weekDaysName = arrayOf("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")
         val calendar = Calendar.getInstance()
         calendar.time = date
@@ -207,11 +198,10 @@ object ToolUtil {
 
     fun insertSort(a: IntArray, b: IntArray) {
         // nodeInofs的数量一般小于10，插入排序效率较高
-        var i: Int
         var j: Int
         var insertNoteA: Int
         var insertNoteB: Int             // 要插入的数据
-        i = 1
+        var i: Int = 1
         while (i < a.size) {                // 从数组的第二个元素开始循环将数组中的元素插入
             insertNoteA = a[i]                         // 设置数组中的第2个元素为第一次循环要插入的数据
             insertNoteB = b[i]

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/icon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/ic_cant_support_we_char" />
+
+        <TextView
+            android:id="@+id/tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="@string/step_one_cant_support_chat_version_error" />
+
+    </LinearLayout>
+
+</RelativeLayout>

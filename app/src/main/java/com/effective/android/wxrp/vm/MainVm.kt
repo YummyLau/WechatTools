@@ -1,34 +1,81 @@
 package com.effective.android.wxrp.vm
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.effective.android.wxrp.Constants
+import com.effective.android.wxrp.RpApplication
 import com.effective.android.wxrp.data.db.PacketRecord
 import com.effective.android.wxrp.data.db.PacketRepository
+import com.effective.android.wxrp.data.sp.Config
+import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.utils.singleArgViewModelFactory
+import com.effective.android.wxrp.version.VersionManager
 import kotlinx.coroutines.*
 
 
 class MainVm(private val repository: PacketRepository) : ViewModel() {
 
+    companion object {
+        val factory = singleArgViewModelFactory(::MainVm)
+    }
+
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    val _all_data = MutableLiveData<List<PacketRecord>>()
 
-    companion object {
-        val facotry = singleArgViewModelFactory(::MainVm)
-    }
+    private val packets = MutableLiveData<List<PacketRecord>>()
+    private val toStep = MutableLiveData<Int>()
+
+    fun getStepLiveData() = toStep
 
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
     }
 
-    fun loadPacketList() {
-        uiScope.launch (Dispatchers.Main + viewModelJob){
-            val packetRecords = async(Dispatchers.IO) {
-                return@async repository.getPacketList() }.await()
+    private fun toCheckoutStepBeforeStatus(position: Int): Int {
+        val stepOneFinish = VersionManager.versionInfo != null
+        val stepTwoFinish = ToolUtil.isServiceRunning(RpApplication.instance(), Constants.applicationName + "." + Constants.accessibilityClassName)
+        val stepThreeFinish = !TextUtils.isEmpty(Config.getUserWxName())
+        return when (position) {
+            1 -> {
+                if (stepOneFinish) 2 else 1
+            }
+            2 -> {
+                if (stepOneFinish) {
+                    if (stepTwoFinish) 3 else 2
+                } else 1
+            }
+            3 -> {
+                if (stepOneFinish) {
+                    if (stepTwoFinish) {
+                        if (stepThreeFinish) 4 else 3
+                    } else 2
+                } else 1
+            }
+            else -> 1
+        }
+    }
 
-            _all_data.value = packetRecords
+    fun checkAllStep() {
+        var current = toCheckoutStepBeforeStatus(3)
+        if (current == 4) {
+            return
+        }
+        toStep.value = current
+    }
+
+    fun finishStep(step: Int) {
+        toStep.value = toCheckoutStepBeforeStatus(step)
+    }
+
+    fun loadPacketList() {
+        uiScope.launch(Dispatchers.Main + viewModelJob) {
+            val packetRecords = async(Dispatchers.IO) {
+                return@async repository.getPacketList()
+            }.await()
+
+            packets.value = packetRecords
         }
     }
 }
