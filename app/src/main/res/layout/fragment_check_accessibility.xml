@@ -43,7 +43,7 @@
         android:paddingEnd="10dp"
         android:paddingBottom="5dp"
         android:text="@string/setting_open_action"
-        android:textColor="@color/se_btn_color"
+        android:textColor="@color/se_white_btn_color"
         android:textSize="25sp" />
 
 </RelativeLayout>

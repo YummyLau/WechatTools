@@ -1,5 +1,6 @@
 package com.effective.android.wxrp.view.activity
 
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
@@ -16,6 +17,8 @@ import com.effective.android.wxrp.R
 import com.effective.android.wxrp.data.sp.Config
 import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.ToolUtil
+import com.effective.android.wxrp.utils.systemui.QMUIStatusBarHelper
+import com.effective.android.wxrp.utils.systemui.StatusbarHelper
 import com.effective.android.wxrp.view.dialog.TagEditDialog
 import kotlinx.android.synthetic.main.activity_setting.*
 
@@ -32,6 +35,8 @@ class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
+        StatusbarHelper.setStatusBarColor(this, Color.TRANSPARENT)
+        QMUIStatusBarHelper.setStatusBarLightMode(this)
         initData()
         initListener()
     }
@@ -79,6 +84,9 @@ class SettingActivity : AppCompatActivity() {
 //            }
 //        }
 
+        back.setOnClickListener {
+            finish()
+        }
         getSelf_select.setOnClickListener {
             val selectStatus = getSelf_select.isSelected
             Config.openGetSelfPacket(!selectStatus)

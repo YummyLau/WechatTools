@@ -4,8 +4,8 @@
     <dimen name="tool_bar_height">50dp</dimen>
     <dimen name="tool_bar_padding">15dp</dimen>
     <dimen name="base_status_bar_height">25dp</dimen>
-    <dimen name="setting_icon_size">40dp</dimen>
-    <dimen name="setting_title_size">17sp</dimen>
+    <dimen name="setting_icon_size">30dp</dimen>
+    <dimen name="setting_title_size">30dp</dimen>
     <dimen name="setting_tip_size">17sp</dimen>
     <dimen name="setting_item_height">40dp</dimen>
 </resources>
