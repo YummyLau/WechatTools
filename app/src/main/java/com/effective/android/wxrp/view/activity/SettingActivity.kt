@@ -55,6 +55,8 @@ class SettingActivity : AppCompatActivity() {
                     return
                 }
                 tag_container.addTag(getTag(tag))
+                Config.filterTags.add(tag)
+                Config.onSave()
             }
         })
         //tag容器
