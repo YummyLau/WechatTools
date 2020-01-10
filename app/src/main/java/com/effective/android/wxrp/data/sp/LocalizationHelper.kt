@@ -6,11 +6,14 @@ import androidx.core.content.ContextCompat
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.R
 import com.effective.android.wxrp.RpApplication
+import com.effective.android.wxrp.utils.Logger
+import java.lang.StringBuilder
 import java.util.*
 
 
 object LocalizationHelper {
 
+    private const val TAG = "LocalizationHelper"
     lateinit var config: SettingConfig
     var userWxName: String = ""
     var userWxAvatar: Drawable? = null
@@ -28,10 +31,8 @@ object LocalizationHelper {
 
         //支持过滤
         config.supportFilter = RpApplication.sp().getBoolean(Constants.KEY_FILTER, false)
-        if (config.supportFilter) {
-            val list = RpApplication.sp().getString(Constants.KEY_FILTER_DATA, Constants.VALUE_FILTER_DATA)!!.split(Constants.SPLIT_POINT).toList()
-            config.filterTags.addAll(list)
-        }
+        val list = RpApplication.sp().getString(Constants.KEY_FILTER_DATA, Constants.VALUE_FILTER_DATA)!!.split(Constants.SPLIT_POINT).toList()
+        config.filterTags.addAll(list)
 
         //延迟选项
         config.delayModel = RpApplication.sp().getInt(Constants.KEY_DELAY_MODEL, Constants.VALUE_DELAY_CLOSE)
@@ -55,6 +56,7 @@ object LocalizationHelper {
 
     @JvmStatic
     fun setConfigName(userName: String): Boolean {
+        Logger.d(TAG,"setConfigName: $userName")
         if (!TextUtils.equals(userWxName, userName)) {
             userWxName = userName
             return RpApplication.sp().edit().putString(Constants.KEY_USER_WX_NAME, userName).commit()
@@ -73,6 +75,7 @@ object LocalizationHelper {
 
     @JvmStatic
     fun supportGettingSelfPacket(support: Boolean): Boolean {
+        Logger.d(TAG,"supportGettingSelfPacket: $support")
         if (support != config.supportGettingSelfPacket) {
             config.supportGettingSelfPacket = support
             return RpApplication.sp().edit().putBoolean(Constants.KEY_OPEN_GET_SELF_PACKET, support).commit()
@@ -83,6 +86,7 @@ object LocalizationHelper {
 
     @JvmStatic
     fun setDelayTime(delayTime: Long): Boolean {
+        Logger.d(TAG,"setDelayTime: $delayTime")
         return when (config.delayModel) {
             Constants.VALUE_DELAY_FIXATION -> {
                 if (delayTime != config.fixationTime) {
@@ -131,6 +135,7 @@ object LocalizationHelper {
 
     @JvmStatic
     fun setDelayModel(model: Int): Boolean {
+        Logger.d(TAG,"setDelayModel: $model")
         if (model >= Constants.VALUE_DELAY_CLOSE && model <= Constants.VALUE_DELAY_RANDOM) {
             if (model != config.delayModel) {
                 config.delayModel = model
@@ -142,13 +147,9 @@ object LocalizationHelper {
     }
 
     fun supportFilterTag(supportFilter: Boolean): Boolean {
+        Logger.d(TAG,"supportFilterTag : $supportFilter")
         if (config.supportFilter != supportFilter) {
             config.supportFilter = supportFilter
-            config.filterTags.clear()
-            if (supportFilter) {
-                val list = RpApplication.sp().getString(Constants.KEY_FILTER_DATA, Constants.VALUE_FILTER_DATA)!!.split(Constants.SPLIT_POINT).toList()
-                config.filterTags.addAll(list)
-            }
             return RpApplication.sp().edit().putBoolean(Constants.KEY_FILTER, supportFilter).commit()
         }
         return false
@@ -159,4 +160,24 @@ object LocalizationHelper {
 
     @JvmStatic
     fun getFilterTag() = config.filterTags
+
+    @JvmStatic
+    fun updateFilterTag(mutableList: MutableList<String>): Boolean {
+        if (mutableList.isNotEmpty()) {
+            val stringBuilder = StringBuilder()
+            config.filterTags.clear()
+            for (filter in mutableList) {
+                config.filterTags.add(filter)
+                if (stringBuilder.isEmpty()) {
+                    stringBuilder.append(filter)
+                } else {
+                    stringBuilder.append(Constants.SPLIT_POINT)
+                    stringBuilder.append(filter)
+                }
+            }
+            Logger.d(TAG,"updateFilterTag : $stringBuilder")
+            return RpApplication.sp().edit().putString(Constants.KEY_FILTER_DATA, stringBuilder.toString()).commit()
+        }
+        return false
+    }
 }

@@ -26,7 +26,7 @@ class SettingActivity : AppCompatActivity() {
 
 
     val tagCache = LruCache<String, Tag>(99)
-    val currentTag = ArrayList<Tag>()
+    val currentTag = mutableListOf<Tag>()
     var tagDialg: TagEditDialog? = null
     var currentDelayNum: String = "-1"
     var currentUserName: String = ""
@@ -37,16 +37,12 @@ class SettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_setting)
         StatusbarHelper.setStatusBarColor(this, Color.TRANSPARENT)
         QMUIStatusBarHelper.setStatusBarLightMode(this)
-        initData()
         initListener()
-    }
-
-    override fun onResume() {
-        super.onResume()
+        initFilterView()
         initState()
     }
 
-    private fun initData() {
+    private fun initFilterView() {
         //编辑tag对话框
         tagDialg = TagEditDialog(this, object : TagEditDialog.CommitListener {
             override fun commit(tag: String) {
@@ -54,7 +50,8 @@ class SettingActivity : AppCompatActivity() {
                     ToolUtil.toast(this@SettingActivity, this@SettingActivity.getString(R.string.tag_empty_tip))
                     return
                 }
-                tag_container.addTag(getTag(tag))
+                val item = getTag(tag)
+                tag_container.addTag(item)
             }
         })
 
@@ -214,5 +211,13 @@ class SettingActivity : AppCompatActivity() {
         return tag
     }
 
-
+    override fun onStop() {
+        super.onStop()
+        val newFilterTag = mutableListOf<String>()
+        val tags = tag_container.tags
+        for (tag in tags) {
+            newFilterTag.add(tag.text)
+        }
+        LocalizationHelper.updateFilterTag(newFilterTag)
+    }
 }
