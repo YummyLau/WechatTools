@@ -4,7 +4,7 @@
 
 **支持版本**
 
-目前只支持的微信版本：`7.0.0`, `7.0.3`,`7.0.10`
+目前支持的微信版本：`7.0.0`, `7.0.3`,`7.0.10`
 
 **前置行为**
 
@@ -19,17 +19,33 @@
 
 **下载二维码*
 
-敬请期待。
+由于互联网禁止apk上传生成二维码, 文件存于百度云盘, 建议使用浏览器扫描。(支持 7.0.0，7.0.3，7.0.10)
+
+[1.0.1版本下载地址](https://pan.baidu.com/s/1C3MfWFQHtql_7WoIq62RQg)   提取码: 14r6
+
+或者使用微信扫一扫获取文件
+
+<img src="./readme/qrcode.jpeg" width = "280" height = "280" alt="图片名称"/>
 
 **效果展示**
 
+未安装微信或者微信版本不支持
+
 <img src="./readme/image_0.png" width = "540" height = "960" alt="图片名称" align=center />
+
+插件获取权限
 
 <img src="./readme/image_1.png" width = "540" height = "960" alt="图片名称" align=center />
 
+获取微信昵称作为使用者标识
+
 <img src="./readme/image_2.png" width = "540" height = "960" alt="图片名称" align=center />
 
+插件运行效果图
+
 <img src="./readme/image_3.png" width = "540" height = "960" alt="图片名称" align=center />
+
+插件配置选项
 
 <img src="./readme/image_4.png" width = "540" height = "960" alt="图片名称" align=center />
 
