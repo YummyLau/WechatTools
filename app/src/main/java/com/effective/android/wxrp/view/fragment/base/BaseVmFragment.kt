@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 
 abstract class BaseVmFragment<VM : ViewModel> : BaseFragment() {
 
-    lateinit var viewModel: VM
+    private lateinit var viewModel: VM
 
     abstract fun getViewModel(): Class<VM>
 

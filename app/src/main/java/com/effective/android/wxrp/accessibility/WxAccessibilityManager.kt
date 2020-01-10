@@ -43,13 +43,13 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                         val node = msg.obj
                         if (node != null && node is AccessibilityNodeInfo) {
                             if (getPacketList.isEmpty()) {
-                                Logger.i(TAG, "sendGetPacketMsg " + node.toString())
+                                Logger.i(TAG, "sendGetPacketMsg $node")
                                 getPacketList.add(node)
                                 AccessibilityUtil.performClick(getPacketList.last())
                                 getPacketList.removeAt(getPacketList.lastIndex)
                             } else {
                                 if (!NodeUtil.containNode(node, getPacketList)) {
-                                    Logger.i(TAG, "sendGetPacketMsg " + node.toString())
+                                    Logger.i(TAG, "sendGetPacketMsg $node")
                                     getPacketList.add(node)
                                     sortGetPacketList()
                                     AccessibilityUtil.performClick(getPacketList.last())
@@ -119,7 +119,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
     private fun sendOpenPacketMsg(nodeInfo: AccessibilityNodeInfo) {
         var delayedTime = Config.getDelayTime(false)
         if (delayedTime > 0) {
-            delayedTime = delayedTime / 2
+            delayedTime /= 2
         }
         sendHandlerMessage(MSG_OPEN_PACKET, delayedTime, nodeInfo)
     }
@@ -149,17 +149,17 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             return
         }
         val tempGetPacketList = ArrayList<AccessibilityNodeInfo>()
-        val nodeInfosBottom = IntArray(getPacketList.size)
-        val nodeInfosIndex = IntArray(getPacketList.size)
+        val nodeInfoBottom = IntArray(getPacketList.size)
+        val nodeInfoIndex = IntArray(getPacketList.size)
         for (i in getPacketList.indices) {
-            nodeInfosBottom[i] = NodeUtil.getRectFromNodeInfo(getPacketList[i]).bottom
-            nodeInfosIndex[i] = i
+            nodeInfoBottom[i] = NodeUtil.getRectFromNodeInfo(getPacketList[i]).bottom
+            nodeInfoIndex[i] = i
             tempGetPacketList.add(getPacketList[i])
         }
         getPacketList.clear()
-        ToolUtil.insertSort(nodeInfosBottom, nodeInfosIndex)
+        ToolUtil.insertSort(nodeInfoBottom, nodeInfoIndex)
         for (i in tempGetPacketList.indices) {
-            getPacketList.add(tempGetPacketList[nodeInfosIndex[i]])
+            getPacketList.add(tempGetPacketList[nodeInfoIndex[i]])
             Logger.i(TAG, "sortGetPacketList nodeInfoBottom[" + i + "] = "
                     + NodeUtil.getRectFromNodeInfo(getPacketList[i]).bottom)
         }
@@ -250,7 +250,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         } else {
             val postUser = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.packetDetailPostUserId())
             val number = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.packetDetailPostNumId())
-            if (!postUser.isEmpty() && !number.isEmpty()) {
+            if (postUser.isNotEmpty() && number.isNotEmpty()) {
                 val record = PacketRecord()
                 record.num = number[0]?.text.toString().toFloat()
                 record.postUser = postUser[0]?.text.toString()
@@ -442,7 +442,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         val dialogList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemId())               //会话item
 
 //        val TitleList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId)          //会话名字
-        if (!dialogList.isEmpty()) {
+        if (dialogList.isNotEmpty()) {
             for (i in dialogList.indices.reversed()) {
 
                 val messageTextList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemMessageId())  //会话内容
@@ -476,7 +476,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         val pageTitle = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerTitleId())
         val packetList = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketId())
 
-        if (!packetList.isEmpty()) {
+        if (packetList.isNotEmpty()) {
             for (i in packetList.indices.reversed()) {
 
                 //过滤不是红包的
@@ -521,7 +521,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         //如果当前节点存在红包，则遍历寻找"开"
         var result = false
         val packetList = rootNode!!.findAccessibilityNodeInfosByViewId(VersionManager.packetDialogOpenId())
-        if (!packetList.isEmpty()) {
+        if (packetList.isNotEmpty()) {
             val item = packetList[0]
             if (item.isClickable) {
                 sendOpenPacketMsg(item)

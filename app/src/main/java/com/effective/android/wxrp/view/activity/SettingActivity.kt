@@ -73,16 +73,6 @@ class SettingActivity : AppCompatActivity() {
 
 
     private fun initListener() {
-//        notification_select.setOnClickListener {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-//                val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                startActivity(intent)
-//            } else {
-//                ToolUtil.toast(this, "当前安卓系统版本过低，请手动设置本应用的通知读取权限")
-//                notification_select.isSelected = ToolUtil.isServiceRunning(this, VersionManager.applicationName + "." + VersionManager.CLASS_NOTIFICATION)
-//            }
-//        }
 
         back.setOnClickListener {
             finish()

@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.app.Service
 import android.content.Intent
 import android.view.accessibility.AccessibilityEvent
+import com.effective.android.wxrp.R
 import com.effective.android.wxrp.data.sp.Config
 import com.effective.android.wxrp.version.VersionManager
 import com.effective.android.wxrp.utils.Logger
@@ -35,12 +36,12 @@ class WxAccessibilityService : AccessibilityService() {
             return
         }
 
-
         val eventType = accessibilityEvent.eventType
         val className = accessibilityEvent.className.toString()
         val rootNode = rootInActiveWindow
 
-        Logger.i(TAG, "onAccessibilityEvent eventType = " + eventType + "className = " + className)
+        Logger.i(TAG, "onAccessibilityEvent eventType =  $eventType  className = $className")
+
         when (eventType) {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
                 Logger.i(TAG, "窗口状态改变 className = $className")
@@ -58,15 +59,15 @@ class WxAccessibilityService : AccessibilityService() {
 
     override fun onInterrupt() {
         Logger.i(TAG, "onInterrupt")
-        ToolUtil.toast(this, "模拟操作 服务被中断")
+        ToolUtil.toast(this, R.string.accessibility_service_interrupt)
     }
 
     override fun onServiceConnected() {
         Logger.i(TAG, "onServiceConnected")
-        ToolUtil.toast(this, "模拟操作 服务已连接")
+        ToolUtil.toast(this, R.string.accessibility_service_connected)
         service = this
         if (accessibilityManager == null) {
-            accessibilityManager = WxAccessibilityManager("accessbility-handler-thread")
+            accessibilityManager = WxAccessibilityManager("accessibility-handler-thread")
             accessibilityManager?.start()
         }
         super.onServiceConnected()

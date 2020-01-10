@@ -8,6 +8,7 @@ import android.os.PowerManager
 import android.text.TextUtils
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.StringRes
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.version.Version700
 import com.effective.android.wxrp.version.Version7010
@@ -23,10 +24,10 @@ object ToolUtil {
 
     fun installedWeChat(context: Context): Boolean {
         val packageManager = context.packageManager// 获取packagemanager
-        val pinfo = packageManager.getInstalledPackages(0)// 获取所有已安装程序的包信息
-        if (pinfo != null) {
-            for (i in pinfo.indices) {
-                val pn = pinfo[i].packageName
+        val packageInfo = packageManager.getInstalledPackages(0)// 获取所有已安装程序的包信息
+        if (packageInfo != null) {
+            for (i in packageInfo.indices) {
+                val pn = packageInfo[i].packageName
                 if (pn == Constants.weChatPackageName) {
                     return true
                 }
@@ -55,6 +56,8 @@ object ToolUtil {
         }
         return false
     }
+
+    fun toast(context: Context, @StringRes int: Int) = Toast.makeText(context, int, Toast.LENGTH_LONG).show()
 
     fun toast(context: Context, msg: String) = Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
 
@@ -160,8 +163,8 @@ object ToolUtil {
     }
 
     fun getTimeShowString(milliseconds: Long): String {
-        var dataString: String? = ""
-        var timeStringBy24: String? = ""
+        var dataString: String?
+        var timeStringBy24: String?
 
         val currentTime = Date(milliseconds)
         val today = Date()
@@ -170,16 +173,16 @@ object ToolUtil {
         todayStart.set(Calendar.MINUTE, 0)
         todayStart.set(Calendar.SECOND, 0)
         todayStart.set(Calendar.MILLISECOND, 0)
-        val todaybegin = todayStart.time
-        val yesterdaybegin = Date(todaybegin.time - 3600 * 24 * 1000)
-        val preyesterday = Date(yesterdaybegin.time - 3600 * 24 * 1000)
+        val todayBegin = todayStart.time
+        val yesterdayBegin = Date(todayBegin.time - 3600 * 24 * 1000)
+        val preYesterday = Date(yesterdayBegin.time - 3600 * 24 * 1000)
 
         var containZH = true
-        if (!currentTime.before(todaybegin)) {
+        if (!currentTime.before(todayBegin)) {
             dataString = "今天"
-        } else if (!currentTime.before(yesterdaybegin)) {
+        } else if (!currentTime.before(yesterdayBegin)) {
             dataString = "昨天"
-        } else if (!currentTime.before(preyesterday)) {
+        } else if (!currentTime.before(preYesterday)) {
             dataString = "前天"
         } else if (isSameWeekDates(currentTime, today)) {
             dataString = getWeekOfDate(currentTime)
@@ -201,7 +204,7 @@ object ToolUtil {
         var j: Int
         var insertNoteA: Int
         var insertNoteB: Int             // 要插入的数据
-        var i: Int = 1
+        var i = 1
         while (i < a.size) {                // 从数组的第二个元素开始循环将数组中的元素插入
             insertNoteA = a[i]                         // 设置数组中的第2个元素为第一次循环要插入的数据
             insertNoteB = b[i]

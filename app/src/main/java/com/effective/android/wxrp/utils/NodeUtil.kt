@@ -9,11 +9,11 @@ object NodeUtil {
     private const val TAG = "NodeUtil"
 
     @JvmStatic
-    fun containNode(nodeInfo: AccessibilityNodeInfo,
-                    nodeInfos: ArrayList<AccessibilityNodeInfo>): Boolean {
+    fun containNode(node: AccessibilityNodeInfo,
+                    nodes: ArrayList<AccessibilityNodeInfo>): Boolean {
         var result = false
-        for (i in nodeInfos.indices) {
-            if (nodeInfo == nodeInfos[i]) {
+        for (i in nodes.indices) {
+            if (node == nodes[i]) {
                 result = true
                 break
             }

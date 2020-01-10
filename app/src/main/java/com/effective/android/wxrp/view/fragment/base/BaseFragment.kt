@@ -16,7 +16,7 @@ abstract class BaseFragment : VisibleFragment() {
     @LayoutRes
     abstract fun getLayoutRes(): Int
 
-    lateinit var rootView: View
+    private lateinit var rootView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(getLayoutRes(), container, false)

@@ -32,15 +32,12 @@ class StatusBarView @JvmOverloads constructor(context: Context, attrs: Attribute
     private fun initView(attrs: AttributeSet?, defStyle: Int) {
         val view = LayoutInflater.from(context).inflate(R.layout.view_statusbar, this, true)
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.StatusBarView, defStyle, 0)
-        if (typedArray != null) {
-            mStatusBarColor = typedArray.getResourceId(R.styleable.StatusBarView_status_bar_color, R.color.colorPrimary)
-        } else {
-            mStatusBarColor = R.color.colorPrimary
-        }
+        mStatusBarColor = typedArray?.getResourceId(R.styleable.StatusBarView_status_bar_color, R.color.colorPrimary)
+                ?: R.color.colorPrimary
         fitSpecialModelStatusBar()
         setBackgroundColor(ContextCompat.getColor(context, mStatusBarColor))
-        val statusbarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) getStatusBarHeight(context) else 0
-        view.findViewById<View>(R.id.status_bar).minimumHeight = statusbarHeight
+        val statusBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) getStatusBarHeight(context) else 0
+        view.findViewById<View>(R.id.status_bar).minimumHeight = statusBarHeight
         //        view.findViewById(R.id.status_bar).getLayoutParams().height = statusbarHeight;
     }
 

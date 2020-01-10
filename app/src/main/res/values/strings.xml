@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">微信红包插件</string>
+    <string name="app_name">微信红包</string>
     <string name="setting_name">高级配置</string>
 
     <string name="step_one_get_we_chat_version_error">读取微信版本失败, 请联系开发人员！ (WeChat: pursuit_of_720)</string>
@@ -8,6 +8,10 @@
 
     <string name="running_to_stop">[运行中 点击可暂停]</string>
     <string name="running_to_start">[暂停中 点击可启动]</string>
+
+
+    <string name="accessibility_service_interrupt">插件服务被中断</string>
+    <string name="accessibility_service_connected">插件服务已连接</string>
 
 
     <string name="setting_title_necessary">必开选项</string>

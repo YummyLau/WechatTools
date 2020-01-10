@@ -41,7 +41,7 @@ class PacketList : RecyclerView {
 class PacketAdapter : RecyclerView.Adapter<PacketHolder> {
 
     private var context: Context? = null
-    private val packetList: ArrayList<PacketRecord> = ArrayList<PacketRecord>()
+    private val packetList: ArrayList<PacketRecord> = ArrayList()
 
     constructor(context: Context) : super() {
         this.context = context
@@ -89,6 +89,6 @@ class PacketHolder : RecyclerView.ViewHolder {
         val time = ToolUtil.getTimeShowString(packetRecord.time)
         val userName = packetRecord.postUser
         val num = packetRecord.num.toString() + "¥"
-        tip!!.setText("$time 抢了 $userName $num")
+        tip!!.text = "$time 抢了 $userName $num"
     }
 }

@@ -2,7 +2,8 @@ package com.effective.android.wxrp
 
 object Constants {
 
-    val logTag = "wxrp"
+    @JvmStatic
+    val logTag = "红包插件"
 
     @JvmStatic
     val weChatPackageName = "com.tencent.mm"                               // 微信包名

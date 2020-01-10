@@ -82,7 +82,7 @@ object AccessibilityUtil {
     fun clickView(nodeInfo: AccessibilityNodeInfo, viewID: String) {
         Logger.i(TAG, "clickView ")
         val nodeInfoList = nodeInfo.findAccessibilityNodeInfosByViewId(viewID)
-        if (!nodeInfoList.isEmpty()) {
+        if (nodeInfoList.isNotEmpty()) {
             if (nodeInfoList[0].isClickable) {
                 nodeInfoList[0].performAction(AccessibilityNodeInfo.ACTION_CLICK)
                 Logger.i(TAG, "clickView success!")
