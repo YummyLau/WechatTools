@@ -18,38 +18,56 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ScrollView
+        android:id="@+id/tipContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/historyLayout"
         android:layout_below="@+id/title"
         android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:lineSpacingExtra="5dp"
-        android:text="@string/setting_get_user_name_question"
-        android:textColor="@color/colorThemeText"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="15dp"
+        android:fillViewport="true">
 
-    <View
-        android:id="@+id/imageTip"
-        android:layout_width="180dp"
-        android:layout_height="231dp"
-        android:layout_below="@+id/tip"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/ic_step_two" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/setting_get_user_name_question"
+                android:textColor="@color/colorThemeText"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/imageTip"
+                android:layout_width="180dp"
+                android:layout_height="231dp"
+                android:layout_below="@+id/tip"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ic_step_two" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/historyLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageTip"
+        android:layout_above="@+id/getUserName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/historyNameTip"
