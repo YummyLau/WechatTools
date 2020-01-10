@@ -21,7 +21,7 @@
 
 扫一扫下载最新apk
 
-<img src="./readme/qrcode.jpeg" width = "280" height = "280" alt="图片名称"/>
+<img src="./readme/qrcode.png" width = "280" height = "280" alt="图片名称"/>
 
 **效果展示**
 
