@@ -19,11 +19,7 @@
 
 **下载二维码*
 
-由于互联网禁止apk上传生成二维码, 文件存于百度云盘, 建议使用浏览器扫描。(支持 7.0.0，7.0.3，7.0.10)
-
-[1.0.1版本下载地址](https://pan.baidu.com/s/1C3MfWFQHtql_7WoIq62RQg)   提取码: 14r6
-
-或者使用微信扫一扫获取文件
+扫一扫下载最新apk
 
 <img src="./readme/qrcode.jpeg" width = "280" height = "280" alt="图片名称"/>
 
