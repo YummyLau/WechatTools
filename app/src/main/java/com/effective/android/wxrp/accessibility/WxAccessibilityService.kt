@@ -11,6 +11,9 @@ import com.effective.android.wxrp.version.VersionManager
 import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.ToolUtil
 
+/**
+ * 每一次打开插件设置，都是一条新的service
+ */
 class WxAccessibilityService : AccessibilityService() {
 
     companion object {
