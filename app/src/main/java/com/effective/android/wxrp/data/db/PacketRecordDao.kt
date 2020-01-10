@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface PacketRecordDao {
 
-    @Query("SELECT * from packetRecord")
+    @Query("SELECT * from packetRecord order by time desc")
     fun getAll(): List<PacketRecord>
 
     @Insert(onConflict = REPLACE)

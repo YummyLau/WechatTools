@@ -19,8 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:ellipsize="end"
-        android:maxLines="1"
         android:textColor="@color/colorTextSecondary"
         android:textSize="15sp"
         tools:text="2019/01/19 12:30 抢到 yummylau 0.52 ¥" />
