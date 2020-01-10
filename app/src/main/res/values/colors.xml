@@ -24,8 +24,7 @@
     <color name="setting_more_tip_color">#4c4345</color>
     <color name="setting_select_stroke_color">#242021</color>
 
-    <color name="colorPagerOne">#F0D16D</color>
-    <color name="colorPagerTwo">#DA807A</color>
-    <color name="colorPagerThree">#E9DBDA</color>
+    <color name="colorPagerCheckAccessibility">#F0D16D</color>
+    <color name="colorPagerGetWxNick">#DA807A</color>
 
 </resources>

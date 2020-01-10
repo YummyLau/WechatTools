@@ -7,7 +7,7 @@ import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.RpApplication
 import com.effective.android.wxrp.data.db.PacketRecord
 import com.effective.android.wxrp.data.db.PacketRepository
-import com.effective.android.wxrp.data.sp.Config
+import com.effective.android.wxrp.data.sp.LocalizationHelper
 import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.utils.singleArgViewModelFactory
 import com.effective.android.wxrp.version.VersionManager
@@ -38,7 +38,7 @@ class MainVm(private val repository: PacketRepository) : ViewModel() {
     private fun toCheckoutStepBeforeStatus(position: Int): Int {
         val stepOneFinish = VersionManager.versionInfo != null
         val stepTwoFinish = ToolUtil.isServiceRunning(RpApplication.instance(), Constants.applicationName + "." + Constants.accessibilityClassName)
-        val stepThreeFinish = !TextUtils.isEmpty(Config.getUserWxName())
+        val stepThreeFinish = !TextUtils.isEmpty(LocalizationHelper.getConfigName())
         return when (position) {
             1 -> {
                 if (stepOneFinish) 2 else 1

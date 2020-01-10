@@ -5,7 +5,8 @@ import android.app.Service
 import android.content.Intent
 import android.view.accessibility.AccessibilityEvent
 import com.effective.android.wxrp.R
-import com.effective.android.wxrp.data.sp.Config
+import com.effective.android.wxrp.data.sp.LocalizationHelper
+import com.effective.android.wxrp.data.sp.SettingConfig
 import com.effective.android.wxrp.version.VersionManager
 import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.ToolUtil
@@ -32,7 +33,7 @@ class WxAccessibilityService : AccessibilityService() {
             return
         }
 
-        if (!Config.switcher) {
+        if (!LocalizationHelper.isSupportPlugin()) {
             return
         }
 

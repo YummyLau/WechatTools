@@ -5,11 +5,10 @@ import android.os.HandlerThread
 import android.os.Message
 import android.text.TextUtils
 import android.view.accessibility.AccessibilityNodeInfo
-import android.widget.ImageView
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.RpApplication
-import com.effective.android.wxrp.data.sp.Config
 import com.effective.android.wxrp.data.db.PacketRecord
+import com.effective.android.wxrp.data.sp.LocalizationHelper
 import com.effective.android.wxrp.utils.AccessibilityUtil
 import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.NodeUtil
@@ -105,7 +104,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
     }
 
     private fun sendGetPacketMsg(nodeInfo: AccessibilityNodeInfo) {
-        var delayedTime = Config.getDelayTime(false)
+        var delayedTime = LocalizationHelper.getDelayTime(false)
         if (delayedTime > 0) {
             delayedTime /= 2
         }
@@ -117,7 +116,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
      * 添加打开红包，用于点击开打开红包
      */
     private fun sendOpenPacketMsg(nodeInfo: AccessibilityNodeInfo) {
-        var delayedTime = Config.getDelayTime(false)
+        var delayedTime = LocalizationHelper.getDelayTime(false)
         if (delayedTime > 0) {
             delayedTime /= 2
         }
@@ -182,7 +181,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                 }
 
                 if (filterHomeTabPage(rootNode)) {
-                    if (Config.isOpenGetSelfPacket() && VersionManager.currentSelfPacketStatus == VersionManager.W_openedPayStatus) {
+                    if (LocalizationHelper.isSupportGettingSelfPacket() && VersionManager.currentSelfPacketStatus == VersionManager.W_openedPayStatus) {
                         VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_intoChatDialogStatus)
                         getPacket(rootNode, true)
                     } else {
@@ -194,7 +193,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             //红包页面
             VersionManager.packetReceiveClass() -> {
                 Logger.i(TAG, "dealWindowStateChanged className: 当前已打开红包")
-                if (Config.isOpenGetSelfPacket() && VersionManager.currentSelfPacketStatus == VersionManager.W_intoChatDialogStatus) {
+                if (LocalizationHelper.isSupportGettingSelfPacket()  && VersionManager.currentSelfPacketStatus == VersionManager.W_intoChatDialogStatus) {
                     if (openPacket(rootNode)) {
                         VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_gotSelfPacketStatus)
                     }
@@ -309,15 +308,8 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         if (tabTitle.isEmpty()) {
             return false
         }
-
-        if(!TextUtils.isEmpty(VersionManager.homeUserPagerAvatarId())){
-            val avatar = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.homeUserPagerAvatarId())               //会话item
-            if(avatar is ImageView){
-                Config.setUserWxAvatar(avatar.drawable)
-            }
-        }
         val actionText = tabTitle[0].text
-        val replaceable = Config.setUserWxName(actionText.toString())
+        val replaceable = LocalizationHelper.setConfigName(actionText.toString())
         if (replaceable) {
             ToolUtil.toast(RpApplication.instance(), "已获取昵称 $actionText")
         }
@@ -379,11 +371,11 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
      * 适用于聊天会话，聊天对话
      */
     private fun isSelfNode(avatarList: List<AccessibilityNodeInfo>, currentIndex: Int): Boolean {
-        if (Config.getUserWxName().isEmpty() || avatarList.isEmpty() || avatarList.size <= currentIndex) {
+        if (LocalizationHelper.getConfigName().isEmpty() || avatarList.isEmpty() || avatarList.size <= currentIndex) {
             return false
         }
         val contentDescription = avatarList[currentIndex].contentDescription
-        val result = contentDescription.contains(Config.getUserWxName())
+        val result = contentDescription.contains(LocalizationHelper.getConfigName())
         Logger.i(TAG, "isSelfNode($currentIndex) ： $result , 节点名称为$contentDescription")
         return result
     }
@@ -398,7 +390,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             return false
         }
         val packetText = nodes[0].text.toString()
-        val result = Config.isOpenFilterTag() && isContainKeyWords(Config.filterTags, packetText)
+        val result = LocalizationHelper.isSupportFilter() && isContainKeyWords(LocalizationHelper.getFilterTag(), packetText)
         Logger.i(TAG, "handleKeyWords  ： $result  当前节点包含（$packetText)")
         return result
     }
@@ -488,7 +480,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                 //如果是自己的节点
                 //如果当前节点不是群聊，则过滤
                 //如果当前节点不没有开启强群的红包，则过滤
-                if (isSelfNode(avatarList, i) && (!isGroupNode(pageTitle) || !Config.isOpenGetSelfPacket())) {
+                if (isSelfNode(avatarList, i) && (!isGroupNode(pageTitle) || !LocalizationHelper.isSupportGettingSelfPacket() )) {
                     continue
                 }
 

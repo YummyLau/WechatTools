@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.effective.android.wxrp.R
 import com.effective.android.wxrp.RpApplication
-import com.effective.android.wxrp.data.sp.Config
+import com.effective.android.wxrp.data.sp.LocalizationHelper
 import com.effective.android.wxrp.view.activity.MainActivity
 import com.effective.android.wxrp.view.activity.SettingActivity
 import com.effective.android.wxrp.view.fragment.base.BaseFragment
@@ -40,20 +40,20 @@ class RunningFragment : BaseFragment() {
     }
 
     private fun initView() {
-        nick.text = Config.getUserWxName()
-        avatar.background = Config.getUserWxAvatar()
+        nick.text = LocalizationHelper.getConfigName()
+        avatar.background = LocalizationHelper.getConfigAvatar()
         status.text = context?.getString(R.string.running_to_stop)
         switcher.isSelected = true
 
         switcher.setOnClickListener {
             if (switcher.isSelected) {
-                Config.switcher = false
+                LocalizationHelper.supportPlugin(false)
                 status.text = context?.getString(R.string.running_to_start)
                 switcher.isSelected = false
             } else {
                 status.text = context?.getString(R.string.running_to_stop)
                 switcher.isSelected = true
-                Config.switcher = true
+                LocalizationHelper.supportPlugin(true)
             }
         }
 

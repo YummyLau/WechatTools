@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">微信红包</string>
+    <string name="app_name">微信红包插件</string>
     <string name="setting_name">高级配置</string>
 
     <string name="step_one_get_we_chat_version_error">读取微信版本失败, 请联系开发人员！ (WeChat: pursuit_of_720)</string>
@@ -13,29 +13,19 @@
     <string name="accessibility_service_interrupt">插件服务被中断</string>
     <string name="accessibility_service_connected">插件服务已连接</string>
 
-
-    <string name="setting_title_necessary">必开选项</string>
-    <string name="setting_open_accessibility_tip">已开启自动模拟点击服务</string>
-    <string name="setting_close_accessibility_tip">检测到当前未开启模拟点击服务</string>
-    <string name="setting_get_user_name_tip">已获取微信昵称</string>
-    <string name="setting_lost_user_name_tip">检测到当前未获取微信昵称</string>
     <string name="setting_open_action">前往开启</string>
     <string name="setting_get_action">前往获取</string>
-    <string name="setting_get_again_action">重新获取</string>
-    <string name="setting_get_user_name_question">Step2: 点击下方按钮 [前往获取]，停留在 "微信-我" 后自动获取微信昵称，如上图所示</string>
-    <string name="setting_get_accessibility">Step1: 点击下方按钮 [前往开启] 跳转到插件管理页面，进入 "微信红包插件" 配置操作，如上图所示</string>
-
-    <string name="setting_accessibility_tip">开启自动模拟点击行为（必须）</string>
-    <string name="setting_more_tip">插件正在运行...更多高级配置请点击右上角设置</string>
-
-    <string name="setting_notification_tip">开启通知栏红包消息追踪</string>
+    <string name="setting_get_user_name_question">特别说明: 该数据用于识别聊天会话中红包是否是自己发送的，插件把该数据当作使用者微信昵称。 \n 点击下方【前往获取】按钮跳转微信，停留在 \"首页\" 后自动获取微信昵称，如下图所示切换到 \"我\"。\n 若存在已有读取数据，则可以点击【使用该昵称】按钮完成配置。</string>
+    <string name="setting_get_user_name_by_history">已有昵称: %1$s</string>
+    <string name="setting_get_user_name_by_history_btn">使用该昵称</string>
+    <string name="setting_get_user_name_question_title">[微信昵称读取]</string>
+    <string name="setting_get_accessibility">点击下方【前往开启】按钮到插件管理页面，进入 \"微信红包插件\" 配置页面操作，如下图所示。</string>
+    <string name="setting_get_accessibility_title">[插件权限获取]</string>
     <string name="setting_get_self_tip">开启群聊抢自己发送的红包</string>
     <string name="setting_filter_tip">开启过滤特定关键字红包</string>
     <string name="setting_delay_tip">开启延迟服务</string>
 
 
-    <string name="setting_user_name_tip">微信昵称, 用于支持过滤自身信息</string>
-    <string name="setting_title_unnecessary">可选项</string>
 
     <string name="delay_type">延迟类型</string>
     <string name="delay_fixation_message">固定延迟毫秒数</string>
