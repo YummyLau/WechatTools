@@ -84,12 +84,6 @@ class RunningFragment : BaseFragment() {
         open1.setOnClickListener {
             checkPermission()
         }
-        hide1.setOnClickListener {
-            EasyFloat.hideAppFloat()
-        }
-        show1.setOnClickListener {
-            EasyFloat.showAppFloat()
-        }
         dismiss1.setOnClickListener {
             EasyFloat.dismissAppFloat()
         }
