@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlContent"
+    android:layout_width="180dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/sh_dialog_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/main_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="首页"
+            android:layout_margin="5dp"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_fail_after" />
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@+id/getSelf_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:id="@+id/getSelfy_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="群聊抢自己"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/setting_tip_size" />
+
+        <View
+            android:id="@+id/getSelf_select"
+            android:layout_width="@dimen/setting_icon_size"
+            android:layout_height="@dimen/setting_icon_size"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/se_setting" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/filter_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:id="@+id/filter_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="过滤关键字"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/setting_tip_size" />
+
+        <View
+            android:id="@+id/filter_select"
+            android:layout_width="@dimen/setting_icon_size"
+            android:layout_height="@dimen/setting_icon_size"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/se_setting" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/avatar"
+            android:layout_marginBottom="10dp"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="[插件运行中]" />
+
+        <View
+            android:id="@+id/switcher"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/avatar"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="2dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/se_switcher" />
+    </RelativeLayout>
+</LinearLayout>

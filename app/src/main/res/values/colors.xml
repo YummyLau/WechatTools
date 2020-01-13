@@ -28,4 +28,6 @@
     <color name="colorPagerTwo">#DA807A</color>
     <color name="colorPagerThree">#E9DBDA</color>
 
+    <color name="white">#FFFFFF</color>
+    <color name="translucent">#AAFFFFCC</color>
 </resources>
