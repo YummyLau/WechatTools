@@ -193,7 +193,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             //红包页面
             VersionManager.packetReceiveClass() -> {
                 Logger.i(TAG, "dealWindowStateChanged className: 当前已打开红包")
-                if (LocalizationHelper.isSupportGettingSelfPacket()  && VersionManager.currentSelfPacketStatus == VersionManager.W_intoChatDialogStatus) {
+                if (LocalizationHelper.isSupportGettingSelfPacket() && VersionManager.currentSelfPacketStatus == VersionManager.W_intoChatDialogStatus) {
                     if (openPacket(rootNode)) {
                         VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_gotSelfPacketStatus)
                     }
@@ -278,6 +278,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             isGotPacket = true
             VersionManager.isClickedNewMessageList = false
             VersionManager.isGotPacket = false
+            return
         }
 
         //如果不是首页，则默认不需要点击会话或者获取红包
@@ -385,16 +386,25 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
      * 适用于聊天会话，聊天对话
      * 过滤特定节点，如果包含关键字的话
      */
-    private fun handleKeyWords(nodes: List<AccessibilityNodeInfo>): Boolean {
+    private fun hasPacketKeyWords(nodes: List<AccessibilityNodeInfo>): Boolean {
         if (nodes.isEmpty()) {
             return false
         }
         val packetText = nodes[0].text.toString()
         val result = LocalizationHelper.isSupportFilterPacket() && isContainKeyWords(LocalizationHelper.getFilterPacketTag(), packetText)
-        Logger.i(TAG, "handleKeyWords  ： $result  当前节点包含（$packetText)")
+        Logger.i(TAG, "hasPacketKeyWords  ： $result  当前节点包含（$packetText)")
         return result
     }
 
+    private fun hasConversationKeyWords(nodes: List<AccessibilityNodeInfo>): Boolean {
+        if (nodes.isEmpty()) {
+            return false
+        }
+        val packetText = nodes[0].text.toString()
+        val result = LocalizationHelper.isSupportFilterConversation() && isContainKeyWords(LocalizationHelper.getFilterConversationTag(), packetText)
+        Logger.i(TAG, "hasConversationKeyWords  ： $result  当前节点包含（$packetText)")
+        return result
+    }
 
     /**
      * 是否包含某些关键字
@@ -433,14 +443,24 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         var result = false
         val dialogList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemId())               //会话item
 
-//        val TitleList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId)          //会话名字
+
+
         if (dialogList.isNotEmpty()) {
             for (i in dialogList.indices.reversed()) {
 
                 val messageTextList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemMessageId())  //会话内容
+                val TitleList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId())            //会话名字
+
+
                 if (isRedPacketNode(messageTextList)) {
+
+                    //是否过滤会话
+                    if(hasConversationKeyWords(TitleList)){
+                        continue
+                    }
+
                     //是否需要过滤关键字
-                    if (handleKeyWords(messageTextList)) {
+                    if (hasPacketKeyWords(messageTextList)) {
                         continue
                     }
 
@@ -480,7 +500,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                 //如果是自己的节点
                 //如果当前节点不是群聊，则过滤
                 //如果当前节点不没有开启强群的红包，则过滤
-                if (isSelfNode(avatarList, i) && (!isGroupNode(pageTitle) || !LocalizationHelper.isSupportGettingSelfPacket() )) {
+                if (isSelfNode(avatarList, i) && (!isGroupNode(pageTitle) || !LocalizationHelper.isSupportGettingSelfPacket())) {
                     continue
                 }
 
@@ -492,7 +512,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
 
                 //过滤关键词
                 val messageList = packetList[i].findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketMessageId())
-                if (handleKeyWords(messageList)) {
+                if (hasPacketKeyWords(messageList)) {
                     continue
                 }
 
