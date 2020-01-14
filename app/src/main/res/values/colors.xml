@@ -27,4 +27,6 @@
     <color name="colorPagerCheckAccessibility">#F0D16D</color>
     <color name="colorPagerGetWxNick">#DA807A</color>
 
+    <color name="white">#FFFFFF</color>
+    <color name="translucent">#AAFFFFCC</color>
 </resources>
