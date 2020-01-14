@@ -1,115 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rlContent"
-    android:layout_width="180dp"
-    android:layout_height="wrap_content"
-    android:background="@drawable/sh_dialog_bg"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:id="@+id/floatEntrance"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/sh_float_entrance">
 
-        <TextView
-            android:id="@+id/main_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="首页"
-            android:layout_margin="5dp"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="17sp" />
+        <View
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_float_app" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/floatContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sh_float_content"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
-            android:id="@+id/ivClose"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_fail_after" />
-    </RelativeLayout>
+            android:id="@+id/chooseContentBack"
+            android:layout_width="50dp"
+            android:layout_height="38dp"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_float_content_back" />
 
+        <RelativeLayout
+            android:id="@+id/runningChoose"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp">
 
-    <FrameLayout
-        android:id="@+id/getSelfPacket"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/float_running_choose"
+                android:textColor="@color/colorThemeText"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="13dp"
+                android:background="@drawable/se_float_action" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/getSelfChoose"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/float_get_self_choose"
+                android:textColor="@color/colorThemeText"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="13dp"
+                android:background="@drawable/se_float_action" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/filterConversationChoose"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/float_filter_conversation_choose"
+                android:textColor="@color/colorThemeText"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="13dp"
+                android:background="@drawable/se_float_action" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/filterPacketChoose"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/float_filter_packet_choose"
+                android:textColor="@color/colorThemeText"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="13dp"
+                android:background="@drawable/se_float_action" />
+        </RelativeLayout>
+
 
         <TextView
-            android:id="@+id/getSelfPackettip"
-            android:layout_width="wrap_content"
+            android:id="@+id/more"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="群聊抢自己"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/setting_tip_size" />
-
-        <View
-            android:id="@+id/getSelfPacketAction"
-            android:layout_width="@dimen/setting_icon_size"
-            android:layout_height="@dimen/setting_icon_size"
-            android:layout_gravity="end|center_vertical"
-            android:background="@drawable/se_setting" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/filterPacket"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
-
-        <TextView
-            android:id="@+id/filterPacketTip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="过滤关键字"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/setting_tip_size" />
-
-        <View
-            android:id="@+id/filterPacketAction"
-            android:layout_width="@dimen/setting_icon_size"
-            android:layout_height="@dimen/setting_icon_size"
-            android:layout_gravity="end|center_vertical"
-            android:background="@drawable/se_setting" />
-    </FrameLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/avatar"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="10dp"
-            android:layout_centerVertical="true"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:text="[插件运行中]" />
+            android:background="@drawable/sh_float_more_action"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="@string/float_more"
+            android:textColor="@color/colorThemeText"
+            android:textSize="15sp" />
 
-        <View
-            android:id="@+id/switcher"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignBottom="@+id/avatar"
-            android:layout_marginStart="15dp"
-            android:layout_marginBottom="2dp"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/se_switcher" />
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

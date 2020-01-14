@@ -29,6 +29,11 @@
     <string name="setting_filter_tip">是否过滤特定关键字红包</string>
     <string name="setting_delay_tip">延迟抢红包服务</string>
 
+    <string name="float_running_choose">运行插件</string>
+    <string name="float_get_self_choose">抢自己红包</string>
+    <string name="float_filter_conversation_choose">过滤会话</string>
+    <string name="float_filter_packet_choose">过滤红包</string>
+    <string name="float_more">更多设置</string>
 
     <string name="delay_type">延迟类型</string>
     <string name="delay_fixation_message">固定延迟毫秒数</string>

@@ -29,4 +29,6 @@
 
     <color name="white">#FFFFFF</color>
     <color name="translucent">#AAFFFFCC</color>
+    <color name="float_bg">#DD000000</color>
+    <color name="float_entrance_bg">#F0D16D</color>
 </resources>
