@@ -23,6 +23,9 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
+        maven {
+            url 'https://dl.bintray.com/crab/baidu'
+        }
     }
 }
 

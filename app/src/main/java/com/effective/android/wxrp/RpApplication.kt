@@ -3,6 +3,7 @@ package com.effective.android.wxrp
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.baidu.crabsdk.CrabSDK
 import com.effective.android.wxrp.data.db.PacketRecordDataBase
 import com.effective.android.wxrp.data.db.PacketRepository
 import com.effective.android.wxrp.data.sp.LocalizationHelper
@@ -43,5 +44,6 @@ class RpApplication : Application() {
         database = PacketRecordDataBase.getInstance(this)
         packetRepository = PacketRepository(database!!.packetRecordDao())
         LocalizationHelper.init()
+        CrabSDK.init(this,"4f787defe54b561a")
     }
 }

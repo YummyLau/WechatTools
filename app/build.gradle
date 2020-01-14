@@ -68,4 +68,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
 
     implementation 'com.github.princekin-f:EasyFloat:1.2.7'
+    
+    //crab线上监听
+    implementation 'crab.baidu.crabsdk:crabsdk:7.5.0@aar'
+    implementation 'crab.baidu.crabndk:crabndk:3.2.0@aar'
 }
