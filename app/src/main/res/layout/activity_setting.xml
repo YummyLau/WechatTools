@@ -36,6 +36,78 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/openPlugin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:id="@+id/pluginStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/setting_to_stop_action"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="@dimen/setting_tip_size" />
+
+        <View
+            android:id="@+id/pluginAction"
+            android:layout_width="@dimen/setting_icon_size"
+            android:layout_height="@dimen/setting_icon_size"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/se_setting" />
+    </FrameLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorTextThird" />
+
+
+    <FrameLayout
+        android:id="@+id/supportFloatBtn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:id="@+id/supportFloatBtnTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/setting_to_float_btn_open"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="@dimen/setting_tip_size" />
+
+        <View
+            android:id="@+id/floatAction"
+            android:layout_width="@dimen/setting_icon_size"
+            android:layout_height="@dimen/setting_icon_size"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/se_setting" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorTextThird" />
+
+    <FrameLayout
         android:id="@+id/getSelf_setting"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height"
@@ -63,10 +135,10 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="20dp"
+        android:layout_height="1px"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginBottom="5dp"
         android:background="@color/colorTextThird" />
 
@@ -136,10 +208,10 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="20dp"
+        android:layout_height="1px"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginBottom="5dp"
         android:background="@color/colorTextThird" />
 

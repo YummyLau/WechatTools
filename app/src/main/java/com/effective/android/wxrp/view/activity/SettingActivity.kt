@@ -24,13 +24,12 @@ import kotlinx.android.synthetic.main.activity_setting.*
 
 class SettingActivity : AppCompatActivity() {
 
-
-    val tagCache = LruCache<String, Tag>(99)
-    val currentTag = mutableListOf<Tag>()
-    var tagDialg: TagEditDialog? = null
-    var currentDelayNum: String = "-1"
-    var currentUserName: String = ""
-    var isFixationDelay = false
+    private val tagCache = LruCache<String, Tag>(99)
+    private val currentTag = mutableListOf<Tag>()
+    private var tagDialg: TagEditDialog? = null
+    private var currentDelayNum: String = "-1"
+    private var currentUserName: String = ""
+    private var isFixationDelay = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -210,6 +209,78 @@ class SettingActivity : AppCompatActivity() {
         }
         return tag
     }
+
+
+    //
+//    /**
+//     * 检测浮窗权限是否开启，若没有给与申请提示框（非必须，申请依旧是EasyFloat内部内保进行）
+//     */
+//    private fun checkPermission() {
+//        context?.let {
+//            if (PermissionUtils.checkPermission(it)) {
+//                showAppFloat()
+//            } else {
+//                AlertDialog.Builder(context)
+//                        .setMessage("使用浮窗功能，需要您授权悬浮窗权限。")
+//                        .setPositiveButton("去开启") { _, _ ->
+//                            showAppFloat()
+//                        }
+//                        .setNegativeButton("取消") { _, _ -> }
+//                        .show()
+//            }
+//        }
+//    }
+//
+//    private fun showAppFloat() {
+//        activity?.let {
+//            EasyFloat.with(it)
+//                .setShowPattern(ShowPattern.ALL_TIME)
+//                .setSidePattern(SidePattern.RESULT_SIDE)
+//                .setGravity(Gravity.CENTER)
+//                .setLayout(R.layout.float_app, OnInvokeView {
+//                    it.findViewById<TextView>(R.id.main_activity).setOnClickListener {
+//                        startActivity(Intent(context, MainActivity::class.java))
+//                    }
+//
+//                    it.findViewById<ImageView>(R.id.ivClose).setOnClickListener {
+//                        EasyFloat.dismissAppFloat()
+//                    }
+//
+//                    it.findViewById<View>(R.id.getSelf_select).setOnClickListener {
+//                        val selectStatus = it.isSelected
+//                        Config.openGetSelfPacket(!selectStatus)
+//                        it.isSelected = !selectStatus
+//                    }
+//
+//                    it.findViewById<View>(R.id.filter_select).setOnClickListener {
+//                        val filterStatus = it.isSelected
+//                        Config.openFilterTag(!filterStatus)
+//                        it.isSelected = !filterStatus
+//                    }
+//
+//                    val status1 = it.findViewById<TextView>(R.id.status)
+//                    it.findViewById<TextView>(R.id.status).text = context?.getString(R.string.running_to_stop)
+//
+//                    it.findViewById<View>(R.id.switcher).isSelected = switcher.isSelected
+//                    it.findViewById<View>(R.id.switcher).setOnClickListener {
+//                        if (it.isSelected) {
+//                            Config.switcher = false
+//                            status.text = context?.getString(R.string.running_to_start)
+//                            status1.text = context?.getString(R.string.running_to_start)
+//                            switcher.isSelected = false
+//                            it.isSelected = false
+//                        } else {
+//                            status.text = context?.getString(R.string.running_to_stop)
+//                            status1.text = context?.getString(R.string.running_to_stop)
+//                            switcher.isSelected = true
+//                            it.isSelected = true
+//                            Config.switcher = true
+//                        }
+//                    }
+//                })
+//                .show()
+//        }
+//    }
 
     override fun onStop() {
         super.onStop()

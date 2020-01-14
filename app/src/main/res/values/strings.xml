@@ -6,8 +6,7 @@
     <string name="step_one_get_we_chat_error">插件检测不到微信软件, 请安装微信！</string>
     <string name="step_one_cant_support_chat_version_error">请安装或者升级微信到对应支持的版本！(7.0.0/7.0.3/7.0.10)</string>
 
-    <string name="running_to_stop">[运行中 点击可暂停]</string>
-    <string name="running_to_start">[暂停中 点击可启动]</string>
+
 
 
     <string name="accessibility_service_interrupt">插件服务被中断</string>
@@ -21,10 +20,13 @@
     <string name="setting_get_user_name_question_title">[微信昵称读取]</string>
     <string name="setting_get_accessibility">点击下方【前往开启】按钮到插件管理页面，进入 \"微信红包插件\" 配置页面操作，如下图所示。</string>
     <string name="setting_get_accessibility_title">[插件权限获取]</string>
-    <string name="setting_get_self_tip">开启群聊抢自己发送的红包</string>
-    <string name="setting_filter_tip">开启过滤特定关键字红包</string>
-    <string name="setting_delay_tip">开启延迟服务</string>
-
+    <string name="plugin_running_status_open">插件运行中,可在设置中暂停</string>
+    <string name="plugin_running_status_close">插件已暂停,可在设置中重启</string>
+    <string name="setting_to_stop_action">是否暂停插件</string>
+    <string name="setting_to_float_btn_open">是否打开悬浮窗</string>
+    <string name="setting_get_self_tip">是否抢自己发送的红包</string>
+    <string name="setting_filter_tip">是否过滤特定关键字红包</string>
+    <string name="setting_delay_tip">延迟抢红包服务</string>
 
 
     <string name="delay_type">延迟类型</string>
