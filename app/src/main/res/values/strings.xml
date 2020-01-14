@@ -25,6 +25,7 @@
     <string name="setting_to_stop_action">是否暂停插件</string>
     <string name="setting_to_float_btn_open">是否打开悬浮窗</string>
     <string name="setting_get_self_tip">是否抢自己发送的红包</string>
+    <string name="setting_filter_conversation">是否过滤特定会话</string>
     <string name="setting_filter_tip">是否过滤特定关键字红包</string>
     <string name="setting_delay_tip">延迟抢红包服务</string>
 
@@ -37,7 +38,7 @@
     <string name="delay_none">无延迟</string>
     <string name="delay_fixation">固定延迟</string>
     <string name="delay_random">随机延迟</string>
-    <string name="tag_commit">添加过滤</string>
+    <string name="filter_commit">添加过滤</string>
     <string name="tag_empty_tip">请输入过滤内容</string>
     <string name="add_tag_tip">请添加过滤内容</string>
     <string name="cancel">取消</string>

@@ -35,295 +35,393 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/openPlugin"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/pluginStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/setting_to_stop_action"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/setting_tip_size" />
-
-        <View
-            android:id="@+id/pluginAction"
-            android:layout_width="@dimen/setting_icon_size"
-            android:layout_height="@dimen/setting_icon_size"
-            android:layout_gravity="end|center_vertical"
-            android:background="@drawable/se_setting" />
-    </FrameLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorTextThird" />
-
-
-    <FrameLayout
-        android:id="@+id/supportFloatBtn"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
-
-        <TextView
-            android:id="@+id/supportFloatBtnTip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/setting_to_float_btn_open"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/setting_tip_size" />
-
-        <View
-            android:id="@+id/floatAction"
-            android:layout_width="@dimen/setting_icon_size"
-            android:layout_height="@dimen/setting_icon_size"
-            android:layout_gravity="end|center_vertical"
-            android:background="@drawable/se_setting" />
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorTextThird" />
-
-    <FrameLayout
-        android:id="@+id/getSelf_setting"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
-
-        <TextView
-            android:id="@+id/getSelfy_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/setting_get_self_tip"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/setting_tip_size" />
-
-        <View
-            android:id="@+id/getSelf_select"
-            android:layout_width="@dimen/setting_icon_size"
-            android:layout_height="@dimen/setting_icon_size"
-            android:layout_gravity="end|center_vertical"
-            android:background="@drawable/se_setting" />
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorTextThird" />
-
-    <FrameLayout
-        android:id="@+id/filter_setting"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
-
-        <TextView
-            android:id="@+id/filter_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/setting_filter_tip"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/setting_tip_size" />
-
-        <View
-            android:id="@+id/filter_select"
-            android:layout_width="@dimen/setting_icon_size"
-            android:layout_height="@dimen/setting_icon_size"
-            android:layout_gravity="end|center_vertical"
-            android:background="@drawable/se_setting" />
-    </FrameLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/filer_tag_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
-
-        <com.cunoraz.tagview.TagView xmlns:tagview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/tag_container"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tagview:lineMargin="5dp"
-            tagview:tagMargin="5dp"
-            tagview:textPaddingBottom="5dp"
-            tagview:textPaddingLeft="8dp"
-            tagview:textPaddingRight="8dp"
-            tagview:textPaddingTop="5dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tag_commit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tag_container"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/se_btn"
-            android:gravity="center"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:text="@string/tag_commit"
-            android:textColor="@color/se_btn_color"
-            android:textSize="@dimen/setting_tip_size" />
 
-    </RelativeLayout>
+            <!-- 是否暂停插件 -->
+            <FrameLayout
+                android:id="@+id/openPlugin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorTextThird" />
+                <TextView
+                    android:id="@+id/pluginStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/setting_to_stop_action"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/setting_tip_size" />
 
-    <RelativeLayout
-        android:id="@+id/delay_setting"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
+                <View
+                    android:id="@+id/pluginAction"
+                    android:layout_width="@dimen/setting_icon_size"
+                    android:layout_height="@dimen/setting_icon_size"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/se_setting" />
+            </FrameLayout>
 
-        <TextView
-            android:id="@+id/delay_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:text="@string/setting_delay_tip"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/setting_tip_size" />
 
-        <TextView
-            android:id="@+id/delay_random"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/se_btn"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/delay_random"
-            android:textColor="@color/se_btn_color"
-            android:textSize="10sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorTextThird" />
 
-        <TextView
-            android:layout_marginEnd="5dp"
-            android:id="@+id/delay_fixation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/delay_random"
-            android:background="@drawable/se_btn"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/delay_fixation"
-            android:textColor="@color/se_btn_color"
-            android:textSize="10sp" />
 
-        <TextView
-            android:layout_marginEnd="5dp"
-            android:id="@+id/delay_none"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="100dp"
-            android:layout_toStartOf="@+id/delay_fixation"
-            android:background="@drawable/se_btn"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/delay_none"
-            android:textColor="@color/se_btn_color"
-            android:textSize="10sp" />
+            <!-- 是否开启悬浮窗 -->
+            <FrameLayout
+                android:id="@+id/supportFloatBtn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/supportFloatBtnTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/setting_to_float_btn_open"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/setting_tip_size" />
 
-    <RelativeLayout
-        android:id="@+id/delay_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
+                <View
+                    android:id="@+id/floatAction"
+                    android:layout_width="@dimen/setting_icon_size"
+                    android:layout_height="@dimen/setting_icon_size"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/se_setting" />
+            </FrameLayout>
 
-        <TextView
-            android:id="@+id/delay_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/setting_tip_size"
-            tools:text="延迟信息" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorTextThird" />
 
-        <TextView
-            android:id="@+id/delay_commit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/delay_message"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/se_btn"
-            android:gravity="center"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:text="@string/delay_edit"
-            android:textColor="@color/se_btn_color"
-            android:textSize="12sp" />
 
-        <EditText
-            android:id="@+id/delay_num"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/delay_commit"
-            android:layout_alignBottom="@+id/delay_commit"
-            android:layout_marginRight="10dp"
-            android:layout_toStartOf="@+id/delay_commit"
-            android:background="@drawable/sh_delay_num"
-            android:gravity="center"
-            android:hint="请输入延迟数"
-            android:inputType="number"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/setting_tip_size" />
+            <!-- 是否抢自己发送的红包 -->
+            <FrameLayout
+                android:id="@+id/getSelfPacket"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/getSelfPackettip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/setting_get_self_tip"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/setting_tip_size" />
+
+                <View
+                    android:id="@+id/getSelfPacketAction"
+                    android:layout_width="@dimen/setting_icon_size"
+                    android:layout_height="@dimen/setting_icon_size"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/se_setting" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorTextThird" />
+
+            <!-- 过滤会话 -->
+            <FrameLayout
+                android:id="@+id/filterConversation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
+
+                <TextView
+                    android:id="@+id/filterConversationTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/setting_filter_conversation"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/setting_tip_size" />
+
+                <View
+                    android:id="@+id/filterConversationAction"
+                    android:layout_width="@dimen/setting_icon_size"
+                    android:layout_height="@dimen/setting_icon_size"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/se_setting" />
+            </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/filerConversationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
+
+                <com.cunoraz.tagview.TagView xmlns:tagview="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/conversationContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tagview:lineMargin="5dp"
+                    tagview:tagMargin="5dp"
+                    tagview:textPaddingBottom="5dp"
+                    tagview:textPaddingLeft="8dp"
+                    tagview:textPaddingRight="8dp"
+                    tagview:textPaddingTop="5dp" />
+
+                <TextView
+                    android:id="@+id/conversationCommit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/conversationContainer"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/se_btn"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/filter_commit"
+                    android:textColor="@color/se_btn_color"
+                    android:textSize="@dimen/setting_tip_size" />
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorTextThird" />
+
+            <!-- 过滤红包关键字 -->
+            <FrameLayout
+                android:id="@+id/filterPacket"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
+
+                <TextView
+                    android:id="@+id/filterPacketTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/setting_filter_tip"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/setting_tip_size" />
+
+                <View
+                    android:id="@+id/filterPacketAction"
+                    android:layout_width="@dimen/setting_icon_size"
+                    android:layout_height="@dimen/setting_icon_size"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/se_setting" />
+            </FrameLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/filerPacketContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
+
+                <com.cunoraz.tagview.TagView xmlns:tagview="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/packetContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tagview:lineMargin="5dp"
+                    tagview:tagMargin="5dp"
+                    tagview:textPaddingBottom="5dp"
+                    tagview:textPaddingLeft="8dp"
+                    tagview:textPaddingRight="8dp"
+                    tagview:textPaddingTop="5dp" />
+
+                <TextView
+                    android:id="@+id/packetCommit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/packetContainer"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/se_btn"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/filter_commit"
+                    android:textColor="@color/se_btn_color"
+                    android:textSize="@dimen/setting_tip_size" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorTextThird" />
+
+
+            <!-- 延迟服务 -->
+            <RelativeLayout
+                android:id="@+id/delaySetting"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
+
+                <TextView
+                    android:id="@+id/delayTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/setting_delay_tip"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/setting_tip_size" />
+
+                <TextView
+                    android:id="@+id/delayRandom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/se_btn"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/delay_random"
+                    android:textColor="@color/se_btn_color"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/delayFixation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@+id/delayRandom"
+                    android:background="@drawable/se_btn"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/delay_fixation"
+                    android:textColor="@color/se_btn_color"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/delayNone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@+id/delayFixation"
+                    android:background="@drawable/se_btn"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/delay_none"
+                    android:textColor="@color/se_btn_color"
+                    android:textSize="10sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/delayContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
+
+                <TextView
+                    android:id="@+id/delayMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/setting_tip_size"
+                    tools:text="延迟信息" />
+
+                <TextView
+                    android:id="@+id/delayCommit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/delayMessage"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/se_btn"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/delay_edit"
+                    android:textColor="@color/se_btn_color"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/delayNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/delayCommit"
+                    android:layout_alignBottom="@+id/delayCommit"
+                    android:layout_marginRight="10dp"
+                    android:layout_toStartOf="@+id/delayCommit"
+                    android:background="@drawable/sh_delay_num"
+                    android:gravity="center"
+                    android:hint="请输入延迟数"
+                    android:inputType="number"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/setting_tip_size" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

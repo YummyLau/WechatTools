@@ -50,7 +50,7 @@ class SettingActivity : AppCompatActivity() {
                     return
                 }
                 val item = getTag(tag)
-                tag_container.addTag(item)
+                packetContainer.addTag(item)
             }
         })
 
@@ -74,59 +74,59 @@ class SettingActivity : AppCompatActivity() {
         back.setOnClickListener {
             finish()
         }
-        getSelf_select.setOnClickListener {
-            val selectStatus = getSelf_select.isSelected
+        getSelfPacketAction.setOnClickListener {
+            val selectStatus = getSelfPacketAction.isSelected
             LocalizationHelper.supportGettingSelfPacket(!selectStatus)
-            getSelf_select.isSelected = !selectStatus
+            getSelfPacketAction.isSelected = !selectStatus
         }
 
-        filter_select.setOnClickListener {
-            val filterStatus = filter_select.isSelected
-            filer_tag_container.visibility = if (!filterStatus) View.VISIBLE else View.GONE
+        filterPacketAction.setOnClickListener {
+            val filterStatus = filterPacketAction.isSelected
+            filerPacketContainer.visibility = if (!filterStatus) View.VISIBLE else View.GONE
             if (!filterStatus) {
-                filer_tag_container.post {
-                    tag_container.addTags(currentTag)
+                filerPacketContainer.post {
+                    packetContainer.addTags(currentTag)
                 }
             }
             LocalizationHelper.supportFilterTag(!filterStatus)
-            filter_select.isSelected = !filterStatus
+            filterPacketAction.isSelected = !filterStatus
         }
 
-        tag_commit.setOnClickListener {
+        packetCommit.setOnClickListener {
             tagDialg?.show()
         }
 
-        tag_container.setOnTagDeleteListener { p0, p1, p2 ->
-            tag_container.remove(p2)
+        packetContainer.setOnTagDeleteListener { p0, p1, p2 ->
+            packetContainer.remove(p2)
             LocalizationHelper.getFilterTag().remove(p1?.text)
         }
 
-        delay_none.setOnClickListener {
+        delayNone.setOnClickListener {
             LocalizationHelper.setDelayModel(Constants.VALUE_DELAY_CLOSE)
             initDelayState(Constants.VALUE_DELAY_CLOSE)
         }
 
-        delay_random.setOnClickListener {
+        delayRandom.setOnClickListener {
             LocalizationHelper.setDelayModel(Constants.VALUE_DELAY_RANDOM)
             initDelayState(Constants.VALUE_DELAY_RANDOM)
         }
 
-        delay_fixation.setOnClickListener {
+        delayFixation.setOnClickListener {
             LocalizationHelper.setDelayModel(Constants.VALUE_DELAY_FIXATION)
             initDelayState(Constants.VALUE_DELAY_FIXATION)
         }
 
-        delay_num.addTextChangedListener(object : TextWatcher {
+        delayNum.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isEmpty()) {
-                    delay_commit.text = this@SettingActivity.getString(R.string.delay_back)
+                    delayCommit.text = this@SettingActivity.getString(R.string.delay_back)
                 } else {
                     currentDelayNum = s.toString()
                     if (currentDelayNum.toInt() > 0 && currentDelayNum.toInt() != LocalizationHelper.getDelayTime(true)) {
-                        delay_commit.text = this@SettingActivity.getString(R.string.delay_edit)
+                        delayCommit.text = this@SettingActivity.getString(R.string.delay_edit)
                     } else {
-                        delay_commit.text = this@SettingActivity.getString(R.string.delay_back)
+                        delayCommit.text = this@SettingActivity.getString(R.string.delay_back)
                     }
                 }
             }
@@ -138,15 +138,15 @@ class SettingActivity : AppCompatActivity() {
             }
         })
 
-        delay_commit.setOnClickListener {
-            if (delay_commit.text == this.getString(R.string.delay_edit)) {
+        delayCommit.setOnClickListener {
+            if (delayCommit.text == this.getString(R.string.delay_edit)) {
                 val time = currentDelayNum.toLong()
                 LocalizationHelper.setDelayTime(time)
                 Logger.i(logTag, "提交当前修改，是否是固定延迟 ：$isFixationDelay delayTime : $time")
                 ToolUtil.toast(this, "已更新延迟时间")
             } else {
                 Logger.i(logTag, "撤销当前时间修改")
-                delay_num.setText(LocalizationHelper.getDelayTime(true).toString())
+                delayNum.setText(LocalizationHelper.getDelayTime(true).toString())
             }
         }
     }
@@ -157,43 +157,43 @@ class SettingActivity : AppCompatActivity() {
     private fun initDelayState(delayModel: Int) {
         when (delayModel) {
             Constants.VALUE_DELAY_FIXATION -> {
-                delay_none.isSelected = false
-                delay_container.visibility = View.VISIBLE
-                delay_random.isSelected = false
-                delay_fixation.isSelected = true
-                delay_message.text = this.getString(R.string.delay_fixation_message)
+                delayNone.isSelected = false
+                delayContainer.visibility = View.VISIBLE
+                delayRandom.isSelected = false
+                delayFixation.isSelected = true
+                delayMessage.text = this.getString(R.string.delay_fixation_message)
                 currentDelayNum = LocalizationHelper.getDelayTime(true).toString()
-                delay_num.setText(currentDelayNum)
-                delay_commit.isEnabled = true
+                delayNum.setText(currentDelayNum)
+                delayCommit.isEnabled = true
 
             }
             Constants.VALUE_DELAY_RANDOM -> {
-                delay_none.isSelected = false
-                delay_container.visibility = View.VISIBLE
-                delay_random.isSelected = true
-                delay_fixation.isSelected = false
-                delay_message.text = this.getString(R.string.delay_random_message)
+                delayNone.isSelected = false
+                delayContainer.visibility = View.VISIBLE
+                delayRandom.isSelected = true
+                delayFixation.isSelected = false
+                delayMessage.text = this.getString(R.string.delay_random_message)
                 currentDelayNum = LocalizationHelper.getDelayTime(true).toString()
-                delay_num.setText(currentDelayNum)
-                delay_commit.isEnabled = true
+                delayNum.setText(currentDelayNum)
+                delayCommit.isEnabled = true
 
             }
             else -> {
-                delay_none.isSelected = true
-                delay_random.isSelected = false
-                delay_fixation.isSelected = false
-                delay_container.visibility = View.GONE
+                delayNone.isSelected = true
+                delayRandom.isSelected = false
+                delayFixation.isSelected = false
+                delayContainer.visibility = View.GONE
             }
         }
     }
 
 
     private fun initState() {
-        getSelf_select.isSelected = LocalizationHelper.isSupportGettingSelfPacket()
-        filter_select.isSelected = LocalizationHelper.isSupportFilter()
-        filer_tag_container.visibility = if (filter_select.isSelected) View.VISIBLE else View.GONE
-        if (filter_select.isSelected) {
-            tag_container.addTags(currentTag)
+        getSelfPacketAction.isSelected = LocalizationHelper.isSupportGettingSelfPacket()
+        filterPacketAction.isSelected = LocalizationHelper.isSupportFilter()
+        filerPacketContainer.visibility = if (filterPacketAction.isSelected) View.VISIBLE else View.GONE
+        if (filterPacketAction.isSelected) {
+            packetContainer.addTags(currentTag)
         }
         initDelayState(LocalizationHelper.getDelayModel())
         currentUserName = LocalizationHelper.getConfigName()
@@ -285,7 +285,7 @@ class SettingActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         val newFilterTag = mutableListOf<String>()
-        val tags = tag_container.tags
+        val tags = packetContainer.tags
         for (tag in tags) {
             newFilterTag.add(tag.text)
         }

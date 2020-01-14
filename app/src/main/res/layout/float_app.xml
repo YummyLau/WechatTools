@@ -33,7 +33,7 @@
 
 
     <FrameLayout
-        android:id="@+id/getSelf_setting"
+        android:id="@+id/getSelfPacket"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height"
         android:gravity="center_vertical"
@@ -42,7 +42,7 @@
         android:paddingEnd="15dp">
 
         <TextView
-            android:id="@+id/getSelfy_tip"
+            android:id="@+id/getSelfPackettip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -51,7 +51,7 @@
             android:textSize="@dimen/setting_tip_size" />
 
         <View
-            android:id="@+id/getSelf_select"
+            android:id="@+id/getSelfPacketAction"
             android:layout_width="@dimen/setting_icon_size"
             android:layout_height="@dimen/setting_icon_size"
             android:layout_gravity="end|center_vertical"
@@ -59,7 +59,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/filter_setting"
+        android:id="@+id/filterPacket"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height"
         android:gravity="center_vertical"
@@ -68,7 +68,7 @@
         android:paddingEnd="15dp">
 
         <TextView
-            android:id="@+id/filter_tip"
+            android:id="@+id/filterPacketTip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -77,7 +77,7 @@
             android:textSize="@dimen/setting_tip_size" />
 
         <View
-            android:id="@+id/filter_select"
+            android:id="@+id/filterPacketAction"
             android:layout_width="@dimen/setting_icon_size"
             android:layout_height="@dimen/setting_icon_size"
             android:layout_gravity="end|center_vertical"

@@ -4,6 +4,6 @@
     <item android:color="@color/colorThemeText" android:state_selected="true" />
     <item android:color="@color/colorThemeText" android:state_pressed="true" />
     <item android:color="@color/colorThemeText" android:state_enabled="false" />
-    <item android:color="@color/colorTextSecondary" />
+    <item android:color="@color/colorPrimary" />
 
 </selector>
