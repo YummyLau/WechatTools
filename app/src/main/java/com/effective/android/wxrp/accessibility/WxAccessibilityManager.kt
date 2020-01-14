@@ -395,6 +395,12 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         return result
     }
 
+    private fun handleChatName(name: String): Boolean {
+        val result = LocalizationHelper.isSupportFilterConversation() && isContainKeyWords(LocalizationHelper.getFilterConversationTag(), name)
+        Logger.i(TAG, "handleChatName  ： $result  当前节点包含（$name)")
+        return result
+    }
+
 
     /**
      * 是否包含某些关键字
@@ -432,10 +438,16 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
         var result = false
         val dialogList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemId())               //会话item
+        val titleList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId())          //会话名字
 
-//        val TitleList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId)          //会话名字
         if (dialogList.isNotEmpty()) {
             for (i in dialogList.indices.reversed()) {
+
+                if (titleList.isNotEmpty() && titleList.size > i) {
+                    if (handleChatName(titleList[i].text.toString())) {
+                        continue
+                    }
+                }
 
                 val messageTextList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemMessageId())  //会话内容
                 if (isRedPacketNode(messageTextList)) {
@@ -467,6 +479,14 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         val avatarList = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemAvatatId())
         val pageTitle = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerTitleId())
         val packetList = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketId())
+
+        if (pageTitle.isNotEmpty()) {
+            for (i in pageTitle.indices.reversed()) {
+                if (handleChatName(pageTitle[i].text.toString())) {
+                    return false
+                }
+            }
+        }
 
         if (packetList.isNotEmpty()) {
             for (i in packetList.indices.reversed()) {

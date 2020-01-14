@@ -90,7 +90,7 @@ class SettingActivity : AppCompatActivity() {
         filterConversationAction.isSelected = LocalizationHelper.isSupportFilterConversation()
         filerConversationContainer.visibility =
                 if (filterConversationAction.isSelected) {
-                    packetContainer.addTags(currentFilterPacket)
+                    conversationContainer.addTags(currentFilterConversation)
                     View.VISIBLE
                 } else View.GONE
 
