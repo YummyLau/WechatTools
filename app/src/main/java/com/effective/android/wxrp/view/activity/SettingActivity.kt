@@ -12,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.cunoraz.tagview.Tag
 import com.effective.android.wxrp.Constants
-import com.effective.android.wxrp.Constants.logTag
 import com.effective.android.wxrp.R
 import com.effective.android.wxrp.data.sp.LocalizationHelper
-import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.utils.systemui.QMUIStatusBarHelper
 import com.effective.android.wxrp.utils.systemui.StatusbarHelper
@@ -24,12 +22,15 @@ import kotlinx.android.synthetic.main.activity_setting.*
 
 class SettingActivity : AppCompatActivity() {
 
-    private val tagCache = LruCache<String, Tag>(99)
-    private val currentTag = mutableListOf<Tag>()
-    private var tagDialg: TagEditDialog? = null
+    private val currentFilterPacket = mutableListOf<Tag>()
+    private lateinit var packetFilterAddDialog: TagEditDialog
+    private val tagPacketCache = LruCache<String, Tag>(50)
+
+    private val currentFilterConversation = mutableListOf<Tag>()
+    private lateinit var conversationFilterAddDialog: TagEditDialog
+    private val tagConversationCache = LruCache<String, Tag>(50)
+
     private var currentDelayNum: String = "-1"
-    private var currentUserName: String = ""
-    private var isFixationDelay = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,70 +38,153 @@ class SettingActivity : AppCompatActivity() {
         StatusbarHelper.setStatusBarColor(this, Color.TRANSPARENT)
         QMUIStatusBarHelper.setStatusBarLightMode(this)
         initListener()
-        initFilterView()
-        initState()
+        initData()
     }
 
-    private fun initFilterView() {
-        //编辑tag对话框
-        tagDialg = TagEditDialog(this, object : TagEditDialog.CommitListener {
+
+    private fun initData() {
+
+        pluginAction.isSelected = LocalizationHelper.isSupportPlugin()
+        floatAction.isSelected = LocalizationHelper.isSupportFloat()
+        getSelfPacketAction.isSelected = LocalizationHelper.isSupportGettingSelfPacket()
+
+        //过滤会话
+        conversationFilterAddDialog = TagEditDialog(this, object : TagEditDialog.CommitListener {
             override fun commit(tag: String) {
                 if (TextUtils.isEmpty(tag)) {
                     ToolUtil.toast(this@SettingActivity, this@SettingActivity.getString(R.string.tag_empty_tip))
                     return
                 }
-                val item = getTag(tag)
-                packetContainer.addTag(item)
+                val item = getConversationTag(tag)
+                conversationContainer.addTag(item)
             }
         })
-
-        //tag容器
-        val tagStrings = LocalizationHelper.getFilterTag()
-        tagStrings.map {
-            var tag = tagCache[it]
+        val tagConversationStrings = LocalizationHelper.getFilterConversationTag()
+        tagConversationStrings.map {
+            var tag = tagConversationCache[it]
             if (tag == null) {
                 tag = Tag(it)
                 tag.background = ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary))
                 tag.isDeletable = true
-                tagCache.put(it, tag)
+                tagConversationCache.put(it, tag)
             }
-            currentTag.add(tag)
+            currentFilterConversation.add(tag)
         }
+
+        filterConversationAction.isSelected = LocalizationHelper.isSupportFilterConversation()
+        filerConversationContainer.visibility =
+                if (filterConversationAction.isSelected) {
+                    packetContainer.addTags(currentFilterPacket)
+                    View.VISIBLE
+                } else View.GONE
+
+
+        //过滤红包关键字
+        packetFilterAddDialog = TagEditDialog(this, object : TagEditDialog.CommitListener {
+            override fun commit(tag: String) {
+                if (TextUtils.isEmpty(tag)) {
+                    ToolUtil.toast(this@SettingActivity, this@SettingActivity.getString(R.string.tag_empty_tip))
+                    return
+                }
+                val item = getPacketTag(tag)
+                packetContainer.addTag(item)
+            }
+        })
+
+        val tagPacketStrings = LocalizationHelper.getFilterPacketTag()
+        tagPacketStrings.map {
+            var tag = tagPacketCache[it]
+            if (tag == null) {
+                tag = Tag(it)
+                tag.background = ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary))
+                tag.isDeletable = true
+                tagPacketCache.put(it, tag)
+            }
+            currentFilterPacket.add(tag)
+        }
+
+        filterPacketAction.isSelected = LocalizationHelper.isSupportFilterPacket()
+        filerPacketContainer.visibility =
+                if (filterPacketAction.isSelected) {
+                    packetContainer.addTags(currentFilterPacket)
+                    View.VISIBLE
+                } else View.GONE
+
+        initDelayState(LocalizationHelper.getDelayModel())
     }
 
 
     private fun initListener() {
 
+        //返回
         back.setOnClickListener {
             finish()
         }
+
+        //暂停插件
+        pluginAction.setOnClickListener {
+            val selectStatus = it.isSelected
+            LocalizationHelper.supportPlugin(!selectStatus)
+            it.isSelected = !selectStatus
+        }
+
+        //是否打开悬浮窗
+        floatAction.setOnClickListener {
+
+        }
+
+        //是否抢自己的红包
         getSelfPacketAction.setOnClickListener {
             val selectStatus = getSelfPacketAction.isSelected
             LocalizationHelper.supportGettingSelfPacket(!selectStatus)
             getSelfPacketAction.isSelected = !selectStatus
         }
 
+        //过滤会话
+        filterConversationAction.setOnClickListener {
+            val filterStatus = filterConversationAction.isSelected
+            filerConversationContainer.visibility = if (!filterStatus) View.VISIBLE else View.GONE
+            if (!filterStatus) {
+                filerConversationContainer.post {
+                    conversationContainer.addTags(currentFilterConversation)
+                }
+            }
+            LocalizationHelper.supportFilterConversationTag(!filterStatus)
+            filterConversationAction.isSelected = !filterStatus
+        }
+
+        conversationCommit.setOnClickListener {
+            conversationFilterAddDialog.show()
+        }
+
+        conversationContainer.setOnTagDeleteListener { p0, p1, p2 ->
+            conversationContainer.remove(p2)
+            LocalizationHelper.getFilterConversationTag().remove(p1?.text)
+        }
+
+        //过滤红包关键字
         filterPacketAction.setOnClickListener {
             val filterStatus = filterPacketAction.isSelected
             filerPacketContainer.visibility = if (!filterStatus) View.VISIBLE else View.GONE
             if (!filterStatus) {
                 filerPacketContainer.post {
-                    packetContainer.addTags(currentTag)
+                    packetContainer.addTags(currentFilterPacket)
                 }
             }
-            LocalizationHelper.supportFilterTag(!filterStatus)
+            LocalizationHelper.supportFilterPacketTag(!filterStatus)
             filterPacketAction.isSelected = !filterStatus
         }
 
         packetCommit.setOnClickListener {
-            tagDialg?.show()
+            packetFilterAddDialog.show()
         }
 
         packetContainer.setOnTagDeleteListener { p0, p1, p2 ->
             packetContainer.remove(p2)
-            LocalizationHelper.getFilterTag().remove(p1?.text)
+            LocalizationHelper.getFilterPacketTag().remove(p1?.text)
         }
 
+        //延迟服务
         delayNone.setOnClickListener {
             LocalizationHelper.setDelayModel(Constants.VALUE_DELAY_CLOSE)
             initDelayState(Constants.VALUE_DELAY_CLOSE)
@@ -123,10 +207,15 @@ class SettingActivity : AppCompatActivity() {
                     delayCommit.text = this@SettingActivity.getString(R.string.delay_back)
                 } else {
                     currentDelayNum = s.toString()
-                    if (currentDelayNum.toInt() > 0 && currentDelayNum.toInt() != LocalizationHelper.getDelayTime(true)) {
-                        delayCommit.text = this@SettingActivity.getString(R.string.delay_edit)
-                    } else {
-                        delayCommit.text = this@SettingActivity.getString(R.string.delay_back)
+                    try {
+                        if (currentDelayNum.toInt() > 0 && currentDelayNum.toInt() != LocalizationHelper.getDelayTime(true)) {
+                            delayCommit.text = this@SettingActivity.getString(R.string.delay_edit)
+                        } else {
+                            delayCommit.text = this@SettingActivity.getString(R.string.delay_back)
+                        }
+                    } catch (e: Exception) {
+                        delayNum.setText("")
+                        ToolUtil.toast(this@SettingActivity, "请输入正确的延迟时间")
                     }
                 }
             }
@@ -142,10 +231,8 @@ class SettingActivity : AppCompatActivity() {
             if (delayCommit.text == this.getString(R.string.delay_edit)) {
                 val time = currentDelayNum.toLong()
                 LocalizationHelper.setDelayTime(time)
-                Logger.i(logTag, "提交当前修改，是否是固定延迟 ：$isFixationDelay delayTime : $time")
                 ToolUtil.toast(this, "已更新延迟时间")
             } else {
-                Logger.i(logTag, "撤销当前时间修改")
                 delayNum.setText(LocalizationHelper.getDelayTime(true).toString())
             }
         }
@@ -187,25 +274,25 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun initState() {
-        getSelfPacketAction.isSelected = LocalizationHelper.isSupportGettingSelfPacket()
-        filterPacketAction.isSelected = LocalizationHelper.isSupportFilter()
-        filerPacketContainer.visibility = if (filterPacketAction.isSelected) View.VISIBLE else View.GONE
-        if (filterPacketAction.isSelected) {
-            packetContainer.addTags(currentTag)
-        }
-        initDelayState(LocalizationHelper.getDelayModel())
-        currentUserName = LocalizationHelper.getConfigName()
-    }
-
-    private fun getTag(key: String): Tag {
-        var tag = tagCache[key]
+    private fun getConversationTag(key: String): Tag {
+        var tag = tagConversationCache[key]
         if (tag == null) {
             tag = Tag(key)
             tag.background = ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary))
             tag.isDeletable = true
-            tagCache.put(key, tag)
+            tagConversationCache.put(key, tag)
+        }
+        return tag
+    }
+
+
+    private fun getPacketTag(key: String): Tag {
+        var tag = tagPacketCache[key]
+        if (tag == null) {
+            tag = Tag(key)
+            tag.background = ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary))
+            tag.isDeletable = true
+            tagPacketCache.put(key, tag)
         }
         return tag
     }
@@ -284,11 +371,18 @@ class SettingActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        val newFilterTag = mutableListOf<String>()
-        val tags = packetContainer.tags
-        for (tag in tags) {
-            newFilterTag.add(tag.text)
+        val newFilterPacketTag = mutableListOf<String>()
+        val packetTags = packetContainer.tags
+        for (tag in packetTags) {
+            newFilterPacketTag.add(tag.text)
         }
-        LocalizationHelper.updateFilterTag(newFilterTag)
+        LocalizationHelper.updateFilterPacketTag(newFilterPacketTag)
+
+        val newConversationsTag = mutableListOf<String>()
+        val conversationTags = conversationContainer.tags
+        for (tag in conversationTags) {
+            newConversationsTag.add(tag.text)
+        }
+        LocalizationHelper.updateFilterConversationTag(newConversationsTag)
     }
 }

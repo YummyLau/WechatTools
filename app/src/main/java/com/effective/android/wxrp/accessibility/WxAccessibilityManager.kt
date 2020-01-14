@@ -390,7 +390,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             return false
         }
         val packetText = nodes[0].text.toString()
-        val result = LocalizationHelper.isSupportFilter() && isContainKeyWords(LocalizationHelper.getFilterTag(), packetText)
+        val result = LocalizationHelper.isSupportFilterPacket() && isContainKeyWords(LocalizationHelper.getFilterPacketTag(), packetText)
         Logger.i(TAG, "handleKeyWords  ： $result  当前节点包含（$packetText)")
         return result
     }

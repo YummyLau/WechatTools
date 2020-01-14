@@ -16,7 +16,6 @@ object LocalizationHelper {
     private const val TAG = "LocalizationHelper"
     lateinit var config: SettingConfig
     var userWxName: String = ""
-    var userWxAvatar: Drawable? = null
 
     /**
      * 必须先行调用
@@ -29,10 +28,15 @@ object LocalizationHelper {
         //群聊后去自己
         config.supportGettingSelfPacket = RpApplication.sp().getBoolean(Constants.KEY_OPEN_GET_SELF_PACKET, true)
 
-        //支持过滤
-        config.supportFilter = RpApplication.sp().getBoolean(Constants.KEY_FILTER, false)
-        val list = RpApplication.sp().getString(Constants.KEY_FILTER_DATA, Constants.VALUE_FILTER_DATA)!!.split(Constants.SPLIT_POINT).toList()
-        config.filterTags.addAll(list)
+        //支持过滤红包
+        config.supportFilterPacket = RpApplication.sp().getBoolean(Constants.KEY_FILTER_PACKET, false)
+        val filterPackets = RpApplication.sp().getString(Constants.KEY_FILTER_PACKET_DATA, Constants.VALUE_FILTER_PACKET_DATA)!!.split(Constants.SPLIT_POINT).toList()
+        config.filterPacketTags.addAll(filterPackets.filter { !TextUtils.isEmpty(it) })
+
+        //支持过滤会话
+        config.supportFilterConversation = RpApplication.sp().getBoolean(Constants.KEY_FILTER_CONVERSATION, false)
+        val filterConversations = RpApplication.sp().getString(Constants.KEY_FILTER_CONVERSATION_DATA, "")!!.split(Constants.SPLIT_POINT).toList()
+        config.filterConversationTags.addAll(filterConversations.filter { !TextUtils.isEmpty(it) })
 
         //延迟选项
         config.delayModel = RpApplication.sp().getInt(Constants.KEY_DELAY_MODEL, Constants.VALUE_DELAY_CLOSE)
@@ -52,11 +56,19 @@ object LocalizationHelper {
     }
 
     @JvmStatic
+    fun isSupportFloat() = config.openFloat
+
+    @JvmStatic
+    fun supportFloat(support: Boolean) {
+        config.openFloat = support
+    }
+
+    @JvmStatic
     fun getConfigName() = userWxName
 
     @JvmStatic
     fun setConfigName(userName: String): Boolean {
-        Logger.d(TAG,"setConfigName: $userName")
+        Logger.d(TAG, "setConfigName: $userName")
         if (!TextUtils.equals(userWxName, userName)) {
             userWxName = userName
             return RpApplication.sp().edit().putString(Constants.KEY_USER_WX_NAME, userName).commit()
@@ -75,7 +87,7 @@ object LocalizationHelper {
 
     @JvmStatic
     fun supportGettingSelfPacket(support: Boolean): Boolean {
-        Logger.d(TAG,"supportGettingSelfPacket: $support")
+        Logger.d(TAG, "supportGettingSelfPacket: $support")
         if (support != config.supportGettingSelfPacket) {
             config.supportGettingSelfPacket = support
             return RpApplication.sp().edit().putBoolean(Constants.KEY_OPEN_GET_SELF_PACKET, support).commit()
@@ -86,7 +98,7 @@ object LocalizationHelper {
 
     @JvmStatic
     fun setDelayTime(delayTime: Long): Boolean {
-        Logger.d(TAG,"setDelayTime: $delayTime")
+        Logger.d(TAG, "setDelayTime: $delayTime")
         return when (config.delayModel) {
             Constants.VALUE_DELAY_FIXATION -> {
                 if (delayTime != config.fixationTime) {
@@ -135,7 +147,7 @@ object LocalizationHelper {
 
     @JvmStatic
     fun setDelayModel(model: Int): Boolean {
-        Logger.d(TAG,"setDelayModel: $model")
+        Logger.d(TAG, "setDelayModel: $model")
         if (model >= Constants.VALUE_DELAY_CLOSE && model <= Constants.VALUE_DELAY_RANDOM) {
             if (model != config.delayModel) {
                 config.delayModel = model
@@ -146,28 +158,29 @@ object LocalizationHelper {
         return false
     }
 
-    fun supportFilterTag(supportFilter: Boolean): Boolean {
-        Logger.d(TAG,"supportFilterTag : $supportFilter")
-        if (config.supportFilter != supportFilter) {
-            config.supportFilter = supportFilter
-            return RpApplication.sp().edit().putBoolean(Constants.KEY_FILTER, supportFilter).commit()
+    @JvmStatic
+    fun supportFilterConversationTag(supportFilter: Boolean): Boolean {
+        Logger.d(TAG, "supportFilterConversationTag : $supportFilter")
+        if (config.supportFilterConversation != supportFilter) {
+            config.supportFilterConversation = supportFilter
+            return RpApplication.sp().edit().putBoolean(Constants.KEY_FILTER_CONVERSATION, supportFilter).commit()
         }
         return false
     }
 
     @JvmStatic
-    fun isSupportFilter() = config.supportFilter
+    fun isSupportFilterConversation() = config.supportFilterConversation
 
     @JvmStatic
-    fun getFilterTag() = config.filterTags
+    fun getFilterConversationTag() = config.filterConversationTags
 
     @JvmStatic
-    fun updateFilterTag(mutableList: MutableList<String>): Boolean {
+    fun updateFilterConversationTag(mutableList: MutableList<String>): Boolean {
         if (mutableList.isNotEmpty()) {
             val stringBuilder = StringBuilder()
-            config.filterTags.clear()
+            config.filterConversationTags.clear()
             for (filter in mutableList) {
-                config.filterTags.add(filter)
+                config.filterConversationTags.add(filter)
                 if (stringBuilder.isEmpty()) {
                     stringBuilder.append(filter)
                 } else {
@@ -175,8 +188,45 @@ object LocalizationHelper {
                     stringBuilder.append(filter)
                 }
             }
-            Logger.d(TAG,"updateFilterTag : $stringBuilder")
-            return RpApplication.sp().edit().putString(Constants.KEY_FILTER_DATA, stringBuilder.toString()).commit()
+            Logger.d(TAG, "updateFilterConversationTag : $stringBuilder")
+            return RpApplication.sp().edit().putString(Constants.KEY_FILTER_CONVERSATION_DATA, stringBuilder.toString()).commit()
+        }
+        return false
+    }
+
+
+    @JvmStatic
+    fun supportFilterPacketTag(supportFilter: Boolean): Boolean {
+        Logger.d(TAG, "supportFilterPacketTag : $supportFilter")
+        if (config.supportFilterPacket != supportFilter) {
+            config.supportFilterPacket = supportFilter
+            return RpApplication.sp().edit().putBoolean(Constants.KEY_FILTER_PACKET, supportFilter).commit()
+        }
+        return false
+    }
+
+    @JvmStatic
+    fun isSupportFilterPacket() = config.supportFilterPacket
+
+    @JvmStatic
+    fun getFilterPacketTag() = config.filterPacketTags
+
+    @JvmStatic
+    fun updateFilterPacketTag(mutableList: MutableList<String>): Boolean {
+        if (mutableList.isNotEmpty()) {
+            val stringBuilder = StringBuilder()
+            config.filterPacketTags.clear()
+            for (filter in mutableList) {
+                config.filterPacketTags.add(filter)
+                if (stringBuilder.isEmpty()) {
+                    stringBuilder.append(filter)
+                } else {
+                    stringBuilder.append(Constants.SPLIT_POINT)
+                    stringBuilder.append(filter)
+                }
+            }
+            Logger.d(TAG, "updateFilterPacketTag : $stringBuilder")
+            return RpApplication.sp().edit().putString(Constants.KEY_FILTER_PACKET_DATA, stringBuilder.toString()).commit()
         }
         return false
     }
