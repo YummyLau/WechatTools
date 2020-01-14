@@ -14,7 +14,6 @@ import com.effective.android.wxrp.view.activity.SettingActivity
 import com.effective.android.wxrp.view.fragment.base.BaseFragment
 import com.effective.android.wxrp.view.fragment.base.OnFragmentVisibilityChangeListener
 import com.effective.android.wxrp.vm.MainVm
-import com.lzf.easyfloat.EasyFloat
 import kotlinx.android.synthetic.main.fragment_result.*
 import java.util.*
 
@@ -25,8 +24,6 @@ import java.util.*
 class RunningFragment : BaseFragment() {
 
     lateinit var vm: MainVm
-    val currentTag = ArrayList<Tag>()
-    val tagCache = LruCache<String, Tag>(99)
 
     override fun getLayoutRes(): Int = R.layout.fragment_result
 

@@ -58,7 +58,6 @@ class StepThreeGetWeChatNickFragment : BaseFragment() {
     }
 
     private fun initListener() {
-
         getUserName.setOnClickListener {
             val intent = Intent()
             val cmp = ComponentName(Constants.weChatPackageName, VersionManager.launcherClass())
