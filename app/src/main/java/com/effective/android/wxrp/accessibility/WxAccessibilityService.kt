@@ -10,6 +10,7 @@ import com.effective.android.wxrp.data.sp.SettingConfig
 import com.effective.android.wxrp.version.VersionManager
 import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.ToolUtil
+import com.lzf.easyfloat.EasyFloat
 
 /**
  * 每一次打开插件设置，都是一条新的service
@@ -64,6 +65,7 @@ class WxAccessibilityService : AccessibilityService() {
     override fun onInterrupt() {
         Logger.i(TAG, "onInterrupt")
         ToolUtil.toast(this, R.string.accessibility_service_interrupt)
+        EasyFloat.hideAppFloat(getString(R.string.float_tag))
     }
 
     override fun onServiceConnected() {
