@@ -35,7 +35,7 @@ class Version7010 : VersionInfo {
         /**
          * 聊天页面 id
          */
-        const val ID_CHAT_PAGER_ITEM = "com.tencent.mm:id/ab"                    // 聊天界面 - 聊天列表 - item
+        const val ID_CHAT_PAGER_ITEM = "com.tencent.mm:id/ab"                     // 聊天界面 - 聊天列表 - item
         const val ID_CHAT_PAGER_ITEM_AVATAR = "com.tencent.mm:id/po"              // 聊天页面 - 聊天列表 - item - 头像
         const val ID_CHAT_PAGER_ITEM_PACKET = "com.tencent.mm:id/atb"             // 聊天页面 - 聊天列表 - 红包布局
         const val ID_CHAT_PAGER_ITEM_PACKET_MESSAGE = "com.tencent.mm:id/auk"     // 聊天页面 - 聊天列表 - 红包布局 - 祝福语 "恭喜发财" 等，用户自己编辑的

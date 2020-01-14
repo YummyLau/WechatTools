@@ -406,6 +406,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         return result
     }
 
+
     /**
      * 是否包含某些关键字
      */
@@ -443,14 +444,11 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         var result = false
         val dialogList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemId())               //会话item
 
-
-
         if (dialogList.isNotEmpty()) {
             for (i in dialogList.indices.reversed()) {
 
                 val messageTextList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemMessageId())  //会话内容
                 val TitleList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId())            //会话名字
-
 
                 if (isRedPacketNode(messageTextList)) {
 
@@ -488,12 +486,18 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         val pageTitle = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerTitleId())
         val packetList = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketId())
 
+
         if (packetList.isNotEmpty()) {
             for (i in packetList.indices.reversed()) {
 
                 //过滤不是红包的
                 val flagList = packetList[i].findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketFlagId())
                 if (!isRedPacketNode(flagList, Constants.weChatPacket)) {
+                    continue
+                }
+
+                //是否过滤会话
+                if(hasConversationKeyWords(pageTitle)){
                     continue
                 }
 
