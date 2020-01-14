@@ -1,6 +1,5 @@
 package com.effective.android.wxrp.data.sp
 
-import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import com.effective.android.wxrp.Constants

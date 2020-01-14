@@ -18,6 +18,9 @@ import androidx.core.content.ContextCompat
 import com.cunoraz.tagview.Tag
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.R
+import com.effective.android.wxrp.data.sp.ConfigChangeListener
+import com.effective.android.wxrp.data.sp.ConfigHelper
+import com.effective.android.wxrp.data.sp.ConfigUpdate
 import com.effective.android.wxrp.data.sp.LocalizationHelper
 import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.utils.systemui.QMUIStatusBarHelper
@@ -30,6 +33,7 @@ import com.lzf.easyfloat.interfaces.OnInvokeView
 import com.lzf.easyfloat.permission.PermissionUtils
 import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.float_app.*
+import kotlinx.android.synthetic.main.float_app.view.*
 
 class SettingActivity : AppCompatActivity() {
 
@@ -40,8 +44,9 @@ class SettingActivity : AppCompatActivity() {
     private val currentFilterConversation = mutableListOf<Tag>()
     private lateinit var conversationFilterAddDialog: TagEditDialog
     private val tagConversationCache = LruCache<String, Tag>(50)
-
     private var currentDelayNum: String = "-1"
+    private val configUpdate = ConfigHelper.updater
+    private lateinit var configChangeListener: ConfigChangeListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,6 +132,42 @@ class SettingActivity : AppCompatActivity() {
 
     private fun initListener() {
 
+        configChangeListener = object : ConfigChangeListener {
+
+            override fun onSupportFloat(support: Boolean) {
+                floatAction.isSelected = support
+            }
+
+            override fun onSupportPlugin(support: Boolean) {
+                pluginAction.isSelected = support
+            }
+
+            override fun onSupportGetSelfPacket(support: Boolean) {
+                getSelfPacketAction.isSelected = support
+            }
+
+            override fun onSupportFilterPacket(support: Boolean) {
+                filerPacketContainer.visibility = if (support) View.VISIBLE else View.GONE
+                if (support) {
+                    filerPacketContainer.post {
+                        packetContainer.addTags(currentFilterPacket)
+                    }
+                }
+                filterPacketAction.isSelected = support
+            }
+
+            override fun onSupportFilterConversation(support: Boolean) {
+                filerConversationContainer.visibility = if (support) View.VISIBLE else View.GONE
+                if (support) {
+                    filerConversationContainer.post {
+                        conversationContainer.addTags(currentFilterConversation)
+                    }
+                }
+                filterConversationAction.isSelected = support
+            }
+        }
+        ConfigHelper.addListener(configChangeListener)
+
         //返回
         back.setOnClickListener {
             finish()
@@ -134,34 +175,26 @@ class SettingActivity : AppCompatActivity() {
 
         //暂停插件
         pluginAction.setOnClickListener {
-            val selectStatus = it.isSelected
-            LocalizationHelper.supportPlugin(!selectStatus)
-            it.isSelected = !selectStatus
+            configUpdate.supportPlugin(!it.isSelected)
         }
 
         //是否打开悬浮窗
         floatAction.setOnClickListener {
-            checkPermission()
+            if (floatAction.isSelected) {
+                EasyFloat.dismissAppFloat(getString(R.string.float_tag))
+            } else {
+                checkPermission()
+            }
         }
 
         //是否抢自己的红包
         getSelfPacketAction.setOnClickListener {
-            val selectStatus = getSelfPacketAction.isSelected
-            LocalizationHelper.supportGettingSelfPacket(!selectStatus)
-            getSelfPacketAction.isSelected = !selectStatus
+            configUpdate.supportPlugin(!it.isSelected)
         }
 
         //过滤会话
         filterConversationAction.setOnClickListener {
-            val filterStatus = filterConversationAction.isSelected
-            filerConversationContainer.visibility = if (!filterStatus) View.VISIBLE else View.GONE
-            if (!filterStatus) {
-                filerConversationContainer.post {
-                    conversationContainer.addTags(currentFilterConversation)
-                }
-            }
-            LocalizationHelper.supportFilterConversationTag(!filterStatus)
-            filterConversationAction.isSelected = !filterStatus
+            configUpdate.supportFilterConversation(!filterConversationAction.isSelected)
         }
 
         conversationCommit.setOnClickListener {
@@ -175,15 +208,7 @@ class SettingActivity : AppCompatActivity() {
 
         //过滤红包关键字
         filterPacketAction.setOnClickListener {
-            val filterStatus = filterPacketAction.isSelected
-            filerPacketContainer.visibility = if (!filterStatus) View.VISIBLE else View.GONE
-            if (!filterStatus) {
-                filerPacketContainer.post {
-                    packetContainer.addTags(currentFilterPacket)
-                }
-            }
-            LocalizationHelper.supportFilterPacketTag(!filterStatus)
-            filterPacketAction.isSelected = !filterStatus
+            configUpdate.supportFilterPacket(!filterPacketAction.isSelected)
         }
 
         packetCommit.setOnClickListener {
@@ -330,6 +355,7 @@ class SettingActivity : AppCompatActivity() {
         this.let {
             EasyFloat.with(it)
                     .setShowPattern(ShowPattern.ALL_TIME)
+                    .setTag(getString(R.string.float_tag))
                     .setSidePattern(SidePattern.RESULT_HORIZONTAL)
                     .setGravity(Gravity.END, 0, 100)
                     .setLayout(R.layout.float_app, OnInvokeView {
@@ -354,31 +380,73 @@ class SettingActivity : AppCompatActivity() {
                         }
 
                         runningChoose.setOnClickListener {
-
+                            ConfigHelper.updater.supportPlugin(!it.isSelected)
                         }
 
                         getSelfChoose.setOnClickListener {
-
+                            ConfigHelper.updater.supportGetSelfPacket(!it.isSelected)
                         }
 
                         filterConversationChoose.setOnClickListener {
-
+                            ConfigHelper.updater.supportFilterConversation(!it.isSelected)
                         }
 
                         filterPacketChoose.setOnClickListener {
-
+                            ConfigHelper.updater.supportFilterPacket(!it.isSelected)
                         }
 
                         more.setOnClickListener {
-
+                            this@SettingActivity.startActivity(Intent(this@SettingActivity, SettingActivity::class.java))
+                            entrance.visibility = View.VISIBLE
+                            chooseContent.visibility = View.GONE
                         }
                     })
                     .registerCallback {
 
+                        val changeListener = object : ConfigChangeListener {
 
+                            override fun onSupportFloat(support: Boolean) {
+                                //不需要处理
+                            }
+
+                            override fun onSupportPlugin(support: Boolean) {
+                                EasyFloat.getAppFloatView(getString(R.string.float_tag))?.findViewById<View>(R.id.runningChoose)?.isSelected = support
+                            }
+
+                            override fun onSupportGetSelfPacket(support: Boolean) {
+                                EasyFloat.getAppFloatView(getString(R.string.float_tag))?.findViewById<View>(R.id.getSelfChoose)?.isSelected = support
+                            }
+
+                            override fun onSupportFilterPacket(support: Boolean) {
+                                EasyFloat.getAppFloatView(getString(R.string.float_tag))?.findViewById<View>(R.id.filterPacketChoose)?.isSelected = support
+                            }
+
+                            override fun onSupportFilterConversation(support: Boolean) {
+                                EasyFloat.getAppFloatView(getString(R.string.float_tag))?.findViewById<View>(R.id.filterConversationChoose)?.isSelected = support
+                            }
+                        }
+
+                        createResult { b, s, view ->
+                            if(b){
+                                view?.runningChoose?.isSelected = LocalizationHelper.isSupportPlugin()
+                                view?.getSelfChoose?.isSelected = LocalizationHelper.isSupportGettingSelfPacket()
+                                view?.filterConversationChoose?.isSelected = LocalizationHelper.isSupportFilterConversation()
+                                view?.filterPacketChoose?.isSelected = LocalizationHelper.isSupportFilterPacket()
+                                ConfigHelper.updater.supportFloat(true)
+                                ConfigHelper.addListener(changeListener)
+                            }
+                        }
+
+                        dismiss {
+                            ConfigHelper.updater.supportFloat(false)
+                            ConfigHelper.removeListener(changeListener)
+                        }
                     }
                     .show()
         }
+
+
+        EasyFloat.appFloatIsShow()
     }
 
     override fun onStop() {
@@ -396,5 +464,10 @@ class SettingActivity : AppCompatActivity() {
             newConversationsTag.add(tag.text)
         }
         LocalizationHelper.updateFilterConversationTag(newConversationsTag)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ConfigHelper.removeListener(configChangeListener)
     }
 }

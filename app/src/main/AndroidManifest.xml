@@ -41,7 +41,8 @@
 
         <activity
             android:name=".view.activity.SettingActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
 
         <service
             android:name=".accessibility.WxAccessibilityService"
