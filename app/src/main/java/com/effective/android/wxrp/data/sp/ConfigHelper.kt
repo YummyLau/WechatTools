@@ -1,9 +1,25 @@
 package com.effective.android.wxrp.data.sp
 
+import com.effective.android.wxrp.RpApplication
+import com.effective.android.wxrp.utils.NotificationUtil
+import com.effective.android.wxrp.utils.ToolUtil
+
 object ConfigHelper {
 
     @JvmStatic
     val updater = object : ConfigUpdate {
+
+        override fun supportNotification(support: Boolean) {
+            var result = support
+            if (support && !NotificationUtil.isNotificationListenersEnabled(RpApplication.instance())){
+                result = false
+                ToolUtil.toast(RpApplication.instance(),"开启通知栏功能失败，请确保所有权限都开启.")
+            }
+            LocalizationHelper.supportNotification(result)
+            for (listener in listeners) {
+                listener.onSupportNotification(result)
+            }
+        }
 
         override fun supportFloat(support: Boolean) {
             LocalizationHelper.supportFloat(support)

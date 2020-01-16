@@ -6,6 +6,8 @@ interface ConfigUpdate {
 
     fun supportPlugin(support: Boolean)
 
+    fun supportNotification(support: Boolean)
+
     fun supportGetSelfPacket(support: Boolean)
 
     fun supportFilterPacket(support: Boolean)

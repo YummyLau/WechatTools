@@ -10,18 +10,18 @@ import android.text.TextWatcher
 import android.util.LruCache
 import android.view.Gravity
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.cunoraz.tagview.Tag
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.R
+import com.effective.android.wxrp.RpApplication
 import com.effective.android.wxrp.data.sp.ConfigChangeListener
 import com.effective.android.wxrp.data.sp.ConfigHelper
-import com.effective.android.wxrp.data.sp.ConfigUpdate
 import com.effective.android.wxrp.data.sp.LocalizationHelper
+import com.effective.android.wxrp.utils.NotificationUtil
 import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.utils.systemui.QMUIStatusBarHelper
 import com.effective.android.wxrp.utils.systemui.StatusbarHelper
@@ -32,7 +32,6 @@ import com.lzf.easyfloat.enums.SidePattern
 import com.lzf.easyfloat.interfaces.OnInvokeView
 import com.lzf.easyfloat.permission.PermissionUtils
 import kotlinx.android.synthetic.main.activity_setting.*
-import kotlinx.android.synthetic.main.float_app.*
 import kotlinx.android.synthetic.main.float_app.view.*
 
 class SettingActivity : AppCompatActivity() {
@@ -60,7 +59,11 @@ class SettingActivity : AppCompatActivity() {
 
     private fun initData() {
 
+        if(NotificationUtil.isNotificationListenersEnabled(RpApplication.instance())){
+            configUpdate.supportNotification(true)
+        }
         pluginAction.isSelected = LocalizationHelper.isSupportPlugin()
+        notificationAction.isSelected = LocalizationHelper.isSupportNotification()
         floatAction.isSelected = LocalizationHelper.isSupportFloat()
         getSelfPacketAction.isSelected = LocalizationHelper.isSupportGettingSelfPacket()
 
@@ -134,6 +137,10 @@ class SettingActivity : AppCompatActivity() {
 
         configChangeListener = object : ConfigChangeListener {
 
+            override fun onSupportNotification(support: Boolean) {
+                notificationAction.isSelected = support
+            }
+
             override fun onSupportFloat(support: Boolean) {
                 floatAction.isSelected = support
             }
@@ -178,12 +185,21 @@ class SettingActivity : AppCompatActivity() {
             configUpdate.supportPlugin(!it.isSelected)
         }
 
+        //通知栏
+        notificationAction.setOnClickListener {
+            if (notificationAction.isSelected) {
+                configUpdate.supportNotification(false)
+            } else {
+                checkNotificationPermission()
+            }
+        }
+
         //是否打开悬浮窗
         floatAction.setOnClickListener {
             if (floatAction.isSelected) {
                 EasyFloat.dismissAppFloat(getString(R.string.float_tag))
             } else {
-                checkPermission()
+                checkFloatPermission()
             }
         }
 
@@ -334,10 +350,26 @@ class SettingActivity : AppCompatActivity() {
     }
 
 
+    private fun checkNotificationPermission() {
+        if (NotificationUtil.isNotificationListenersEnabled(this)) {
+            configUpdate.supportNotification(true)
+            ToolUtil.toast(this, "请确保微信同时开启[接受新消息通知-显示消息详情页].")
+        } else {
+            AlertDialog.Builder(this)
+                    .setMessage("使用通知栏功能，需要您授权通知栏权限。")
+                    .setPositiveButton("去开启") { _, _ ->
+                        NotificationUtil.gotoNotificationAccessSetting(this)
+                    }
+                    .setNegativeButton("取消") { _, _ -> }
+                    .show()
+        }
+    }
+
+
     /**
      * 检测浮窗权限是否开启，若没有给与申请提示框（非必须，申请依旧是EasyFloat内部内保进行）
      */
-    private fun checkPermission() {
+    private fun checkFloatPermission() {
         if (PermissionUtils.checkPermission(this)) {
             showAppFloat()
         } else {
@@ -365,6 +397,7 @@ class SettingActivity : AppCompatActivity() {
                         val chooseContentBack = it.findViewById<View>(R.id.chooseContentBack)
                         val runningChoose = it.findViewById<View>(R.id.runningChoose)
                         val getSelfChoose = it.findViewById<View>(R.id.getSelfChoose)
+                        val notificationChoose = it.findViewById<View>(R.id.notificationChoose)
                         val filterConversationChoose = it.findViewById<View>(R.id.filterConversationChoose)
                         val filterPacketChoose = it.findViewById<View>(R.id.filterPacketChoose)
                         val more = it.findViewById<View>(R.id.more)
@@ -377,6 +410,10 @@ class SettingActivity : AppCompatActivity() {
                         chooseContentBack.setOnClickListener {
                             entrance.visibility = View.VISIBLE
                             chooseContent.visibility = View.GONE
+                        }
+
+                        notificationChoose.setOnClickListener {
+                            ConfigHelper.updater.supportNotification(!it.isSelected)
                         }
 
                         runningChoose.setOnClickListener {
@@ -409,6 +446,10 @@ class SettingActivity : AppCompatActivity() {
                                 //不需要处理
                             }
 
+                            override fun onSupportNotification(support: Boolean) {
+                                EasyFloat.getAppFloatView(getString(R.string.float_tag))?.findViewById<View>(R.id.notificationChoose)?.isSelected = support
+                            }
+
                             override fun onSupportPlugin(support: Boolean) {
                                 EasyFloat.getAppFloatView(getString(R.string.float_tag))?.findViewById<View>(R.id.runningChoose)?.isSelected = support
                             }
@@ -427,7 +468,11 @@ class SettingActivity : AppCompatActivity() {
                         }
 
                         createResult { b, s, view ->
-                            if(b){
+                            if (b) {
+                                if(NotificationUtil.isNotificationListenersEnabled(RpApplication.instance())){
+                                    ConfigHelper.updater.supportNotification(true)
+                                }
+                                view?.notificationChoose?.isSelected = LocalizationHelper.isSupportNotification()
                                 view?.runningChoose?.isSelected = LocalizationHelper.isSupportPlugin()
                                 view?.getSelfChoose?.isSelected = LocalizationHelper.isSupportGettingSelfPacket()
                                 view?.filterConversationChoose?.isSelected = LocalizationHelper.isSupportFilterConversation()

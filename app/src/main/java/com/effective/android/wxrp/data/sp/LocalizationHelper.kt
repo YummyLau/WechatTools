@@ -44,6 +44,16 @@ object LocalizationHelper {
 
         //默认打开
         config.openPlugin = true
+        config.openFloat = false
+        config.openNotificationSupport = true
+    }
+
+    @JvmStatic
+    fun isSupportNotification() = config.openNotificationSupport
+
+    @JvmStatic
+    fun supportNotification(support: Boolean) {
+        config.openNotificationSupport = support
     }
 
     @JvmStatic

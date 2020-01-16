@@ -7,6 +7,7 @@ class SettingConfig {
 
     var openPlugin = true
     var openFloat = false
+    var openNotificationSupport = false
 
     var supportFilterPacket = false
     val filterPacketTags = mutableListOf<String>()

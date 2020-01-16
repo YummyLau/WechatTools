@@ -1,15 +1,15 @@
 package com.effective.android.wxrp.accessibility
 
 import android.accessibilityservice.AccessibilityService
+import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.view.accessibility.AccessibilityEvent
 import com.effective.android.wxrp.R
 import com.effective.android.wxrp.data.sp.LocalizationHelper
-import com.effective.android.wxrp.data.sp.SettingConfig
-import com.effective.android.wxrp.version.VersionManager
 import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.ToolUtil
+import com.effective.android.wxrp.version.VersionManager
 import com.lzf.easyfloat.EasyFloat
 
 /**
@@ -47,16 +47,21 @@ class WxAccessibilityService : AccessibilityService() {
 
         Logger.i(TAG, "onAccessibilityEvent eventType =  $eventType  className = $className")
 
-        when (eventType) {
-            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                Logger.i(TAG, "窗口状态改变 className = $className")
-                accessibilityManager?.dealWindowStateChanged(className, rootNode)
-            }
-            AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                Logger.i(TAG, "窗口内容变化")
-                accessibilityManager?.dealWindowContentChanged(rootNode)
-            }
-            else -> {
+        //通知栏权限
+        if(accessibilityEvent.parcelableData != null && accessibilityEvent.parcelableData is Notification){
+            accessibilityManager?.dealNotification(accessibilityEvent)
+        }else{
+            when (eventType) {
+                AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
+                    Logger.i(TAG, "窗口状态改变 className = $className")
+                    accessibilityManager?.dealWindowStateChanged(className, rootNode)
+                }
+                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
+                    Logger.i(TAG, "窗口内容变化")
+                    accessibilityManager?.dealWindowContentChanged(rootNode)
+                }
+                else -> {
+                }
             }
         }
         rootNode?.recycle()
@@ -69,6 +74,7 @@ class WxAccessibilityService : AccessibilityService() {
     }
 
     override fun onServiceConnected() {
+        super.onServiceConnected()
         Logger.i(TAG, "onServiceConnected")
         ToolUtil.toast(this, R.string.accessibility_service_connected)
         service = this
@@ -76,7 +82,9 @@ class WxAccessibilityService : AccessibilityService() {
             accessibilityManager = WxAccessibilityManager("accessibility-handler-thread")
             accessibilityManager?.start()
         }
-        super.onServiceConnected()
+        performGlobalAction(GLOBAL_ACTION_BACK)
+        performGlobalAction(GLOBAL_ACTION_BACK)
+        performGlobalAction(GLOBAL_ACTION_BACK)
     }
 
     override fun onDestroy() {

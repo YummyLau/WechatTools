@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.effective.android.wxrp.vm.MainVm
 import com.effective.android.wxrp.RpApplication
+import com.effective.android.wxrp.utils.NotificationUtil
 import com.effective.android.wxrp.utils.systemui.QMUIStatusBarHelper
 import com.effective.android.wxrp.utils.systemui.StatusbarHelper
 import com.effective.android.wxrp.view.fragment.StepTwoCheckAccessibilityFragment
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         StatusbarHelper.setStatusBarColor(this, Color.TRANSPARENT)
         QMUIStatusBarHelper.setStatusBarLightMode(this)
         initView()
+        NotificationUtil.toggleNotificationListenerService(this)
     }
 
     private fun initView() {

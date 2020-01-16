@@ -67,6 +67,33 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/notificationChoose"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/float_notification_choose"
+                android:textColor="@color/colorThemeText"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="13dp"
+                android:background="@drawable/se_setting" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/getSelfChoose"
             android:layout_width="200dp"
             android:layout_height="wrap_content"

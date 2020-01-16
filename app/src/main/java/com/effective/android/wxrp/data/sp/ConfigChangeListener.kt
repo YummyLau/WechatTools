@@ -1,9 +1,12 @@
 package com.effective.android.wxrp.data.sp
 
 interface ConfigChangeListener {
+
     fun onSupportFloat(support: Boolean)
 
     fun onSupportPlugin(support: Boolean)
+
+    fun onSupportNotification(support: Boolean)
 
     fun onSupportGetSelfPacket(support: Boolean)
 

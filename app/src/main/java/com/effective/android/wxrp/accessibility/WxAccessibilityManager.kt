@@ -1,9 +1,11 @@
 package com.effective.android.wxrp.accessibility
 
+import android.app.Notification
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Message
 import android.text.TextUtils
+import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.RpApplication
@@ -14,7 +16,7 @@ import com.effective.android.wxrp.utils.Logger
 import com.effective.android.wxrp.utils.NodeUtil
 import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.version.VersionManager
-import java.util.ArrayList
+import java.util.*
 
 class WxAccessibilityManager(string: String) : HandlerThread(string) {
 
@@ -161,6 +163,25 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             getPacketList.add(tempGetPacketList[nodeInfoIndex[i]])
             Logger.i(TAG, "sortGetPacketList nodeInfoBottom[" + i + "] = "
                     + NodeUtil.getRectFromNodeInfo(getPacketList[i]).bottom)
+        }
+    }
+
+    fun dealNotification(event: AccessibilityEvent){
+        Logger.i(TAG, "dealNotification")
+        if (event.parcelableData != null && event.parcelableData is Notification) {
+            val notification = event.parcelableData as Notification
+            val content = notification.tickerText.toString()
+            val msg = content.split(":").toTypedArray()
+            val name = msg[0].trim { it <= ' ' }
+            val text = msg[1].trim { it <= ' ' }
+            if (text.contains(Constants.weChatPacketTip)) {
+                val pendingIntent = notification.contentIntent
+                try {
+                    pendingIntent.send()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 
