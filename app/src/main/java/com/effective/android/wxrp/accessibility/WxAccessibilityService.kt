@@ -48,20 +48,16 @@ class WxAccessibilityService : AccessibilityService() {
         Logger.i(TAG, "onAccessibilityEvent eventType =  $eventType  className = $className")
 
         //通知栏权限
-        if(accessibilityEvent.parcelableData != null && accessibilityEvent.parcelableData is Notification){
-            accessibilityManager?.dealNotification(accessibilityEvent)
-        }else{
-            when (eventType) {
-                AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                    Logger.i(TAG, "窗口状态改变 className = $className")
-                    accessibilityManager?.dealWindowStateChanged(className, rootNode)
-                }
-                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                    Logger.i(TAG, "窗口内容变化")
-                    accessibilityManager?.dealWindowContentChanged(rootNode)
-                }
-                else -> {
-                }
+        when (eventType) {
+            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
+                Logger.i(TAG, "窗口状态改变 className = $className")
+                accessibilityManager?.dealWindowStateChanged(className, rootNode)
+            }
+            AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
+                Logger.i(TAG, "窗口内容变化")
+                accessibilityManager?.dealWindowContentChanged(rootNode)
+            }
+            else -> {
             }
         }
         rootNode?.recycle()
