@@ -339,12 +339,16 @@ class SettingActivity : AppCompatActivity() {
      */
     private fun checkPermission() {
         if (PermissionUtils.checkPermission(this)) {
-            showAppFloat()
+            if(!this?.isFinishing) {
+                showAppFloat()
+            }
         } else {
             AlertDialog.Builder(this)
                     .setMessage("使用浮窗功能，需要您授权悬浮窗权限。")
                     .setPositiveButton("去开启") { _, _ ->
-                        showAppFloat()
+                        if(!this?.isFinishing) {
+                            showAppFloat()
+                        }
                     }
                     .setNegativeButton("取消") { _, _ -> }
                     .show()
