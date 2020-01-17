@@ -21,7 +21,7 @@ class DetailPageMessage(private val conversationName: String,
      * @return
      */
     private val isGroupChat: Boolean
-        get() = TextUtils.equals(conversationName, sender)
+        get() = !TextUtils.equals(conversationName, sender)
 
     /**
      * 是否是自己的消息
@@ -31,7 +31,7 @@ class DetailPageMessage(private val conversationName: String,
         get() = TextUtils.equals(sender, getConfigName())
 
     fun isClickMessage(): Boolean {
-        i("DetailPageMessage  ： conversationName($conversationName) sender($sender) packetFlag($packetFlag) packetMsg($packetMsg) packetTip($packetTip)")
+        i("DetailPageMessage  ： conversationName($conversationName) sender($sender) packetFlag($packetFlag) packetMsg($packetMsg) packetTip($packetTip) isGroupChat($isGroupChat)")
         if (ToolUtil.hasPacketTipWords(packetFlag, false)) {
             if (!TextUtils.isEmpty(packetTip)) {
                 return false

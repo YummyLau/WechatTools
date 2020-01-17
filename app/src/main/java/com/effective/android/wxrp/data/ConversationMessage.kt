@@ -26,7 +26,7 @@ class ConversationMessage(private val conversationName: String, parseContent: St
      * @return
      */
     private val isGroupChat: Boolean
-        get() = TextUtils.equals(conversationName, sender)
+        get() = !(!TextUtils.isEmpty(sender) && sender.endsWith(conversationName))
 
     /**
      * 是否是自己的消息
@@ -36,7 +36,7 @@ class ConversationMessage(private val conversationName: String, parseContent: St
         get() = TextUtils.equals(sender, getConfigName())
 
     fun isClickMessage(): Boolean {
-        i("MessageInfo  ： conversationName($conversationName) sender($sender) packet($packet) message($message)")
+        i("MessageInfo  ： conversationName($conversationName) sender($sender) packet($packet) message($message) isGroupChat($isGroupChat)")
         if (ToolUtil.hasPacketTipWords(packet)) {
             if (!ToolUtil.hasConversationKeyWords(conversationName)) {
                 if (ToolUtil.hasPassByGettingSetting(isSelfMessage, isGroupChat)) {

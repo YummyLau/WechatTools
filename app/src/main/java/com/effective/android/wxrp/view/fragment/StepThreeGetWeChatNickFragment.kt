@@ -11,6 +11,7 @@ import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.R
 import com.effective.android.wxrp.RpApplication
 import com.effective.android.wxrp.data.sp.LocalizationHelper
+import com.effective.android.wxrp.utils.ToastUtil
 import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.version.VersionManager
 import com.effective.android.wxrp.view.activity.MainActivity
@@ -69,7 +70,7 @@ class StepThreeGetWeChatNickFragment : BaseFragment() {
                 intent.component = cmp
                 startActivity(intent)
             } catch (e: ActivityNotFoundException) {
-                ToolUtil.toast(context!!, context!!.getString(R.string.step_one_cant_support_chat_version_error))
+                ToastUtil.toast(context!!, context!!.getString(R.string.step_one_cant_support_chat_version_error))
             }
         }
     }
