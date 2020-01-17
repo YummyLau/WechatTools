@@ -156,9 +156,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
     }
 
-    /**
-     * 页面切换回调
-     */
+
     fun dealWindowStateChanged(className: String, rootNode: AccessibilityNodeInfo?) {
         Logger.i(tag, "dealWindowStateChanged")
         if (rootNode == null) {
@@ -305,78 +303,6 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         return null
     }
 
-
-    private fun hasGotPacketTip(tipList: List<AccessibilityNodeInfo>): Boolean {
-        if (tipList.isEmpty()) {
-            return false
-        }
-        val actionText = tipList[0].text
-        var result = !TextUtils.isEmpty(actionText) && !actionText.isEmpty()
-        Logger.i(tag, "hasGotPacketTip ： $result, 当前红包提示($actionText)")
-        return result
-    }
-
-
-    /**
-     * 是否是群节点
-     */
-    private fun isGroupNode(pageTitle: List<AccessibilityNodeInfo>): Boolean {
-        if (pageTitle.isEmpty()) {
-            return false
-        }
-        val title = pageTitle[0].text.toString()
-        val result = !TextUtils.isEmpty(title) && title.contains("(") && title.contains(")")
-        Logger.i(tag, "isGroupNode ： $result , 会话名称为 ： $title")
-        return result
-    }
-
-    /**
-     * 适用于聊天会话，聊天对话
-     */
-    private fun isSelfNode(avatarList: List<AccessibilityNodeInfo>, currentIndex: Int): Boolean {
-        if (LocalizationHelper.getConfigName().isEmpty() || avatarList.isEmpty() || avatarList.size <= currentIndex) {
-            return false
-        }
-        val contentDescription = avatarList[currentIndex].contentDescription
-        val result = contentDescription.contains(LocalizationHelper.getConfigName())
-        Logger.i(tag, "isSelfNode($currentIndex) ： $result , 节点名称为$contentDescription")
-        return result
-    }
-
-
-    /**
-     * 适用于聊天会话，聊天对话
-     * 过滤特定节点，如果包含关键字的话
-     */
-    private fun hasPacketKeyWords(nodes: List<AccessibilityNodeInfo>): Boolean {
-        if (nodes.isEmpty()) {
-            return false
-        }
-        var packetText = nodes[0].text.toString()
-        if (packetText.contains(": ")) {
-            packetText = packetText.substring(packetText.indexOf(":"))
-        }
-        return ToolUtil.hasPacketKeyWords(packetText)
-    }
-
-    private fun hasConversationKeyWords(nodes: List<AccessibilityNodeInfo>): Boolean {
-        if (nodes.isEmpty()) {
-            return false
-        }
-        val packetText = nodes[0].text.toString()
-        return ToolUtil.hasConversationKeyWords(packetText)
-    }
-
-
-    private fun isRedPacketNode(messageList: List<AccessibilityNodeInfo>, flag: String = Constants.weChatPacketTip): Boolean {
-        if (messageList.isEmpty()) {
-            return false
-        }
-        val text = messageList[0].text.toString()
-        val result = !TextUtils.isEmpty(text) && text.contains(flag)
-        Logger.i(tag, "isRedPacketNode result = $result text($text)")
-        return result
-    }
 
 
     /**

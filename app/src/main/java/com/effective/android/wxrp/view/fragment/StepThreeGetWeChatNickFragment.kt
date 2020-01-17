@@ -1,5 +1,6 @@
 package com.effective.android.wxrp.view.fragment
 
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
@@ -59,13 +60,17 @@ class StepThreeGetWeChatNickFragment : BaseFragment() {
 
     private fun initListener() {
         getUserName.setOnClickListener {
-            val intent = Intent()
-            val cmp = ComponentName(Constants.weChatPackageName, VersionManager.launcherClass())
-            intent.action = Intent.ACTION_MAIN
-            intent.addCategory(Intent.CATEGORY_LAUNCHER)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.component = cmp
-            startActivity(intent)
+            try {
+                val intent = Intent()
+                val cmp = ComponentName(Constants.weChatPackageName, VersionManager.launcherClass())
+                intent.action = Intent.ACTION_MAIN
+                intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.component = cmp
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                ToolUtil.toast(context!!, context!!.getString(R.string.step_one_cant_support_chat_version_error))
+            }
         }
     }
 }
