@@ -26,19 +26,19 @@ class ConversationMessage(private val conversationName: String, parseContent: St
      * @return
      */
     private val isGroupChat: Boolean
-        //私聊会话没有昵称前缀，群聊会话如果是自己发的，也没有昵称前缀，这里暂时对于自己发的群聊会话当做私聊处理
-        get() = (!TextUtils.isEmpty(sender) && !sender.endsWith(conversationName))
+        //只识别群聊，当且仅当sender存在且不包含会话，则认为是一个他人发的群聊消息
+        get() = !TextUtils.isEmpty(sender) && !sender.endsWith(conversationName)
 
     /**
      * 是否是自己的消息
      * @return
      */
     private val isSelfMessage: Boolean
-        get() = (TextUtils.equals(sender, getConfigName()) || TextUtils.isEmpty(sender))
+        get() = false
 
     fun isClickMessage(): Boolean {
         val configName = getConfigName()
-        i("MessageInfo  ： conversationName($conversationName) sender($sender) configName($configName) isSelfMessage($isSelfMessage) packet($packet) message($message) isGroupChat($isGroupChat)")
+        i("MessageInfo  ： conversationName($conversationName) sender($sender) configName($configName) isSelfMessage(会话层统一为$isSelfMessage) packet($packet) message($message) isGroupChat($isGroupChat)")
         if (ToolUtil.hasPacketTipWords(packet)) {
             if (!ToolUtil.hasConversationKeyWords(conversationName)) {
                 if (ToolUtil.hasPassByGettingSetting(isSelfMessage, isGroupChat)) {
