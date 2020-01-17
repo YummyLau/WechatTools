@@ -189,7 +189,7 @@ class SettingActivity : AppCompatActivity() {
 
         //是否抢自己的红包
         getSelfPacketAction.setOnClickListener {
-            configUpdate.supportPlugin(!it.isSelected)
+            configUpdate.supportGetSelfPacket(!it.isSelected)
         }
 
         //过滤会话
