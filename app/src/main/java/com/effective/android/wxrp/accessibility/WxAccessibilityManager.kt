@@ -385,7 +385,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
         val title = pageTitle[0].text.toString()
         val result = !TextUtils.isEmpty(title) && title.contains("(") && title.contains(")")
-        Logger.i(TAG, "isGroupNode ： $result , 会话名称为$title")
+        Logger.i(TAG, "isGroupNode ： $result , 会话名称为 ： $title")
         return result
     }
 
@@ -411,7 +411,10 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         if (nodes.isEmpty()) {
             return false
         }
-        val packetText = nodes[0].text.toString()
+        var packetText = nodes[0].text.toString()
+        if (packetText.contains(": ")) {
+            packetText = packetText.substring(packetText.indexOf(":"))
+        }
         val result = LocalizationHelper.isSupportFilterPacket() && isContainKeyWords(LocalizationHelper.getFilterPacketTag(), packetText)
         Logger.i(TAG, "hasPacketKeyWords  ： $result  当前节点包含（$packetText)")
         return result
@@ -469,12 +472,12 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             for (i in dialogList.indices.reversed()) {
 
                 val messageTextList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemMessageId())  //会话内容
-                val TitleList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId())            //会话名字
+                val titleList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId())            //会话名字
 
                 if (isRedPacketNode(messageTextList)) {
 
                     //是否过滤会话
-                    if(hasConversationKeyWords(TitleList)){
+                    if(hasConversationKeyWords(titleList)){
                         continue
                     }
 
