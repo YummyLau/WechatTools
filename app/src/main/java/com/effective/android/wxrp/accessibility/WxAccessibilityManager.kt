@@ -375,8 +375,8 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
 
                 var sender = ""
                 val avatarList = packetList[i].parent.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemAvatatId())
-                if (avatarList.isNotEmpty() && i < avatarList.size) {
-                    sender = avatarList[i].contentDescription.toString()
+                if (avatarList.isNotEmpty()) {
+                    sender = avatarList[0].contentDescription.toString()
                     if (sender.isNotEmpty() && sender.endsWith("头像")) {
                         sender = sender.substring(0, sender.length - 2)
                     }
