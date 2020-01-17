@@ -364,7 +364,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
 
         val pageTitle = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerTitleId())
         var title = ""
-        if (title.isNotEmpty()) {
+        if (pageTitle.isNotEmpty()) {
             title = pageTitle[0].text.toString()
         }
 

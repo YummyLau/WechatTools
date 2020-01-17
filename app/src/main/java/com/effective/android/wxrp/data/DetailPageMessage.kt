@@ -21,7 +21,7 @@ class DetailPageMessage(private val conversationName: String,
      * @return
      */
     private val isGroupChat: Boolean
-        get() = !TextUtils.equals(conversationName, sender)
+        get() = !TextUtils.equals(conversationName, sender) && conversationName.contains("(") && conversationName.endsWith(")")
 
     /**
      * 是否是自己的消息
