@@ -95,7 +95,9 @@ object ToolUtil {
      * 私聊自己发的
      */
     fun hasPassByGettingSetting(messageBySelf: Boolean, isGroupChat: Boolean): Boolean {
-        val result = !((messageBySelf && isGroupChat && !LocalizationHelper.isSupportGettingSelfPacket()) || (messageBySelf && !isGroupChat))
+        val filterGroup = messageBySelf && isGroupChat && !LocalizationHelper.isSupportGettingSelfPacket()
+        val filterSingle = messageBySelf && !isGroupChat
+        val result = !(filterGroup || filterSingle)
         Logger.i("hasPassByGettingSetting  ： $result  当前messageBySelf（$messageBySelf) isGroupChat（$isGroupChat)")
         return result
     }

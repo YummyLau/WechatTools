@@ -31,7 +31,8 @@ class DetailPageMessage(private val conversationName: String,
         get() = TextUtils.equals(sender, getConfigName())
 
     fun isClickMessage(): Boolean {
-        i("DetailPageMessage  ： conversationName($conversationName) sender($sender) packetFlag($packetFlag) packetMsg($packetMsg) packetTip($packetTip) isGroupChat($isGroupChat)")
+        val configName = getConfigName()
+        i("DetailPageMessage  ： conversationName($conversationName) sender($sender) configName($configName) isSelfMessage($isSelfMessage) packetFlag($packetFlag) packetMsg($packetMsg) packetTip($packetTip) isGroupChat($isGroupChat)")
         if (ToolUtil.hasPacketTipWords(packetFlag, false)) {
             if (!TextUtils.isEmpty(packetTip)) {
                 return false

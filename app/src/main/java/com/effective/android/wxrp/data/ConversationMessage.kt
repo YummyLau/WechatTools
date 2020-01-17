@@ -26,17 +26,19 @@ class ConversationMessage(private val conversationName: String, parseContent: St
      * @return
      */
     private val isGroupChat: Boolean
-        get() = !(!TextUtils.isEmpty(sender) && sender.endsWith(conversationName))
+        //私聊会话没有昵称前缀，群聊会话如果是自己发的，也没有昵称前缀，这里暂时对于自己发的群聊会话当做私聊处理
+        get() = (!TextUtils.isEmpty(sender) && !sender.endsWith(conversationName))
 
     /**
      * 是否是自己的消息
      * @return
      */
     private val isSelfMessage: Boolean
-        get() = TextUtils.equals(sender, getConfigName())
+        get() = (TextUtils.equals(sender, getConfigName()) || TextUtils.isEmpty(sender))
 
     fun isClickMessage(): Boolean {
-        i("MessageInfo  ： conversationName($conversationName) sender($sender) packet($packet) message($message) isGroupChat($isGroupChat)")
+        val configName = getConfigName()
+        i("MessageInfo  ： conversationName($conversationName) sender($sender) configName($configName) isSelfMessage($isSelfMessage) packet($packet) message($message) isGroupChat($isGroupChat)")
         if (ToolUtil.hasPacketTipWords(packet)) {
             if (!ToolUtil.hasConversationKeyWords(conversationName)) {
                 if (ToolUtil.hasPassByGettingSetting(isSelfMessage, isGroupChat)) {
@@ -54,7 +56,7 @@ class ConversationMessage(private val conversationName: String, parseContent: St
             val splits = parseContent.split(":").toTypedArray()
             var others: String
             if (splits.size == 1) {
-                sender = conversationName
+                sender = ""
                 others = parseContent
             } else {
                 sender = splits[0].trim { it <= ' ' }
