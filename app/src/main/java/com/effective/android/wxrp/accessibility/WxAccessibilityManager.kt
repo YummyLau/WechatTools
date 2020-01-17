@@ -170,16 +170,20 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         Logger.i(TAG, "dealNotification")
         if (event.parcelableData != null && event.parcelableData is Notification) {
             val notification = event.parcelableData as Notification
-            val content = notification.tickerText.toString()
-            val msg = content.split(":").toTypedArray()
-            val name = msg[0].trim { it <= ' ' }
-            val text = msg[1].trim { it <= ' ' }
-            if (text.contains(Constants.weChatPacketTip)) {
-                val pendingIntent = notification.contentIntent
-                try {
-                    pendingIntent.send()
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            if (notification.tickerText != null) {
+                val content = notification.tickerText.toString()
+                val msg = content.split(":").toTypedArray()
+                if (msg.size > 1) {
+                    val name = msg[0].trim { it <= ' ' }
+                    val text = msg[1].trim { it <= ' ' }
+                    if (text.contains(Constants.weChatPacketTip)) {
+                        val pendingIntent = notification.contentIntent
+                        try {
+                            pendingIntent.send()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                 }
             }
         }
