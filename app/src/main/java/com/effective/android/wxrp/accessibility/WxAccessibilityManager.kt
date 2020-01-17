@@ -360,7 +360,6 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             return false
         }
         var result = false
-        val avatarList = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemAvatatId())
 
         val pageTitle = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerTitleId())
         var title = ""
@@ -375,6 +374,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             for (i in packetList.indices.reversed()) {
 
                 var sender = ""
+                val avatarList = packetList[i].parent.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemAvatatId())
                 if (avatarList.isNotEmpty() && i < avatarList.size) {
                     sender = avatarList[i].contentDescription.toString()
                     if (sender.isNotEmpty() && sender.endsWith("头像")) {
