@@ -22,18 +22,18 @@
     <string name="setting_get_accessibility_title">[插件权限获取]</string>
     <string name="plugin_running_status_open">插件运行中,可在设置中暂停</string>
     <string name="plugin_running_status_close">插件已暂停,可在设置中重启</string>
-    <string name="setting_to_stop_action">是否运行插件</string>
-    <string name="setting_to_float_btn_open">是否打开悬浮窗</string>
-    <string name="setting_to_notification_btn_open">是否支持通知栏抢红包</string>
-    <string name="setting_get_self_tip">是否抢自己发送的红包</string>
-    <string name="setting_filter_conversation">是否过滤特定会话</string>
-    <string name="setting_filter_tip">是否过滤特定关键字红包</string>
+    <string name="setting_to_stop_action">运行插件</string>
+    <string name="setting_to_float_btn_open">打开悬浮窗</string>
+    <string name="setting_to_notification_btn_open">支持通知栏抢红包</string>
+    <string name="setting_get_self_tip">群聊抢自己发送的红包</string>
+    <string name="setting_filter_conversation">过滤特定会话</string>
+    <string name="setting_filter_tip">过滤特定关键字红包</string>
     <string name="setting_delay_tip">延迟抢红包服务</string>
 
     <string name="float_tag">float_tag</string>
     <string name="float_running_choose">运行插件</string>
-    <string name="float_notification_choose">通知栏能力</string>
-    <string name="float_get_self_choose">抢自己红包</string>
+    <string name="float_notification_choose">支持通知栏</string>
+    <string name="float_get_self_choose">群聊抢自己</string>
     <string name="float_filter_conversation_choose">过滤会话</string>
     <string name="float_filter_packet_choose">过滤红包</string>
     <string name="float_more">更多设置</string>

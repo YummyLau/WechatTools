@@ -24,7 +24,11 @@ object LocalizationHelper {
 
         //config信息
         config = SettingConfig()
-        //群聊后去自己
+
+        //通知栏
+        config.openNotificationSupport = RpApplication.sp().getBoolean(Constants.KEY_OPEN_NOTIFICATION, true)
+
+        //群聊获取自己
         config.supportGettingSelfPacket = RpApplication.sp().getBoolean(Constants.KEY_OPEN_GET_SELF_PACKET, true)
 
         //支持过滤红包
@@ -45,15 +49,19 @@ object LocalizationHelper {
         //默认打开
         config.openPlugin = true
         config.openFloat = false
-        config.openNotificationSupport = true
     }
 
     @JvmStatic
     fun isSupportNotification() = config.openNotificationSupport
 
     @JvmStatic
-    fun supportNotification(support: Boolean) {
-        config.openNotificationSupport = support
+    fun supportNotification(support: Boolean): Boolean {
+        Logger.d(TAG, "supportNotification: $support")
+        if (support != config.openNotificationSupport) {
+            config.openNotificationSupport = support
+            return RpApplication.sp().edit().putBoolean(Constants.KEY_OPEN_NOTIFICATION, support).commit()
+        }
+        return false
     }
 
     @JvmStatic

@@ -19,24 +19,6 @@ import java.lang.reflect.Field
 object NotificationUtil {
 
     @JvmStatic
-    fun isNotificationListenersEnabled2(context: Context): Boolean {
-        val pkgName = context.packageName
-        val flat = Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
-        if (!TextUtils.isEmpty(flat)) {
-            val names = flat.split(":")
-            if (names.isNotEmpty()) {
-                for (name in names) {
-                    val cn = ComponentName.unflattenFromString(name)
-                    if (cn != null && TextUtils.equals(pkgName, cn.packageName)) {
-                        return true
-                    }
-                }
-            }
-        }
-        return false
-    }
-
-    @JvmStatic
     fun isNotificationListenersEnabled(context: Context): Boolean {
         return NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName)
     }

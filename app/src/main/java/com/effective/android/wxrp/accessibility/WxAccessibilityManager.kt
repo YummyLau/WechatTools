@@ -1,20 +1,17 @@
 package com.effective.android.wxrp.accessibility
 
-import android.app.Notification
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Message
 import android.text.TextUtils
-import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.RpApplication
+import com.effective.android.wxrp.data.ConversationMessage
+import com.effective.android.wxrp.data.DetailPageMessage
 import com.effective.android.wxrp.data.db.PacketRecord
 import com.effective.android.wxrp.data.sp.LocalizationHelper
-import com.effective.android.wxrp.utils.AccessibilityUtil
-import com.effective.android.wxrp.utils.Logger
-import com.effective.android.wxrp.utils.NodeUtil
-import com.effective.android.wxrp.utils.ToolUtil
+import com.effective.android.wxrp.utils.*
 import com.effective.android.wxrp.version.VersionManager
 import java.util.*
 
@@ -24,33 +21,26 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
     private val openPacketList: ArrayList<AccessibilityNodeInfo> = ArrayList()
     private var checkMsgHandler: Handler? = null
     private var isGotPacket = false
+    private val tag = "无障碍服务管理者"
 
-    companion object {
-        private const val TAG = "WxAccessibilityManager"
-        private const val MSG_ADD_PACKET = 0
-        private const val MSG_OPEN_PACKET = 1
-        private const val MSG_PACKET_DETAIL = 2
-        private const val MSG_CLICK_NEW_MESSAGE = 3
-        private const val MSG_RESET_GOT_PACKET = 4
-    }
 
     override fun start() {
         super.start()
         checkMsgHandler = object : Handler(this.looper) {
             override fun handleMessage(msg: Message) {
-                Logger.i(TAG, "handleMessage msg.what = " + msg.what)
+                Logger.i(tag, "handleMessage msg.what = " + msg.what)
                 when (msg.what) {
-                    MSG_ADD_PACKET -> {
+                    Constants.MSG_ADD_PACKET -> {
                         val node = msg.obj
                         if (node != null && node is AccessibilityNodeInfo) {
                             if (getPacketList.isEmpty()) {
-                                Logger.i(TAG, "sendGetPacketMsg $node")
+                                Logger.i(tag, "sendGetPacketMsg $node")
                                 getPacketList.add(node)
                                 AccessibilityUtil.performClick(getPacketList.last())
                                 getPacketList.removeAt(getPacketList.lastIndex)
                             } else {
                                 if (!NodeUtil.containNode(node, getPacketList)) {
-                                    Logger.i(TAG, "sendGetPacketMsg $node")
+                                    Logger.i(tag, "sendGetPacketMsg $node")
                                     getPacketList.add(node)
                                     sortGetPacketList()
                                     AccessibilityUtil.performClick(getPacketList.last())
@@ -60,7 +50,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                         }
                     }
 
-                    MSG_OPEN_PACKET -> {
+                    Constants.MSG_OPEN_PACKET -> {
                         val node = msg.obj
                         if (node != null && node is AccessibilityNodeInfo) {
                             if (openPacketList.isEmpty()) {
@@ -76,7 +66,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                             }
                         }
                     }
-                    MSG_PACKET_DETAIL -> {
+                    Constants.MSG_PACKET_DETAIL -> {
                         val node = msg.obj
                         if (node != null && node is PacketRecord) {
                             node.time = System.currentTimeMillis()
@@ -84,11 +74,11 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                         }
                     }
 
-                    MSG_CLICK_NEW_MESSAGE -> {
+                    Constants.MSG_CLICK_NEW_MESSAGE -> {
                         VersionManager.isClickedNewMessageList = false
                     }
 
-                    MSG_RESET_GOT_PACKET -> {
+                    Constants.MSG_RESET_GOT_PACKET -> {
                         VersionManager.isGotPacket = false
                     }
                 }
@@ -110,7 +100,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         if (delayedTime > 0) {
             delayedTime /= 2
         }
-        sendHandlerMessage(MSG_ADD_PACKET, delayedTime, nodeInfo)
+        sendHandlerMessage(Constants.MSG_ADD_PACKET, delayedTime, nodeInfo)
     }
 
 
@@ -122,7 +112,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         if (delayedTime > 0) {
             delayedTime /= 2
         }
-        sendHandlerMessage(MSG_OPEN_PACKET, delayedTime, nodeInfo)
+        sendHandlerMessage(Constants.MSG_OPEN_PACKET, delayedTime, nodeInfo)
     }
 
 
@@ -130,15 +120,15 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         if (packetRecord == null) {
             return
         }
-        sendHandlerMessage(MSG_PACKET_DETAIL, 0, packetRecord)
+        sendHandlerMessage(Constants.MSG_PACKET_DETAIL, 0, packetRecord)
     }
 
     private fun sendClickedNewMessageMsg() {
-        sendHandlerMessage(MSG_CLICK_NEW_MESSAGE, 500)
+        sendHandlerMessage(Constants.MSG_CLICK_NEW_MESSAGE, 500)
     }
 
     private fun sendResetGotPacketMsg() {
-        sendHandlerMessage(MSG_RESET_GOT_PACKET, 500)
+        sendHandlerMessage(Constants.MSG_RESET_GOT_PACKET, 500)
     }
 
 
@@ -161,59 +151,45 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         ToolUtil.insertSort(nodeInfoBottom, nodeInfoIndex)
         for (i in tempGetPacketList.indices) {
             getPacketList.add(tempGetPacketList[nodeInfoIndex[i]])
-            Logger.i(TAG, "sortGetPacketList nodeInfoBottom[" + i + "] = "
+            Logger.i(tag, "sortGetPacketList nodeInfoBottom[" + i + "] = "
                     + NodeUtil.getRectFromNodeInfo(getPacketList[i]).bottom)
         }
     }
 
-    fun dealNotification(event: AccessibilityEvent){
-        Logger.i(TAG, "dealNotification")
-        if (event.parcelableData != null && event.parcelableData is Notification) {
-            val notification = event.parcelableData as Notification
-            val content = notification.tickerText.toString()
-            val msg = content.split(":").toTypedArray()
-            val name = msg[0].trim { it <= ' ' }
-            val text = msg[1].trim { it <= ' ' }
-            if (text.contains(Constants.weChatPacketTip)) {
-                val pendingIntent = notification.contentIntent
-                try {
-                    pendingIntent.send()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
-
-
+    /**
+     * 页面切换回调
+     */
     fun dealWindowStateChanged(className: String, rootNode: AccessibilityNodeInfo?) {
-        Logger.i(TAG, "dealWindowStateChanged")
+        Logger.i(tag, "dealWindowStateChanged")
         if (rootNode == null) {
-            Logger.i(TAG, "dealWindowStateChanged-rootNode : null")
+            Logger.i(tag, "dealWindowStateChanged-rootNode : null")
             return
         }
         when (className) {
-            //如果当前是聊天窗口
+            //如果当前是首页
             VersionManager.launcherClass() -> {
-                Logger.i(TAG, "dealWindowStateChanged : 当前在首页")
+                Logger.i(tag, "dealWindowStateChanged : 当前在首页")
 
-                if (tryGetUserInfoPage(rootNode)) {
-                    return
-                }
-
-                if (filterHomeTabPage(rootNode)) {
+                //如果是首页 "微信" tab
+                if (NodeUtil.isNotWeChatHomePage(rootNode)) {
                     if (LocalizationHelper.isSupportGettingSelfPacket() && VersionManager.currentSelfPacketStatus == VersionManager.W_openedPayStatus) {
                         VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_intoChatDialogStatus)
                         getPacket(rootNode, true)
                     } else {
                         getPacket(rootNode, false)
                     }
+                    return
+                }
+
+                //如果首页 "我"tab，尝试更新微信昵称
+                if (NodeUtil.isWeChatUserInfoPage(rootNode)) {
+                    return
                 }
             }
 
             //红包页面
             VersionManager.packetReceiveClass() -> {
-                Logger.i(TAG, "dealWindowStateChanged className: 当前已打开红包")
+                Logger.i(tag, "dealWindowStateChanged className: 当前已打开红包")
                 if (LocalizationHelper.isSupportGettingSelfPacket() && VersionManager.currentSelfPacketStatus == VersionManager.W_intoChatDialogStatus) {
                     if (openPacket(rootNode)) {
                         VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_gotSelfPacketStatus)
@@ -229,7 +205,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
 
             //红包发送页面
             VersionManager.packetSendClass() -> {
-                Logger.i(TAG, "dealWindowStateChanged : 当前在红包发送页面")
+                Logger.i(tag, "dealWindowStateChanged : 当前在红包发送页面")
                 if (VersionManager.currentSelfPacketStatus <= VersionManager.W_otherStatus) {
                     VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_openedPacketSendStatus)
                 }
@@ -238,7 +214,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
 
             //红包支付页面
             VersionManager.packetPayClass() -> {
-                Logger.i(TAG, "dealWindowStateChanged : 当前在红包支付页面")
+                Logger.i(tag, "dealWindowStateChanged : 当前在红包支付页面")
                 if (VersionManager.currentSelfPacketStatus == VersionManager.W_openedPacketSendStatus) {
                     VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_openedPayStatus)
                 }
@@ -247,7 +223,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
 
             //红包详情页
             VersionManager.packetDetailClass() -> {
-                Logger.i(TAG, "dealWindowStateChanged : 当前在红包详情页")
+                Logger.i(tag, "dealWindowStateChanged : 当前在红包详情页")
                 if (VersionManager.currentSelfPacketStatus != VersionManager.W_otherStatus) {
                     AccessibilityUtil.performBack(WxAccessibilityService.getService())
                     VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_otherStatus)
@@ -263,10 +239,59 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
     }
 
-    private fun getPacketRecord(rootNode: AccessibilityNodeInfo?): PacketRecord? {
-        Logger.i(TAG, "getPacketRecord")
+
+    /**
+     * 页面内容变动回调
+     */
+    fun dealWindowContentChanged(rootNode: AccessibilityNodeInfo?) {
+        Logger.i(tag, "dealWindowContentChanged")
         if (rootNode == null) {
-            Logger.i(TAG, "getPakcetRecord-rootNode : null")
+            Logger.i(tag, "dealWindowStateChanged-rootNode : null")
+            return
+        }
+
+        //只有聊天详情页才需要查询红包
+        if (NodeUtil.isNotWeChatHomePage(rootNode)) {
+
+            //如果是红白页面，则尝试点击 "开"
+            if (openPacket(rootNode)) {
+                isGotPacket = true
+                VersionManager.isClickedNewMessageList = false
+                VersionManager.isGotPacket = false
+                return
+            }
+
+
+            //如果是聊天详情页，则尝试点击 "红包" item
+            if (getPacket(rootNode, false)) {
+                VersionManager.isGotPacket = true
+                sendResetGotPacketMsg()
+                return
+            }
+
+        } else {
+
+            //如果是首页 "微信" tab，则尝试获取有效红包会话
+            if (NodeUtil.isClickableConversationPage(rootNode)) {
+                if (tryClickConversation(rootNode)) {
+                    VersionManager.isClickedNewMessageList = true
+                    sendClickedNewMessageMsg()
+                    return
+                }
+            }
+
+            //如果首页 "我"tab，尝试更新微信昵称
+            if (NodeUtil.isWeChatUserInfoPage(rootNode)) {
+                return
+            }
+        }
+    }
+
+
+    private fun getPacketRecord(rootNode: AccessibilityNodeInfo?): PacketRecord? {
+        Logger.i(tag, "getPacketRecord")
+        if (rootNode == null) {
+            Logger.i(tag, "getPakcetRecord-rootNode : null")
         } else {
             val postUser = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.packetDetailPostUserId())
             val number = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.packetDetailPostNumId())
@@ -280,90 +305,6 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         return null
     }
 
-    /**
-     * 如果在聊天会话列表，则判断当前是否需要点击消息
-     * 如果在聊天页面，则判断是否需要获取红包
-     */
-    fun dealWindowContentChanged(rootNode: AccessibilityNodeInfo?) {
-        Logger.i(TAG, "dealWindowContentChanged")
-        if (rootNode == null) {
-            Logger.i(TAG, "dealWindowStateChanged-rootNode : null")
-            return
-        }
-
-        if (tryGetUserInfoPage(rootNode)) {
-            return
-        }
-
-        if (openPacket(rootNode)) {
-            isGotPacket = true
-            VersionManager.isClickedNewMessageList = false
-            VersionManager.isGotPacket = false
-            return
-        }
-
-        //如果不是首页，则默认不需要点击会话或者获取红包
-        //只有首页第一个tab-微信才需要检测点击
-        if (isClickableConversation(rootNode)) {
-            if (clickConversation(rootNode)) {
-                VersionManager.isClickedNewMessageList = true
-                sendClickedNewMessageMsg()
-                return
-            }
-        }
-
-        //只有聊天详情页才需要查询红包
-        if (filterHomeTabPage(rootNode)) {
-            if (getPacket(rootNode, false)) {
-                VersionManager.isGotPacket = true
-                sendResetGotPacketMsg()
-                return
-            }
-        }
-    }
-
-    private fun tryGetUserInfoPage(rootNode: AccessibilityNodeInfo?): Boolean {
-        if (rootNode == null) {
-            return false
-        }
-        val tabTitle = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.homeUserPagerNickId())               //会话item
-        if (tabTitle.isEmpty()) {
-            return false
-        }
-        val actionText = tabTitle[0].text
-        val replaceable = LocalizationHelper.setConfigName(actionText.toString())
-        if (replaceable) {
-            ToolUtil.toast(RpApplication.instance(), "已获取昵称 $actionText")
-        }
-        Logger.i(TAG, "tryGetUserNamePage ： true, 当前userName($actionText)")
-        return replaceable
-    }
-
-    private fun filterHomeTabPage(rootNode: AccessibilityNodeInfo?): Boolean {
-        if (rootNode == null) {
-            return false
-        }
-        val tabTitle = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.homeTabTitleId())               //会话item
-        if (tabTitle.isEmpty()) {
-            return true
-        }
-        return false
-    }
-
-    private fun isClickableConversation(rootNode: AccessibilityNodeInfo?): Boolean {
-        if (rootNode == null) {
-            return false
-        }
-        val tabTitle = rootNode.findAccessibilityNodeInfosByViewId(VersionManager.homeTabTitleId())               //会话item
-        if (tabTitle.isEmpty()) {
-            return false
-        }
-        val actionText = tabTitle[0].text
-        val result = !TextUtils.isEmpty(actionText) && actionText.startsWith(Constants.tabTitleWeChat)
-        Logger.i(TAG, "isClickableConversation ： $result, 当前tab($actionText)")
-        return result
-    }
-
 
     private fun hasGotPacketTip(tipList: List<AccessibilityNodeInfo>): Boolean {
         if (tipList.isEmpty()) {
@@ -371,7 +312,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
         val actionText = tipList[0].text
         var result = !TextUtils.isEmpty(actionText) && !actionText.isEmpty()
-        Logger.i(TAG, "hasGotPacketTip ： $result, 当前红包提示($actionText)")
+        Logger.i(tag, "hasGotPacketTip ： $result, 当前红包提示($actionText)")
         return result
     }
 
@@ -385,7 +326,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
         val title = pageTitle[0].text.toString()
         val result = !TextUtils.isEmpty(title) && title.contains("(") && title.contains(")")
-        Logger.i(TAG, "isGroupNode ： $result , 会话名称为 ： $title")
+        Logger.i(tag, "isGroupNode ： $result , 会话名称为 ： $title")
         return result
     }
 
@@ -398,7 +339,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
         val contentDescription = avatarList[currentIndex].contentDescription
         val result = contentDescription.contains(LocalizationHelper.getConfigName())
-        Logger.i(TAG, "isSelfNode($currentIndex) ： $result , 节点名称为$contentDescription")
+        Logger.i(tag, "isSelfNode($currentIndex) ： $result , 节点名称为$contentDescription")
         return result
     }
 
@@ -415,9 +356,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         if (packetText.contains(": ")) {
             packetText = packetText.substring(packetText.indexOf(":"))
         }
-        val result = LocalizationHelper.isSupportFilterPacket() && isContainKeyWords(LocalizationHelper.getFilterPacketTag(), packetText)
-        Logger.i(TAG, "hasPacketKeyWords  ： $result  当前节点包含（$packetText)")
-        return result
+        return ToolUtil.hasPacketKeyWords(packetText)
     }
 
     private fun hasConversationKeyWords(nodes: List<AccessibilityNodeInfo>): Boolean {
@@ -425,25 +364,9 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             return false
         }
         val packetText = nodes[0].text.toString()
-        val result = LocalizationHelper.isSupportFilterConversation() && isContainKeyWords(LocalizationHelper.getFilterConversationTag(), packetText)
-        Logger.i(TAG, "hasConversationKeyWords  ： $result  当前节点包含（$packetText)")
-        return result
+        return ToolUtil.hasConversationKeyWords(packetText)
     }
 
-
-    /**
-     * 是否包含某些关键字
-     */
-    private fun isContainKeyWords(keyWords: List<String>, content: String): Boolean {
-        var result = false
-        keyWords.map {
-            if (content.contains(it)) {
-                result = true
-            }
-        }
-        Logger.i(TAG, "isContainKeyWords result = $result")
-        return result
-    }
 
     private fun isRedPacketNode(messageList: List<AccessibilityNodeInfo>, flag: String = Constants.weChatPacketTip): Boolean {
         if (messageList.isEmpty()) {
@@ -451,47 +374,52 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         }
         val text = messageList[0].text.toString()
         val result = !TextUtils.isEmpty(text) && text.contains(flag)
-        Logger.i(TAG, "isRedPacketNode result = $result text($text)")
+        Logger.i(tag, "isRedPacketNode result = $result text($text)")
         return result
     }
 
 
     /**
-     * 点击会话
+     * 首页第一个tab "微信"
+     * 判断一个会话是否需要被自动点击
+     * 满足条件：  红包节点 && 不被会话过滤 && 不被关键字过滤
      */
-    private fun clickConversation(nodeInfo: AccessibilityNodeInfo?): Boolean {
-        Logger.i(TAG, "clickConversation")
+    private fun tryClickConversation(nodeInfo: AccessibilityNodeInfo?): Boolean {
+        Logger.i(tag, "clickConversation")
         if (nodeInfo == null) {
-            Logger.i(TAG, "clickConversation ： 点击消息为 null")
+            Logger.i(tag, "clickConversation ： 点击消息为 null")
             return false
         }
         var result = false
-        val dialogList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemId())               //会话item
+        val dialogList = nodeInfo.findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemId())               //检索会话列表
 
         if (dialogList.isNotEmpty()) {
             for (i in dialogList.indices.reversed()) {
 
-                val messageTextList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemMessageId())  //会话内容
-                val titleList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId())            //会话名字
+                //会话内容
+                val messageTextList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemMessageId())
+                var messageTextString = ""
+                if (messageTextList.isNotEmpty()) {
+                    messageTextString = messageTextList[0].text.toString()
+                }
 
-                if (isRedPacketNode(messageTextList)) {
+                //会话名字
+                val titleList = dialogList[i].findAccessibilityNodeInfosByViewId(VersionManager.homeChatListItemTextId())
+                var titleString = ""
+                if (titleList.isNotEmpty()) {
+                    titleString = titleList[0].text.toString()
+                }
 
-                    //是否过滤会话
-                    if(hasConversationKeyWords(titleList)){
-                        continue
-                    }
-
-                    //是否需要过滤关键字
-                    if (hasPacketKeyWords(messageTextList)) {
-                        continue
-                    }
-
+                val messageInfo = ConversationMessage(titleString, messageTextString);
+                if (messageInfo.isClickMessage()) {
                     dialogList[i].performAction(AccessibilityNodeInfo.ACTION_CLICK)
                     result = true
+                } else {
+                    continue
                 }
             }
         }
-        Logger.i(TAG, "clickConversation ： 是否模拟点击进入聊天页面（$result)")
+        Logger.i(tag, "clickConversation ： 是否模拟点击进入聊天页面（$result)")
         return result
     }
 
@@ -500,55 +428,63 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
      * 兼容是否抢自己的红包，兼容是否有关键字
      */
     private fun getPacket(rootNote: AccessibilityNodeInfo?, isSelfPacket: Boolean): Boolean {
-        Logger.i(TAG, "getPacket")
+        Logger.i(tag, "getPacket")
         if (rootNote == null) {
-            Logger.i(TAG, "getPacket rootNode == null")
+            Logger.i(tag, "getPacket rootNode == null")
             return false
         }
         var result = false
         val avatarList = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemAvatatId())
+
         val pageTitle = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerTitleId())
+        var title = ""
+        if (title.isNotEmpty()) {
+            title = pageTitle[0].text.toString()
+        }
+
         val packetList = rootNote.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketId())
 
 
         if (packetList.isNotEmpty()) {
             for (i in packetList.indices.reversed()) {
 
-                //过滤不是红包的
+                var sender = ""
+                if (avatarList.isNotEmpty() && i < avatarList.size) {
+                    sender = avatarList[i].contentDescription.toString()
+                    if (sender.isNotEmpty() && sender.endsWith("头像")) {
+                        sender = sender.substring(0, sender.length - 2)
+                    }
+                }
+
                 val flagList = packetList[i].findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketFlagId())
-                if (!isRedPacketNode(flagList, Constants.weChatPacket)) {
-                    continue
-                }
-
-                //是否过滤会话
-                if(hasConversationKeyWords(pageTitle)){
-                    continue
-                }
-
-                //如果是自己的节点
-                //如果当前节点不是群聊，则过滤
-                //如果当前节点不没有开启强群的红包，则过滤
-                if (isSelfNode(avatarList, i) && (!isGroupNode(pageTitle) || !LocalizationHelper.isSupportGettingSelfPacket())) {
-                    continue
+                var flag = ""
+                if (flagList.isNotEmpty()) {
+                    flag = flagList[0].text.toString()
                 }
 
                 val tipList = packetList[i].findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketTipId())
-                //过滤已经抢过的，已过期等等
-                if (hasGotPacketTip(tipList)) {
-                    continue
+                var tipText = ""
+                if (tipList.isNotEmpty()) {
+                    tipText = tipList[0].text.toString()
                 }
 
-                //过滤关键词
                 val messageList = packetList[i].findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemPacketMessageId())
-                if (hasPacketKeyWords(messageList)) {
-                    continue
+                var message = ""
+                if (messageList.isNotEmpty()) {
+                    message = messageList[0].text.toString()
                 }
 
-                sendGetPacketMsg(packetList[i])
-                result = true
+                val detailPageMessage = DetailPageMessage(title, sender, flag, message, tipText)
+
+                if (detailPageMessage.isClickMessage()) {
+                    sendGetPacketMsg(packetList[i])
+                    result = true
+                } else {
+                    continue
+                }
             }
         }
-        Logger.i(TAG, "getPacket result = $result")
+        Logger.i(tag, "getPacket result = $result")
         return result
     }
 
@@ -556,7 +492,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
      * 打开红包，当前已经显示了一个红包窗口
      */
     private fun openPacket(rootNode: AccessibilityNodeInfo?): Boolean {
-        Logger.i(TAG, "openPacket")
+        Logger.i(tag, "openPacket")
 
         //如果当前节点存在红包，则遍历寻找"开"
         var result = false
@@ -568,7 +504,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                 result = true
             }
         }
-        Logger.i(TAG, "openPacket result = $result")
+        Logger.i(tag, "openPacket result = $result")
         return result
     }
 }

@@ -1,14 +1,16 @@
 package com.effective.android.wxrp.accessibility
 
 import android.accessibilityservice.AccessibilityService
-import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.view.accessibility.AccessibilityEvent
+import com.effective.android.wxrp.Constants
+import com.effective.android.wxrp.Constants.statusByPluginError
+import com.effective.android.wxrp.Constants.statusBySettingDoNotSupportPlugin
 import com.effective.android.wxrp.R
 import com.effective.android.wxrp.data.sp.LocalizationHelper
 import com.effective.android.wxrp.utils.Logger
-import com.effective.android.wxrp.utils.ToolUtil
+import com.effective.android.wxrp.utils.ToastUtil
 import com.effective.android.wxrp.version.VersionManager
 import com.lzf.easyfloat.EasyFloat
 
@@ -17,8 +19,9 @@ import com.lzf.easyfloat.EasyFloat
  */
 class WxAccessibilityService : AccessibilityService() {
 
+    private val tag = "无障碍服务"
+
     companion object {
-        private const val TAG = "WxAccessibilityService"
         private var service: WxAccessibilityService? = null
         fun getService(): AccessibilityService? {
             return service
@@ -34,10 +37,12 @@ class WxAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(accessibilityEvent: AccessibilityEvent) {
 
         if (!VersionManager.runningPlus()) {
+            Logger.i(tag, "onAccessibilityEvent - $statusByPluginError")
             return
         }
 
         if (!LocalizationHelper.isSupportPlugin()) {
+            Logger.i(tag, "onAccessibilityEvent - $statusBySettingDoNotSupportPlugin")
             return
         }
 
@@ -45,34 +50,31 @@ class WxAccessibilityService : AccessibilityService() {
         val className = accessibilityEvent.className.toString()
         val rootNode = rootInActiveWindow
 
-        Logger.i(TAG, "onAccessibilityEvent eventType =  $eventType  className = $className")
+        Logger.i(tag, "onAccessibilityEvent eventType =  $eventType  className = $className")
 
-        //通知栏权限
         when (eventType) {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                Logger.i(TAG, "窗口状态改变 className = $className")
+                Logger.i(tag, "窗口状态改变 className = $className")
                 accessibilityManager?.dealWindowStateChanged(className, rootNode)
             }
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                Logger.i(TAG, "窗口内容变化")
+                Logger.i(tag, "窗口内容变化")
                 accessibilityManager?.dealWindowContentChanged(rootNode)
-            }
-            else -> {
             }
         }
         rootNode?.recycle()
     }
 
     override fun onInterrupt() {
-        Logger.i(TAG, "onInterrupt")
-        ToolUtil.toast(this, R.string.accessibility_service_interrupt)
+        Logger.i(tag, "onInterrupt")
+        ToastUtil.toast(this, R.string.accessibility_service_interrupt)
         EasyFloat.hideAppFloat(getString(R.string.float_tag))
     }
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        Logger.i(TAG, "onServiceConnected")
-        ToolUtil.toast(this, R.string.accessibility_service_connected)
+        Logger.i(tag, "onServiceConnected")
+        ToastUtil.toast(this, R.string.accessibility_service_connected)
         service = this
         if (accessibilityManager == null) {
             accessibilityManager = WxAccessibilityManager("accessibility-handler-thread")

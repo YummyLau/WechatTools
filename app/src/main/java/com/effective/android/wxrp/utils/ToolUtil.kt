@@ -7,12 +7,15 @@ import android.os.Build
 import android.os.PowerManager
 import android.text.TextUtils
 import android.view.WindowManager
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.effective.android.wxrp.Constants
+import com.effective.android.wxrp.data.sp.LocalizationHelper
 import com.effective.android.wxrp.version.Version700
 import com.effective.android.wxrp.version.Version7010
 import com.effective.android.wxrp.version.Version703
+import com.effective.android.wxrp.version.VersionManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -57,11 +60,58 @@ object ToolUtil {
         return false
     }
 
-    fun toast(context: Context, @StringRes int: Int) = Toast.makeText(context, int, Toast.LENGTH_LONG).show()
+    /**
+     * 判断是否包含红包内容
+     * 如果是判断会话，则需要判断是否包含 [微信红包]
+     * 如果是判断聊天详情页里面的 item，则需要判断是否包含 微信红包
+     */
+    @JvmStatic
+    fun hasPacketTipWords(content: String, conversation: Boolean = true): Boolean {
+        val flag = if (conversation) Constants.weChatPacketTip else Constants.weChatPacket
+        val result = !TextUtils.isEmpty(content) && content.contains(flag)
+        Logger.i("isRedPacketNode result = $result text($content)")
+        return result
+    }
 
-    fun toast(context: Context, msg: String) = Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+    @JvmStatic
+    fun hasPacketKeyWords(content: String, originAppendInfo: Boolean = false): Boolean {
+        Logger.i("hasPacketKeyWords  ： originAppendInfo : $originAppendInfo")
+        val result = LocalizationHelper.isSupportFilterPacket() && isContainKeyWords(LocalizationHelper.getFilterPacketTag(), content)
+        Logger.i("hasPacketKeyWords  ： $result  当前content（$content)")
+        return result
+    }
 
-    fun toast(context: Context, msg: String, time: Int) = Toast.makeText(context, msg, time).show()
+
+    @JvmStatic
+    fun hasConversationKeyWords(content: String): Boolean {
+        val result = LocalizationHelper.isSupportFilterConversation() && isContainKeyWords(LocalizationHelper.getFilterConversationTag(), content)
+        Logger.i("hasConversationKeyWords  ： $result  当前content（$content)")
+        return result
+    }
+
+    /**
+     * 默认不抢：
+     * 群聊自己发的
+     * 私聊自己发的
+     */
+    fun hasPassByGettingSetting(messageBySelf: Boolean, isGroupChat: Boolean): Boolean {
+        val result = !((messageBySelf && isGroupChat && !LocalizationHelper.isSupportGettingSelfPacket()) || (messageBySelf && !isGroupChat))
+        Logger.i("hasPassByGettingSetting  ： $result  当前messageBySelf（$messageBySelf) isGroupChat（$isGroupChat)")
+        return result
+    }
+
+    @JvmStatic
+    fun isContainKeyWords(keyWords: List<String>, content: String): Boolean {
+        var result = false
+        keyWords.map {
+            if (content.contains(it)) {
+                result = true
+            }
+        }
+        Logger.i("isContainKeyWords result = $result")
+        return result
+    }
+
 
     fun isServiceRunning(context: Context, className: String): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager

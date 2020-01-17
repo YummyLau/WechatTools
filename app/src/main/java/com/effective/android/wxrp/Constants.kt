@@ -4,39 +4,49 @@ object Constants {
 
     @JvmStatic
     val logTag = "红包插件"
-
     @JvmStatic
     val weChatPackageName = "com.tencent.mm"                               // 微信包名
-
     @JvmStatic
     val weChat = "微信"                                                     // 微信
-
     @JvmStatic
     val applicationName = "com.effective.android.wxrp"                      // 本程序包名
-
     @JvmStatic
     val accessibilityClassName = "accessibility.WxAccessibilityService"          // 辅助服务类名
-
     @JvmStatic
     val weChatPacketTip = "[微信红包]"
-
     @JvmStatic
     val weChatPacket = "微信红包"
-
     @JvmStatic
     val tabTitleWeChat = "微信"
-
     @JvmStatic
     val tabTitleChatList = "通讯录"
-
     @JvmStatic
     val tabTitleDiscover = "发现"
+
+    @JvmStatic
+    val statusByPluginError = "插件内部运行错误"
+    @JvmStatic
+    val statusBySettingDoNotSupportPlugin = "设置关闭支持插件"
+
+
+    @JvmStatic
+    val MSG_ADD_PACKET = 0
+    @JvmStatic
+    val MSG_OPEN_PACKET = 1
+    @JvmStatic
+    val MSG_PACKET_DETAIL = 2
+    @JvmStatic
+    val MSG_CLICK_NEW_MESSAGE = 3
+    @JvmStatic
+    val MSG_RESET_GOT_PACKET = 4
 
 
     @JvmStatic
     val KEY_USER_WX_NAME = "key_user_wx_nick"
     @JvmStatic
     val KEY_USER_WX_AVATAR = "key_user_wx_avatar"
+    @JvmStatic
+    val KEY_OPEN_NOTIFICATION = "key_open_notification"                       //是否打开通知栏服务
     @JvmStatic
     val KEY_OPEN_GET_SELF_PACKET = "key_open_get_self_packet"                 //是否打开自己红包
     @JvmStatic

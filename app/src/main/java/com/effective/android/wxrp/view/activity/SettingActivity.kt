@@ -22,6 +22,7 @@ import com.effective.android.wxrp.data.sp.ConfigChangeListener
 import com.effective.android.wxrp.data.sp.ConfigHelper
 import com.effective.android.wxrp.data.sp.LocalizationHelper
 import com.effective.android.wxrp.utils.NotificationUtil
+import com.effective.android.wxrp.utils.ToastUtil
 import com.effective.android.wxrp.utils.ToolUtil
 import com.effective.android.wxrp.utils.systemui.QMUIStatusBarHelper
 import com.effective.android.wxrp.utils.systemui.StatusbarHelper
@@ -59,9 +60,6 @@ class SettingActivity : AppCompatActivity() {
 
     private fun initData() {
 
-        if(NotificationUtil.isNotificationListenersEnabled(RpApplication.instance())){
-            configUpdate.supportNotification(true)
-        }
         pluginAction.isSelected = LocalizationHelper.isSupportPlugin()
         notificationAction.isSelected = LocalizationHelper.isSupportNotification()
         floatAction.isSelected = LocalizationHelper.isSupportFloat()
@@ -71,7 +69,7 @@ class SettingActivity : AppCompatActivity() {
         conversationFilterAddDialog = TagEditDialog(this, object : TagEditDialog.CommitListener {
             override fun commit(tag: String) {
                 if (TextUtils.isEmpty(tag)) {
-                    ToolUtil.toast(this@SettingActivity, this@SettingActivity.getString(R.string.tag_empty_tip))
+                    ToastUtil.toast(this@SettingActivity, this@SettingActivity.getString(R.string.tag_empty_tip))
                     return
                 }
                 val item = getConversationTag(tag)
@@ -102,7 +100,7 @@ class SettingActivity : AppCompatActivity() {
         packetFilterAddDialog = TagEditDialog(this, object : TagEditDialog.CommitListener {
             override fun commit(tag: String) {
                 if (TextUtils.isEmpty(tag)) {
-                    ToolUtil.toast(this@SettingActivity, this@SettingActivity.getString(R.string.tag_empty_tip))
+                    ToastUtil.toast(this@SettingActivity, this@SettingActivity.getString(R.string.tag_empty_tip))
                     return
                 }
                 val item = getPacketTag(tag)
@@ -267,7 +265,7 @@ class SettingActivity : AppCompatActivity() {
                         }
                     } catch (e: Exception) {
                         delayNum.setText("")
-                        ToolUtil.toast(this@SettingActivity, "请输入正确的延迟时间")
+                        ToastUtil.toast(this@SettingActivity, "请输入正确的延迟时间")
                     }
                 }
             }
@@ -283,7 +281,7 @@ class SettingActivity : AppCompatActivity() {
             if (delayCommit.text == this.getString(R.string.delay_edit)) {
                 val time = currentDelayNum.toLong()
                 LocalizationHelper.setDelayTime(time)
-                ToolUtil.toast(this, "已更新延迟时间")
+                ToastUtil.toast(this, "已更新延迟时间")
             } else {
                 delayNum.setText(LocalizationHelper.getDelayTime(true).toString())
             }
@@ -353,7 +351,7 @@ class SettingActivity : AppCompatActivity() {
     private fun checkNotificationPermission() {
         if (NotificationUtil.isNotificationListenersEnabled(this)) {
             configUpdate.supportNotification(true)
-            ToolUtil.toast(this, "请确保微信同时开启[接受新消息通知-显示消息详情页].")
+            ToastUtil.toast(this, "请确保微信同时开启[接受新消息通知-显示消息详情页].")
         } else {
             AlertDialog.Builder(this)
                     .setMessage("使用通知栏功能，需要您授权通知栏权限。")
@@ -473,9 +471,6 @@ class SettingActivity : AppCompatActivity() {
 
                         createResult { b, s, view ->
                             if (b) {
-                                if(NotificationUtil.isNotificationListenersEnabled(RpApplication.instance())){
-                                    ConfigHelper.updater.supportNotification(true)
-                                }
                                 view?.notificationChoose?.isSelected = LocalizationHelper.isSupportNotification()
                                 view?.runningChoose?.isSelected = LocalizationHelper.isSupportPlugin()
                                 view?.getSelfChoose?.isSelected = LocalizationHelper.isSupportGettingSelfPacket()
