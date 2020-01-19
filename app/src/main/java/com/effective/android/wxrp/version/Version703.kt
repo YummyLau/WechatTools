@@ -104,4 +104,6 @@ class Version703 : VersionInfo {
     override fun homeUserPagerWeChatNumId(): String = ID_HOME_USER_PAGER_WEICHATNUM
 
     override fun homeTabTitleId(): String = ID_HOME_TAB_TITLE
+
+    override fun packetDialogCloseId(): String = ""
 }

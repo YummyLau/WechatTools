@@ -21,6 +21,7 @@ object VersionManager {
     fun packetDetailClass(): String = versionInfo!!.packetDetailClass()
 
     fun packetDialogOpenId(): String = versionInfo!!.packetDialogOpenId()
+    fun packetDialogCloseId(): String = versionInfo!!.packetDialogCloseId()
     fun packetDetailPostUserId(): String = versionInfo!!.packetDetailPostUserId()
     fun packetDetailPostNumId(): String = versionInfo!!.packetDetailPostNumId()
     fun chatPagerItemId(): String = versionInfo!!.chatPagerItemId()

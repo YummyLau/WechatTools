@@ -24,6 +24,7 @@ class Version7010 : VersionInfo {
          * 红包“開”的窗口 id
          */
         const val ID_PACKET_DIALOG_OPEN = "com.tencent.mm:id/dan"               // 聊天页面 - 红包对话框 - 开
+        const val ID_PACKET_DIALOG_CLOSE = "com.tencent.mm:id/d84"               // 聊天页面 - 红包对话框 - 关
 
         /**
          * 红包详情页 id
@@ -73,6 +74,8 @@ class Version7010 : VersionInfo {
     override fun packetDetailClass(): String = CLASS_PACKET_DETAIL
 
     override fun packetDialogOpenId(): String = ID_PACKET_DIALOG_OPEN
+
+    override fun packetDialogCloseId(): String = ID_PACKET_DIALOG_CLOSE
 
     override fun packetDetailPostUserId(): String = ID_PACKET_DETAIL_POST_USER
 

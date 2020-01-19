@@ -3,7 +3,6 @@ package com.effective.android.wxrp.accessibility
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Message
-import android.text.TextUtils
 import android.view.accessibility.AccessibilityNodeInfo
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.RpApplication
@@ -189,11 +188,11 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             VersionManager.packetReceiveClass() -> {
                 Logger.i(tag, "dealWindowStateChanged className: 当前已打开红包")
                 if (LocalizationHelper.isSupportGettingSelfPacket() && VersionManager.currentSelfPacketStatus == VersionManager.W_intoChatDialogStatus) {
-                    if (openPacket(rootNode)) {
+                    if (handlePacket(rootNode)) {
                         VersionManager.setCurrentSelfPacketStatusData(VersionManager.W_gotSelfPacketStatus)
                     }
                 } else {
-                    if (openPacket(rootNode)) {
+                    if (handlePacket(rootNode)) {
                         isGotPacket = true
                     }
                 }
@@ -252,7 +251,7 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
         if (NodeUtil.isNotWeChatHomePage(rootNode)) {
 
             //如果是红白页面，则尝试点击 "开"
-            if (openPacket(rootNode)) {
+            if (handlePacket(rootNode)) {
                 isGotPacket = true
                 VersionManager.isClickedNewMessageList = false
                 VersionManager.isGotPacket = false
@@ -415,9 +414,10 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
     }
 
     /**
-     * 打开红包，当前已经显示了一个红包窗口
+     * 当前已经显示了一个红包窗口
+     * 存在红包则打开红包，已抢光则关闭红包窗口
      */
-    private fun openPacket(rootNode: AccessibilityNodeInfo?): Boolean {
+    private fun handlePacket(rootNode: AccessibilityNodeInfo?): Boolean {
         Logger.i(tag, "openPacket")
 
         //如果当前节点存在红包，则遍历寻找"开"
@@ -429,8 +429,15 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
                 sendOpenPacketMsg(item)
                 result = true
             }
+            Logger.i(tag, "openPacket result = $result")
+        } else {
+            val packetList1 = rootNode.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/d84")
+            for (envelope in packetList1.reversed()) {
+                envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                result = true
+            }
+            Logger.i(tag, "closePacket result = $result")
         }
-        Logger.i(tag, "openPacket result = $result")
         return result
     }
 }

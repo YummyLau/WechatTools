@@ -23,7 +23,7 @@ interface VersionInfo {
      */
 
     fun packetDialogOpenId(): String             // 聊天页面 - 红包对话框 - 开
-
+    fun packetDialogCloseId(): String             // 聊天页面 - 红包对话框 - 关
 
     fun packetDetailPostUserId(): String           // 红包详情页 - 发送者昵称
     fun packetDetailPostNumId(): String           // 红包详情页 - 红包金额
