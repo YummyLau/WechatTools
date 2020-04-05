@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.effective.android.wxrp.R
 import com.effective.android.wxrp.RpApplication
 import com.effective.android.wxrp.utils.ToolUtil
-import com.effective.android.wxrp.version.Version700
-import com.effective.android.wxrp.version.Version7010
-import com.effective.android.wxrp.version.Version703
-import com.effective.android.wxrp.version.VersionManager
+import com.effective.android.wxrp.version.*
 import com.effective.android.wxrp.view.activity.MainActivity
 import com.effective.android.wxrp.view.fragment.base.BaseFragment
 import com.effective.android.wxrp.view.fragment.base.OnFragmentVisibilityChangeListener
@@ -47,6 +44,7 @@ class StepOneCheckWeChatFragment : BaseFragment() {
                         Version700.VERSION -> Version700()
                         Version703.VERSION -> Version703()
                         Version7010.VERSION -> Version7010()
+                        Version7013.VERSION -> Version7013()
                         else -> null
                     }
                 } else {

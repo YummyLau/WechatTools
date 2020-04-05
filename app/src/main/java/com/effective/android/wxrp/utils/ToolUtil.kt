@@ -12,10 +12,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import com.effective.android.wxrp.Constants
 import com.effective.android.wxrp.data.sp.LocalizationHelper
-import com.effective.android.wxrp.version.Version700
-import com.effective.android.wxrp.version.Version7010
-import com.effective.android.wxrp.version.Version703
-import com.effective.android.wxrp.version.VersionManager
+import com.effective.android.wxrp.version.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,7 +51,7 @@ object ToolUtil {
         if (TextUtils.isEmpty(version)) {
             return false
         }
-        if (version == Version700.VERSION || version == Version703.VERSION || version == Version7010.VERSION) {
+        if (version == Version700.VERSION || version == Version703.VERSION || version == Version7010.VERSION || version == Version7013.VERSION) {
             return true
         }
         return false
@@ -96,7 +93,7 @@ object ToolUtil {
      */
     fun hasPassByGettingSetting(messageBySelf: Boolean, isGroupChat: Boolean): Boolean {
         val filterGroup = messageBySelf && isGroupChat && !LocalizationHelper.isSupportGettingSelfPacket()
-        val filterSingle = !isGroupChat
+        val filterSingle = !isGroupChat && messageBySelf
         val result = !(filterGroup || filterSingle)
         Logger.i("hasPassByGettingSetting  ： $result  当前messageBySelf（$messageBySelf) isGroupChat（$isGroupChat)")
         return result
