@@ -51,7 +51,8 @@ object ToolUtil {
         if (TextUtils.isEmpty(version)) {
             return false
         }
-        if (version == Version700.VERSION || version == Version703.VERSION || version == Version7010.VERSION || version == Version7012.VERSION|| version == Version7013.VERSION) {
+        if (version == Version700.VERSION || version == Version703.VERSION || version == Version7010.VERSION
+                || version == Version7011.VERSION  || version == Version7012.VERSION|| version == Version7013.VERSION) {
             return true
         }
         return false
