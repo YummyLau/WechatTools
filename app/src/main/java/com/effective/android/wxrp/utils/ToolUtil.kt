@@ -57,7 +57,8 @@ object ToolUtil {
                 || version == Version7011.VERSION
                 || version == Version7012.VERSION
                 || version == Version7013.VERSION
-                || version == Version7014.VERSION) {
+                || version == Version7014.VERSION
+                || version == Version7015.VERSION) {
             return true
         }
         return false
