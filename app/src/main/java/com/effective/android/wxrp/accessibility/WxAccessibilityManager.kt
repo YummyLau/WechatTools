@@ -304,7 +304,6 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
     }
 
 
-
     /**
      * 首页第一个tab "微信"
      * 判断一个会话是否需要被自动点击
@@ -374,7 +373,11 @@ class WxAccessibilityManager(string: String) : HandlerThread(string) {
             for (i in packetList.indices.reversed()) {
 
                 var sender = ""
-                val avatarList = packetList[i].parent.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemAvatatId())
+
+                var avatarList: MutableList<AccessibilityNodeInfo> = mutableListOf();
+                if (packetList[i] != null && packetList[i].parent != null) {
+                    avatarList = packetList[i].parent.findAccessibilityNodeInfosByViewId(VersionManager.chatPagerItemAvatatId())
+                }
                 if (avatarList.isNotEmpty()) {
                     sender = avatarList[0].contentDescription.toString()
                     if (sender.isNotEmpty() && sender.endsWith("头像")) {

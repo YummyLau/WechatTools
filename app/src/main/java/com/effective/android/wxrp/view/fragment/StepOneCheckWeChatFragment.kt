@@ -50,6 +50,9 @@ class StepOneCheckWeChatFragment : BaseFragment() {
                         Version7014.VERSION -> Version7014()
                         Version7015.VERSION -> Version7015()
                         Version7016.VERSION -> Version7016()
+                        Version7017.VERSION -> Version7017()
+                        Version7018.VERSION -> Version7018()
+                        Version7019.VERSION -> Version7019()
                         else -> null
                     }
                 } else {
