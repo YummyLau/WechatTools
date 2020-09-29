@@ -51,7 +51,7 @@ git
 
 应大家要求贴上开发赞赏入口，随意赞赏
 
-<img src="./readme/praise.jpg" width = "280" height = "280" alt="图片名称"/>
+<img src="./readme/praise.jpg" width = "299" height = "255" alt="图片名称"/>
 
 **效果展示**
 
