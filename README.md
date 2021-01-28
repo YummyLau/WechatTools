@@ -54,10 +54,6 @@ git
 
 <img src="./readme/download_qrcode.png" width = "280" height = "280" alt="图片名称"/>
 
-应大家要求贴上开发赞赏入口，随意赞赏
-
-<img src="./readme/praise.jpg" width = "299" height = "255" alt="图片名称"/>
-
 **效果展示**
 
 未安装微信或者微信版本不支持
