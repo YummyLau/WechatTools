@@ -1,7 +1,7 @@
 package com.effective.android.wxrp.version
 
 /**
- * 微信 7.0.19 版本
+ * 微信 8.0版本以上
  * created by yummylau on 2020/09/29
  */
 class Version800 : VersionInfo {

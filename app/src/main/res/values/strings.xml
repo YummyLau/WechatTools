@@ -4,7 +4,7 @@
 
     <string name="step_one_get_we_chat_version_error">读取微信版本失败, 请联系开发人员！ (WeChat: pursuit_of_720)</string>
     <string name="step_one_get_we_chat_error">插件检测不到微信软件, 请安装微信！</string>
-    <string name="step_one_cant_support_chat_version_error">请安装或者升级微信到对应支持的版本！(7.0.0/7.0.3/7.0.10-7.0.22,8.0.0)</string>
+    <string name="step_one_cant_support_chat_version_error">请安装或者升级微信到对应支持的版本！(7.0.0/7.0.3/7.0.10-7.0.22,8.x)</string>
 
 
 

@@ -56,8 +56,7 @@ class StepOneCheckWeChatFragment : BaseFragment() {
                         Version7020.VERSION -> Version7020()
                         Version7021.VERSION -> Version7021()
                         Version7022.VERSION -> Version7022()
-                        Version800.VERSION -> Version800()
-                        else -> null
+                        else -> Version800()
                     }
                 } else {
                     tip.text = context?.getString(R.string.step_one_cant_support_chat_version_error)

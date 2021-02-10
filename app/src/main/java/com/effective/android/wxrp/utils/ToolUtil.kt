@@ -65,12 +65,25 @@ object ToolUtil {
                 || version == Version7019.VERSION
                 || version == Version7020.VERSION
                 || version == Version7021.VERSION
-                || version == Version7022.VERSION
-                || version == Version800.VERSION) {
+                || version == Version7022.VERSION){
+            return true
+        }
+        if(trySupportWeChat8Version(version)){
             return true
         }
         return false
     }
+
+    private fun trySupportWeChat8Version(version: String?):Boolean{
+        if (TextUtils.isEmpty(version)) {
+            return false
+        }
+        version?.startsWith("8")?.let {
+            return true
+        }
+        return false;
+    }
+
 
     /**
      * 判断是否包含红包内容
